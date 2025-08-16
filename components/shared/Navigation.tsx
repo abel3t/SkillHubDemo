@@ -11,11 +11,11 @@ export const Navigation = () => {
   const pathname = usePathname();
 
   const navItems = [
-    { path: "/", label: "Trang chủ", icon: Home },
-    { path: "/helpers", label: "Helpers", icon: Users },
-    { path: "/map", label: "Bản đồ", icon: MapPin },
-    { path: "/messages", label: "Tin nhắn", icon: MessageCircle },
-    { path: "/search", label: "Tìm kiếm", icon: Search },
+    { path: "/", label: "Trang chủ", mobileLabel: "Chủ", icon: Home },
+    { path: "/helpers", label: "Chuyên gia", mobileLabel: "Chuyên gia", icon: Users },
+    { path: "/map", label: "Bản đồ", mobileLabel: "Bản đồ", icon: MapPin },
+    { path: "/messages", label: "Tin nhắn", mobileLabel: "Tin nhắn", icon: MessageCircle },
+    { path: "/search", label: "Tìm kiếm", mobileLabel: "Tìm kiếm", icon: Search },
   ];
 
   const isActive = (path: string) => pathname === path;
@@ -63,27 +63,38 @@ export const Navigation = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation */}
-      <div className="md:hidden border-t border-slate-200/80 bg-white/90">
-        <div className="max-w-screen-xl mx-auto px-4">
-          <div className="flex items-center justify-around py-2">
+      {/* Enhanced Mobile Navigation */}
+      <div className="md:hidden border-t border-slate-200/80 bg-white/95 backdrop-blur-md">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="flex items-center justify-around py-3">
             {navItems.map((item) => {
               const Icon = item.icon;
+              const isItemActive = isActive(item.path);
               return (
-                <Button
+                <button
                   key={item.path}
-                  variant="ghost"
-                  size="sm"
-                  className={`flex flex-col items-center ${
-                    isActive(item.path)
-                      ? "text-emerald-600 bg-emerald-50"
-                      : "text-slate-600"
+                  type="button"
+                  className={`flex flex-col items-center justify-center min-w-[60px] py-2 px-1 rounded-lg transition-all duration-200 ${
+                    isItemActive
+                      ? "text-emerald-600 bg-emerald-50 shadow-sm scale-105"
+                      : "text-slate-600 hover:text-emerald-600 hover:bg-emerald-50/50 active:scale-95"
                   }`}
                   onClick={() => router.push(item.path)}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-xs mt-1">{item.label}</span>
-                </Button>
+                  <div className={`relative ${
+                    isItemActive ? "transform scale-110" : ""
+                  }`}>
+                    <Icon className="w-5 h-5" />
+                    {isItemActive && (
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full" />
+                    )}
+                  </div>
+                  <span className={`text-xs mt-1 font-medium ${
+                    isItemActive ? "text-emerald-700" : "text-slate-500"
+                  }`}>
+                    {item.mobileLabel || item.label}
+                  </span>
+                </button>
               );
             })}
           </div>

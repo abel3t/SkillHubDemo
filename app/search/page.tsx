@@ -346,11 +346,11 @@ export default function SearchPage() {
     <div className="min-h-screen bg-slate-100">
       <Navigation />
       
-      {/* Header */}
+      {/* Header - Mobile optimized */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb Navigation */}
-          <div className="flex items-center gap-2 py-2 text-sm text-gray-600 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          {/* Breadcrumb Navigation - Hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-2 py-2 text-sm text-gray-600 border-b border-gray-100">
             <Button
               variant="ghost"
               size="sm"
@@ -369,18 +369,19 @@ export default function SearchPage() {
             )}
           </div>
           
-          <div className="flex items-center gap-4 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 sm:py-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => router.push('/helpers')}
-              className="flex-shrink-0 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+              className="flex-shrink-0 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 self-start"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Về trang khám phá
+              <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Về trang khám phá</span>
+              <span className="sm:hidden">Quay lại</span>
             </Button>
             
-            {/* Search Bar */}
+            {/* Search Bar - Full width on mobile */}
             <div className="flex-1">
               <AdvancedSearch
                 onSearch={handleSearch}
@@ -393,35 +394,35 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Welcome Message for Advanced Search */}
+      {/* Welcome Message for Advanced Search - Mobile optimized */}
       {!query && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-gradient-to-r from-emerald-50 to-blue-50 rounded-2xl p-6 mb-8 border border-emerald-200">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6">
+          <div className="bg-gradient-to-r from-emerald-50 to-blue-50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-emerald-200">
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-emerald-600" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Search className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Tìm kiếm nâng cao</h2>
-              <p className="text-gray-600 mb-4 max-w-md mx-auto">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">Tìm kiếm nâng cao</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 max-w-md mx-auto px-2">
                 Sử dụng bộ lọc chi tiết và tùy chọn sắp xếp để tìm chính xác người bạn cần
               </p>
-              <div className="flex justify-center gap-2">
-                <Badge className="bg-emerald-100 text-emerald-700">9+ bộ lọc</Badge>
-                <Badge className="bg-blue-100 text-blue-700">10+ tùy chọn sắp xếp</Badge>
-                <Badge className="bg-purple-100 text-purple-700">Kết quả chi tiết</Badge>
+              <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
+                <Badge className="bg-emerald-100 text-emerald-700 text-xs">9+ bộ lọc</Badge>
+                <Badge className="bg-blue-100 text-blue-700 text-xs">10+ tùy chọn sắp xếp</Badge>
+                <Badge className="bg-purple-100 text-purple-700 text-xs">Kết quả chi tiết</Badge>
               </div>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {quickStats.map((stat, index) => (
-              <Card key={`stat-${index}`} className="text-center hover:shadow-md transition-shadow">
-                <CardContent className="p-4">
-                  <div className={cn("flex items-center justify-center mb-2", stat.color)}>
-                    <stat.icon className="w-6 h-6" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            {quickStats.map((stat) => (
+              <Card key={stat.label} className="text-center hover:shadow-md transition-shadow">
+                <CardContent className="p-3 sm:p-4">
+                  <div className={cn("flex items-center justify-center mb-1 sm:mb-2", stat.color)}>
+                    <stat.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-lg sm:text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -429,38 +430,40 @@ export default function SearchPage() {
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Search Results Header */}
+      {/* Main Content - Mobile optimized */}
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6">
+        {/* Search Results Header - Mobile optimized */}
         {(query || totalResults > 0) && (
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-900">
+          <div className="space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
                 {query ? `Kết quả cho "${query}"` : 'Tất cả chuyên gia'}
               </h1>
               {totalResults > 0 && (
-                <Badge variant="secondary" className="px-3 py-1">
+                <Badge variant="secondary" className="px-2 sm:px-3 py-1 self-start">
                   {totalResults.toLocaleString()} kết quả
                 </Badge>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* Sort Options */}
-              <SortOptions
-                currentSort={currentSort}
-                currentDirection={currentDirection}
-                onSortChange={handleSortChange}
-                resultCount={totalResults}
-              />
+            <div className="flex items-center gap-2 overflow-x-auto">
+              {/* Sort Options - Responsive */}
+              <div className="flex-shrink-0">
+                <SortOptions
+                  currentSort={currentSort}
+                  currentDirection={currentDirection}
+                  onSortChange={handleSortChange}
+                  resultCount={totalResults}
+                />
+              </div>
 
-              {/* View Mode Toggle */}
-              <div className="flex items-center border border-gray-200 rounded-lg p-1">
+              {/* View Mode Toggle - Mobile optimized */}
+              <div className="flex items-center border border-gray-200 rounded-lg p-1 flex-shrink-0">
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('list')}
-                  className="px-3"
+                  className="px-2 sm:px-3"
                 >
                   <List className="w-4 h-4" />
                 </Button>
@@ -468,20 +471,22 @@ export default function SearchPage() {
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('grid')}
-                  className="px-3"
+                  className="px-2 sm:px-3"
                 >
                   <Grid3X3 className="w-4 h-4" />
                 </Button>
               </div>
 
-              {/* Filter Button */}
+              {/* Filter Button - Mobile optimized */}
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(true)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 sm:gap-2 flex-shrink-0"
+                size="sm"
               >
                 <Filter className="w-4 h-4" />
-                Bộ lọc
+                <span className="hidden sm:inline">Bộ lọc</span>
+                <span className="sm:hidden">Lọc</span>
               </Button>
             </div>
           </div>

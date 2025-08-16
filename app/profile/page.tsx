@@ -52,12 +52,12 @@ const Section = ({ icon, title, onEdit, children }) => (
 // Individual Sections rebuilt with the new style
 const AnalyticsSection = ({ data }) => (
     <Section icon={<BarChart2 className="w-6 h-6 text-emerald-600" />} title="Private Analytics">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
             {[ { icon: Eye, label: "Profile Views", value: data.profileViews, color: "blue" }, { icon: MessageSquare, label: "Post Impressions", value: data.postImpressions, color: "purple" }, { icon: Search, label: "Search Appearances", value: data.searchAppearances, color: "amber" } ].map(stat => (
-                <div key={stat.label} className={`bg-gradient-to-br from-${stat.color}-50 to-${stat.color}-100 p-4 rounded-xl text-center shadow-inner border border-${stat.color}-200/50`}>
-                    <stat.icon className={`w-8 h-8 mx-auto mb-2 text-${stat.color}-600`} />
-                    <p className={`text-3xl font-bold text-${stat.color}-800`}>{stat.value}</p>
-                    <p className="text-sm text-slate-600 font-medium">{stat.label}</p>
+                <div key={stat.label} className={`bg-gradient-to-br from-${stat.color}-50 to-${stat.color}-100 p-3 sm:p-4 rounded-xl text-center shadow-inner border border-${stat.color}-200/50`}>
+                    <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-${stat.color}-600`} />
+                    <p className={`text-2xl sm:text-3xl font-bold text-${stat.color}-800`}>{stat.value}</p>
+                    <p className="text-xs sm:text-sm text-slate-600 font-medium">{stat.label}</p>
                 </div>
             ))}
         </div>
@@ -66,19 +66,19 @@ const AnalyticsSection = ({ data }) => (
 
 const TrustAndReliabilitySection = ({ data }) => (
     <Section icon={<Sparkles className="w-6 h-6 text-emerald-600" />} title="Trust & Reliability">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
              {[ { icon: Clock, label: "Response Time", value: data.responseTime, color: "emerald" }, { icon: CheckCircle, label: "Job Completion", value: `${data.completionRate}%`, color: "blue" }, { icon: Users, label: "Neighbor Endorsements", value: data.neighborEndorsements, color: "purple" } ].map(stat => (
                 <div key={stat.label} className="text-center">
                     <div className={`flex items-center justify-center gap-2 text-${stat.color}-600`}>
-                        <stat.icon className="w-6 h-6" />
-                        <span className="text-2xl font-bold">{stat.value}</span>
+                        <stat.icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="text-xl sm:text-2xl font-bold">{stat.value}</span>
                     </div>
-                    <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
+                    <p className="text-xs sm:text-sm text-slate-500 mt-1">{stat.label}</p>
                 </div>
             ))}
         </div>
-        <div className="flex flex-wrap gap-2">
-            {data.verifications.map(v => <Badge key={v} className="bg-green-100 text-green-800 border border-green-200/80 text-sm py-1 px-3 shadow-sm"><ShieldCheck className="w-4 h-4 mr-2"/>{v}</Badge>)}
+        <div className="flex flex-wrap gap-1 sm:gap-2">
+            {data.verifications.map(v => <Badge key={v} className="bg-green-100 text-green-800 border border-green-200/80 text-xs sm:text-sm py-1 px-2 sm:px-3 shadow-sm"><ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"/>{v}</Badge>)}
         </div>
     </Section>
 );
@@ -144,9 +144,9 @@ const SkillsSection = ({ skills }) => (
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-100">
-      <main className="max-w-4xl mx-auto p-4">
+      <main className="max-w-4xl mx-auto px-2 sm:px-4 py-4">
         <motion.div 
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

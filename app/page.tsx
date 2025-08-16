@@ -38,16 +38,16 @@ const Page = () => {
       <Navigation />
 
       {/* Main Content */}
-      <main className="max-w-screen-xl mx-auto px-4 py-6">
+      <main className="max-w-screen-xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-4 gap-6"
+          className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           
-          {/* Left Column */}
-          <motion.aside variants={containerVariants} className="hidden md:block md:col-span-1">
+          {/* Left Column - Hidden on mobile and tablet */}
+          <motion.aside variants={containerVariants} className="hidden lg:block lg:col-span-1">
             <div className="space-y-6 sticky top-24">
               <VibrantCard className="overflow-hidden">
                 <div className="h-16 bg-cover bg-center" style={{ backgroundImage: 'url(/vietnamese-workshop.png)' }} />
@@ -81,14 +81,14 @@ const Page = () => {
             </div>
           </motion.aside>
 
-          {/* Center Column (Main Feed) */}
-          <motion.div variants={containerVariants} className="col-span-1 md:col-span-2 space-y-6">
+          {/* Center Column (Main Feed) - Full width on mobile/tablet */}
+          <motion.div variants={containerVariants} className="col-span-1 lg:col-span-2 space-y-4 sm:space-y-6">
             <VibrantCard as={motion.div} variants={containerVariants}><PostComposer /></VibrantCard>
             <InfiniteScrollFeed helpers={communityMembers} onHelperSelect={(helper) => router.push('/profile')} />
           </motion.div>
 
-          {/* Right Column */}
-          <motion.aside variants={containerVariants} className="hidden md:block md:col-span-1">
+          {/* Right Column - Hidden on mobile and tablet */}
+          <motion.aside variants={containerVariants} className="hidden lg:block lg:col-span-1">
              <div className="space-y-6 sticky top-24">
                 <VibrantCard>
                   <VibrantCardHeader><h3 className="font-semibold text-slate-800">Thêm vào bảng tin của bạn</h3></VibrantCardHeader>

@@ -155,7 +155,7 @@ export default function HelpersPage() {
 
       {/* Main Content */}
       <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+        className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}

@@ -11,25 +11,27 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/shared/Navigation'
+import { cn } from '@/lib/utils'
 import { 
   List,
   MapIcon,
   Search
 } from 'lucide-react'
 
-// Mock data with coordinates for Ho Chi Minh City area
+// Privacy-friendly location system - coordinates are approximate areas, not exact addresses
 const mockHelpers = [
   {
     id: 1,
     name: "Nguyễn Văn Minh",
     title: "Có thể giúp về điện",
-    location: "Quận 1, TP.HCM",
+    location: "Khu vực Quận 1", // General area for privacy
     distance: "0.8km",
     rating: 4.9,
     avatar: "/vietnamese-technician.png",
     canHelp: ["Điện dân dụng", "Sửa chữa thiết bị", "Tư vấn an toàn điện"],
-    lat: 10.7769,
-    lng: 106.7009,
+    // Approximate area center with privacy offset
+    lat: 10.7769 + (Math.random() - 0.5) * 0.01,
+    lng: 106.7009 + (Math.random() - 0.5) * 0.01,
     verified: true,
     isOnline: true,
   },
@@ -37,13 +39,14 @@ const mockHelpers = [
     id: 2,
     name: "Lê Thị Hương",
     title: "Dạy Piano & chia sẻ âm nhạc",
-    location: "Quận 3, TP.HCM",
+    location: "Khu vực Quận 3", // General area for privacy
     distance: "1.1km",
     rating: 4.9,
     avatar: "/vietnamese-user.png",
     canHelp: ["Piano cơ bản", "Lý thuyết âm nhạc", "Hướng dẫn mua đàn"],
-    lat: 10.7756,
-    lng: 106.6878,
+    // Approximate area center with privacy offset
+    lat: 10.7756 + (Math.random() - 0.5) * 0.01,
+    lng: 106.6878 + (Math.random() - 0.5) * 0.01,
     verified: true,
     isOnline: true,
   },
@@ -167,31 +170,46 @@ export default function MapPage() {
       <Navigation />
 
       <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+        className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
-          {/* Left Sidebar - Controls */}
-          <motion.div className="lg:col-span-1 space-y-4 overflow-y-auto" variants={itemVariants}>
-            {/* Search Bar */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)]">
+          {/* Mobile-first Controls - Collapsible on small screens */}
+          <motion.div className="lg:col-span-1 space-y-4 sm:space-y-6 overflow-y-auto" variants={itemVariants}>
+            {/* Enhanced Search Section - Mobile optimized */}
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 transition-colors">
-                <CardContent className="p-3">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Tìm kỹ năng, dịch vụ..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+              <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-emerald-50">
+                <CardContent className="p-3 sm:p-4">
+                  <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
+                    <Search className="w-4 h-4 mr-2 text-emerald-600" />
+                    Tìm kiếm
+                  </h3>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-emerald-500" />
+                    <input
+                      type="text"
+                      placeholder="Nhập kỹ năng..."
+                      className="w-full pl-10 pr-4 py-2 sm:py-3 border-2 border-emerald-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-300 bg-white/80 backdrop-blur-sm transition-all text-sm"
+                    />
+                  </div>
+                  <div className="mt-2 sm:mt-3 flex flex-wrap gap-1 sm:gap-2">
+                    {['Điện', 'Piano', 'Tiếng Anh', 'Nấu ăn'].map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        className="px-2 sm:px-3 py-1 text-xs bg-emerald-100 text-emerald-700 rounded-full hover:bg-emerald-200 transition-colors touch-target"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
 
             {/* Location Controls */}
@@ -218,59 +236,101 @@ export default function MapPage() {
               />
             </motion.div>
 
-            {/* View Toggle */}
+            {/* Enhanced View Toggle - Mobile optimized */}
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 transition-colors">
-                <CardContent className="p-3">
-                <div className="flex space-x-2">
-                  <Button
-                    variant={!showListView ? "default" : "outline"}
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => setShowListView(false)}
-                  >
-                    <MapIcon className="w-4 h-4 mr-2" />
-                    Bản đồ
-                  </Button>
-                  <Button
-                    variant={showListView ? "default" : "outline"}
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => setShowListView(true)}
-                  >
-                    <List className="w-4 h-4 mr-2" />
-                    Danh sách
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              <Card className="shadow-lg border-0 bg-white">
+                <CardContent className="p-3 sm:p-4">
+                  <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
+                    <MapIcon className="w-4 h-4 mr-2 text-emerald-600" />
+                    Chế độ xem
+                  </h3>
+                  <div className="bg-gray-100 p-1 rounded-xl">
+                    <Button
+                      variant={!showListView ? "default" : "ghost"}
+                      size="sm"
+                      className={cn(
+                        "flex-1 rounded-lg transition-all text-xs sm:text-sm h-10",
+                        !showListView 
+                          ? "bg-emerald-500 text-white shadow-md" 
+                          : "text-gray-600 hover:bg-white"
+                      )}
+                      onClick={() => setShowListView(false)}
+                    >
+                      <MapIcon className="w-4 h-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Bản đồ</span>
+                      <span className="sm:hidden">Bản đồ</span>
+                    </Button>
+                    <Button
+                      variant={showListView ? "default" : "ghost"}
+                      size="sm"
+                      className={cn(
+                        "flex-1 rounded-lg transition-all ml-1 text-xs sm:text-sm h-10",
+                        showListView 
+                          ? "bg-emerald-500 text-white shadow-md" 
+                          : "text-gray-600 hover:bg-white"
+                      )}
+                      onClick={() => setShowListView(true)}
+                    >
+                      <List className="w-4 h-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">Danh sách</span>
+                      <span className="sm:hidden">DS</span>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
 
-            {/* Results Summary */}
+            {/* Enhanced Results Summary - Mobile optimized */}
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 bg-gradient-to-br from-emerald-50 to-blue-50">
+              <Card className="shadow-lg border-0 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+                <CardContent className="p-3 sm:p-4">
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-3xl font-bold mb-1">
+                      {filteredHelpers.length}
+                    </div>
+                    <div className="text-emerald-100 text-xs sm:text-sm">
+                      chuyên gia gần bạn
+                    </div>
+                    <div className="mt-2 sm:mt-3 p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                      <div className="text-xs text-emerald-100">
+                        Bán kính: {searchDistance}km
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Privacy Notice - Mobile optimized */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="hidden sm:block lg:block"
+            >
+              <Card className="shadow-sm border-0 bg-blue-50">
                 <CardContent className="p-3">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-emerald-600">
-                    {filteredHelpers.length}
+                  <div className="flex items-start gap-2">
+                    <div className="w-4 h-4 bg-blue-500 rounded-full flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 bg-white rounded-full m-1" />
+                    </div>
+                    <div className="text-xs text-blue-700">
+                      <strong>Bảo mật:</strong> Vị trí hiển thị là khu vực tổng quát, không phải địa chỉ chính xác để bảo vệ quyền riêng tư.
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-500">
-                    chuyên gia trong bán kính {searchDistance}km
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
             </motion.div>
           </motion.div>
 
-          {/* Main Content - Map or List */}
-          <motion.div className="lg:col-span-3" variants={itemVariants}>
+          {/* Main Content - Enhanced Map or List - Full width on mobile */}
+          <motion.div className="lg:col-span-4" variants={itemVariants}>
             <AnimatePresence mode="wait">
               {!showListView ? (
                 <motion.div

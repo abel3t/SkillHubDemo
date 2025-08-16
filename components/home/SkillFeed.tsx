@@ -162,44 +162,46 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
       initial="hidden"
       animate="visible"
     >
-      {/* Header with Search */}
-      <motion.div className="text-center space-y-4" variants={itemVariants}>
+      {/* Header with Search - Mobile optimized */}
+      <motion.div className="text-center space-y-3 sm:space-y-4" variants={itemVariants}>
         <div className="space-y-2">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 px-2">
             Tìm người giúp đỡ <span className="text-emerald-600">gần bạn</span>
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base sm:text-lg text-gray-600 px-2">
             Kết nối với hàng xóm có kỹ năng, xây dựng cộng đồng tương trợ
           </p>
         </div>
         
-        <SearchBar onSearch={handleSearch} />
+        <div className="px-2">
+          <SearchBar onSearch={handleSearch} />
+        </div>
       </motion.div>
 
-      {/* Quick Stats & Trending */}
-      <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-4" variants={itemVariants}>
-        <Card className="text-center border border-gray-100">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-emerald-600 mb-1">{helpers.length}</div>
-            <div className="text-sm text-gray-600">Chuyên gia gần bạn</div>
+      {/* Quick Stats & Trending - Mobile optimized */}
+      <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" variants={itemVariants}>
+        <Card className="text-center border border-gray-100 hover:border-emerald-200 transition-colors">
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-xl sm:text-2xl font-bold text-emerald-600 mb-1">{helpers.length}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Chuyên gia gần bạn</div>
           </CardContent>
         </Card>
-        <Card className="text-center border border-gray-100">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-blue-600 mb-1">4.8</div>
-            <div className="text-sm text-gray-600">Đánh giá trung bình</div>
+        <Card className="text-center border border-gray-100 hover:border-blue-200 transition-colors">
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-xl sm:text-2xl font-bold text-blue-600 mb-1">4.8</div>
+            <div className="text-xs sm:text-sm text-gray-600">Đánh giá TB</div>
           </CardContent>
         </Card>
-        <Card className="text-center border border-gray-100">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-purple-600 mb-1">15</div>
-            <div className="text-sm text-gray-600">Danh mục dịch vụ</div>
+        <Card className="text-center border border-gray-100 hover:border-purple-200 transition-colors">
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-xl sm:text-2xl font-bold text-purple-600 mb-1">15</div>
+            <div className="text-xs sm:text-sm text-gray-600">Dịch vụ</div>
           </CardContent>
         </Card>
-        <Card className="text-center border border-gray-100">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-orange-600 mb-1">2.3k</div>
-            <div className="text-sm text-gray-600">Lượt kết nối</div>
+        <Card className="text-center border border-gray-100 hover:border-orange-200 transition-colors">
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-xl sm:text-2xl font-bold text-orange-600 mb-1">2.3k</div>
+            <div className="text-xs sm:text-sm text-gray-600">Kết nối</div>
           </CardContent>
         </Card>
       </motion.div>
