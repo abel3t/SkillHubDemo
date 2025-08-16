@@ -54,7 +54,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         },
         content: {
           text: "🎹 Mẹo nhỏ cho người mới học piano:\n\n✨ Luôn khởi động bằng các bài tập ngón tay\n✨ Luyện tập 30 phút/ngày hiệu quả hơn 3 tiếng cuối tuần\n✨ Chú ý tư thế ngồi và cách đặt tay\n✨ Nghe nhạc cổ điển để cảm nhận nhịp điệu\n\nCác bạn có muốn mình chia sẻ thêm bài tập cụ thể không? 🎵",
-          images: ["/piano-tips.jpg"],
+          images: ["https://picsum.photos/id/1/400/300"],
         },
         engagement: {
           likes: 234,
@@ -78,7 +78,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         },
         content: {
           text: "🎉 Vừa đạt 7.5 IELTS sau 3 tháng học với cô Mai qua SkillHub!\n\nBan đầu mình chỉ có 5.0, nhưng nhờ:\n📚 Phương pháp học tập cá nhân hóa\n💬 Luyện speaking hàng ngày qua video call\n📝 Feedback chi tiết từng bài tập\n🎯 Mock test định kỳ\n\nCảm ơn cô Mai và SkillHub! Giờ mình tự tin apply du học rồi 🇬🇧",
-          images: ["/ielts-certificate.jpg"]
+          images: ["https://picsum.photos/id/2/400/300"]
         },
         engagement: {
           likes: 567,
@@ -104,7 +104,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         content: {
           text: "👨‍🍳 Bí quyết làm phở bò ngon như hàng quán:\n\n🥩 Chọn xương ống + xương sườn tỷ lệ 1:1\n🧅 Nướng hành tây, gừng trước khi nấu\n🌟 Gia vị: hồi, quế, thảo quả, đinh hương\n⏰ Niệu xương tối thiểu 8 tiếng\n\n🔥 Video chi tiết 15 phút sẽ giúp bạn thành công 100%!\n\nTag bạn bè để cùng học nấu nhé! 👇",
           video: "/pho-cooking.mp4",
-          images: ["/pho-cooking-thumb.jpg"]
+          images: ["https://picsum.photos/id/3/400/300"]
         },
         engagement: {
           likes: 1234,
@@ -129,7 +129,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         },
         content: {
           text: "⚡ Cách tiết kiệm 30% tiền điện mỗi tháng:\n\n❄️ Điều hòa: 26°C là nhiệt độ tối ưu\n💡 Thay bóng LED - tiết kiệm 80% điện năng\n🔌 Rút phích cắm thiết bị không dùng\n🌙 Sử dụng điện vào khung giờ thấp điểm\n📱 Dùng app theo dõi lượng điện tiêu thụ\n\n💰 Nhà mình đã giảm từ 2tr xuống 1tr4/tháng!\n\nCó ai muốn mình tư vấn cụ thể không? 💬",
-          images: ["/energy-saving.jpg"]
+          images: ["https://picsum.photos/id/4/400/300"]
         },
         engagement: {
           likes: 789,
@@ -156,7 +156,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         },
         content: {
           text: "🌟 Nâng cấp lên SkillHub Premium:\n\n⭐ Ưu tiên hiển thị trong kết quả tìm kiếm\n💎 Badge VIP nổi bật\n📈 Thống kê chi tiết khách hàng\n🎯 Quảng cáo được đề xuất\n💬 Chat không giới hạn\n\n🎁 Tặng 30 ngày đầu miễn phí!\n💳 Chỉ 99k/tháng - Đăng ký ngay!",
-          images: ["/premium-features.jpg"]
+          images: ["https://picsum.photos/id/5/400/300"]
         },
         engagement: {
           likes: 234,
@@ -183,7 +183,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         },
         content: {
           text: "🛍️ Mua dụng cụ học nghề giá tốt nhất!\n\n🎹 Đàn piano điện giảm 50%\n🔧 Bộ dụng cụ sửa chữa chất lượng\n📚 Sách học tiếng Anh bestseller\n🍳 Dụng cụ nhà bếp cao cấp\n\n🔥 Flash Sale 12.12 - Freeship 0đ\n💰 Hoàn 100k cho đơn đầu tiên!",
-          images: ["/shopee-tools.jpg"]
+          images: ["https://picsum.photos/id/6/400/300"]
         },
         engagement: {
           likes: 456,
@@ -238,7 +238,7 @@ export function InfiniteScrollFeed({ helpers, onHelperSelect }: InfiniteScrollFe
         content: {
           text: "🔥 TOP 5 kỹ năng kiếm tiền online 2024:\n\n1️⃣ Thiết kế Canva - 500k/thiết kế\n2️⃣ Dạy tiếng Anh online - 200k/buổi\n3️⃣ Sửa chữa điện tử - 300k/lần\n4️⃣ Content Creator - 1-5tr/tháng\n5️⃣ Gia sư toán - 150k/giờ\n\n💡 Video 10 phút hướng dẫn chi tiết!\n\n👆 Swipe up để xem full series!",
           video: "/top-skills-2024.mp4",
-          images: ["/skills-money-thumb.jpg"]
+          images: ["https://picsum.photos/id/7/400/300"]
         },
         engagement: {
           likes: 2345,

@@ -8,10 +8,6 @@ import { Textarea } from "@/components/ui/textarea"
 import {
   Image,
   Video,
-  Smile,
-  MapPin,
-  Users,
-  Send,
   X,
 } from "lucide-react"
 
@@ -28,11 +24,11 @@ export function PostComposer() {
 
   return (
     <Card className="border border-gray-200 bg-white shadow-sm">
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
-          <Avatar className="w-10 h-10 border border-gray-200">
+      <CardContent className="p-1.5">
+        <div className="flex items-center gap-1.5">
+          <Avatar className="w-6 h-6">
             <AvatarImage src="/vietnamese-user.png" alt="Your avatar" />
-            <AvatarFallback className="bg-emerald-50 text-emerald-700 text-sm font-medium">
+            <AvatarFallback className="bg-emerald-50 text-emerald-700 text-xs">
               U
             </AvatarFallback>
           </Avatar>
@@ -40,43 +36,33 @@ export function PostComposer() {
           <div className="flex-1">
             {!isExpanded ? (
               <button
+                type="button"
                 onClick={() => setIsExpanded(true)}
-                className="w-full text-left bg-gray-50 hover:bg-gray-100 rounded-full px-4 py-3 text-gray-500 transition-colors"
+                className="w-full text-left bg-gray-50 hover:bg-gray-100 rounded-full px-2 py-1 text-gray-500 transition-colors text-xs"
               >
-                Bạn muốn chia sẻ kỹ năng gì hôm nay? 🌟
+                Chia sẻ kỹ năng? 🌟
               </button>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-1">
                 <Textarea
                   value={postText}
                   onChange={(e) => setPostText(e.target.value)}
-                  placeholder="Chia sẻ kỹ năng, kinh nghiệm hoặc câu chuyện thành công của bạn..."
-                  className="min-h-[100px] border-0 p-0 resize-none text-lg placeholder:text-gray-400 focus-visible:ring-0"
+                  placeholder="Chia sẻ..."
+                  className="min-h-[40px] border-0 p-0 resize-none text-xs placeholder:text-gray-400 focus-visible:ring-0"
                   autoFocus
                 />
                 
-                {/* Quick options */}
-                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                  <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-gray-100">
-                      <Image className="w-4 h-4 mr-2" />
-                      Ảnh
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-0.5">
+                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0">
+                      <Image className="w-2.5 h-2.5" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-gray-100">
-                      <Video className="w-4 h-4 mr-2" />
-                      Video
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-gray-100">
-                      <Smile className="w-4 h-4 mr-2" />
-                      Cảm xúc
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-gray-100">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      Vị trí
+                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0">
+                      <Video className="w-2.5 h-2.5" />
                     </Button>
                   </div>
                   
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-0.5">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -84,17 +70,16 @@ export function PostComposer() {
                         setIsExpanded(false)
                         setPostText("")
                       }}
-                      className="text-gray-500"
+                      className="h-5 w-5 p-0"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-2.5 h-2.5" />
                     </Button>
                     <Button
                       onClick={handleSubmit}
                       disabled={!postText.trim()}
                       size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white h-5 px-1.5 text-xs"
                     >
-                      <Send className="w-4 h-4 mr-1" />
                       Đăng
                     </Button>
                   </div>

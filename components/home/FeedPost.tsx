@@ -241,8 +241,8 @@ export function FeedPost({ post }: FeedPostProps) {
             )}
           </div>
 
-          {/* Compact Media Content */}
-          {post.content.video && (
+          {/* Media Content - Only show one type */}
+          {post.content.video ? (
             <div className="relative aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden mb-3 group max-h-60">
               <video 
                 src={post.content.video}
@@ -253,15 +253,6 @@ export function FeedPost({ post }: FeedPostProps) {
                 loop
                 playsInline
                 controls={false}
-                onMouseEnter={(e) => {
-                  const video = e.target as HTMLVideoElement
-                  video.currentTime = 0
-                  video.play()
-                }}
-                onMouseLeave={(e) => {
-                  const video = e.target as HTMLVideoElement
-                  video.pause()
-                }}
                 onClick={(e) => {
                   const video = e.target as HTMLVideoElement
                   if (video.paused) {
@@ -279,9 +270,7 @@ export function FeedPost({ post }: FeedPostProps) {
                 </div>
               </div>
             </div>
-          )}
-
-          {post.content.beforeAfter && (
+          ) : post.content.beforeAfter ? (
             <div className="grid grid-cols-2 gap-1 mb-3">
               <div className="relative">
                 <img 
@@ -304,43 +293,15 @@ export function FeedPost({ post }: FeedPostProps) {
                 </div>
               </div>
             </div>
-          )}
-
-          {post.content.images && !post.content.beforeAfter && (
+          ) : post.content.images && post.content.images.length > 0 ? (
             <div className="mb-3">
-              {post.content.images.length === 1 ? (
-                <img 
-                  src={post.content.images[0]} 
-                  alt="Post image"
-                  className="w-full aspect-[4/3] object-cover rounded-lg max-h-60"
-                />
-              ) : (
-                <div className="relative">
-                  <img 
-                    src={post.content.images[imageIndex]} 
-                    alt={`Post image ${imageIndex + 1}`}
-                    className="w-full aspect-[4/3] object-cover rounded-lg max-h-60"
-                  />
-                  {post.content.images.length > 1 && (
-                    <div className="absolute top-2 right-2 bg-black/70 text-white px-1.5 py-0.5 rounded text-xs">
-                      {imageIndex + 1}/{post.content.images.length}
-                    </div>
-                  )}
-                  <div className="flex gap-1 mt-2 justify-center">
-                    {post.content.images.map((_, index) => (
-                      <button
-                        key={index}
-                        className={`w-1.5 h-1.5 rounded-full transition-all ${
-                          index === imageIndex ? "bg-emerald-600" : "bg-gray-300"
-                        }`}
-                        onClick={() => setImageIndex(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <img 
+                src={post.content.images[0]} 
+                alt="Post image"
+                className="w-full aspect-[4/3] object-cover rounded-lg max-h-60"
+              />
             </div>
-          )}
+          ) : null}
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
