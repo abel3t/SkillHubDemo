@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { Map, Marker, Popup } from 'react-map-gl/maplibre'
+import { motion } from 'framer-motion'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 interface Helper {
@@ -101,7 +102,12 @@ export function InteractiveMap({
             closeOnClick={false}
             className="max-w-xs"
           >
-            <div className="p-3 min-w-[250px]">
+            <motion.div 
+              className="p-3 min-w-[250px]"
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
               <div className="flex items-center space-x-3 mb-3">
                 <img 
                   src={selectedHelper.avatar} 
@@ -149,7 +155,7 @@ export function InteractiveMap({
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </Popup>
         )}
       </Map>

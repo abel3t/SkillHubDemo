@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -65,7 +66,13 @@ export function HelperCard({ helper, variant = "default" }: HelperCardProps) {
 
   if (variant === "compact") {
     return (
-      <Card className="hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 cursor-pointer group">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ y: -2, scale: 1.02 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        <Card className="hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 cursor-pointer group">
         <CardContent className="p-4" onClick={handleViewProfile}>
           <div className="flex gap-3">
             <div className="relative">
@@ -120,12 +127,19 @@ export function HelperCard({ helper, variant = "default" }: HelperCardProps) {
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     )
   }
 
   if (variant === "featured") {
     return (
-      <Card className="hover:shadow-xl transition-all duration-300 border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100 cursor-pointer group">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        whileHover={{ y: -5, scale: 1.03 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <Card className="hover:shadow-xl transition-all duration-300 border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100 cursor-pointer group">
         <CardContent className="p-6" onClick={handleViewProfile}>
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-emerald-600" />
@@ -180,11 +194,18 @@ export function HelperCard({ helper, variant = "default" }: HelperCardProps) {
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     )
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-emerald-200 cursor-pointer group">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -3, scale: 1.01 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <Card className="hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-emerald-200 cursor-pointer group">
       <CardContent className="p-6">
         {/* Header Section */}
         <div className="flex gap-4 mb-4">
@@ -323,5 +344,6 @@ export function HelperCard({ helper, variant = "default" }: HelperCardProps) {
         </div>
       </CardContent>
     </Card>
+    </motion.div>
   )
 }

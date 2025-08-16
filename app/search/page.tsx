@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { AdvancedSearch, FilterPanel, SortOptions, ResultsList } from "@/components/search"
+import { Navigation } from "@/components/shared/Navigation"
 import { 
   Grid3X3, 
   List, 
@@ -342,7 +343,9 @@ export default function SearchPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-100">
+      <Navigation />
+      
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

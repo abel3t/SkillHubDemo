@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { InteractiveMap } from '@/components/map/InteractiveMap'
 import { LocationControls } from '@/components/map/LocationControls'
 import { DistanceSlider } from '@/components/map/DistanceSlider'
@@ -9,14 +10,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { Navigation } from '@/components/shared/Navigation'
 import { 
-  Home, 
-  Bell, 
-  MessageCircle, 
-  Users, 
   List,
-  Map as MapIcon,
-  Filter,
+  MapIcon,
   Search
 } from 'lucide-react'
 
@@ -141,67 +138,50 @@ export default function MapPage() {
     console.log('Selected helper:', helper)
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation */}
-      <Card className="bg-white shadow-sm border-gray-200 rounded-none border-x-0 border-t-0">
-        <CardContent className="p-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold text-emerald-600">SkillHub</h1>
-              <div className="hidden md:flex space-x-6">
-                <Button 
-                  variant="ghost" 
-                  className="text-gray-600 hover:text-emerald-600"
-                  onClick={() => router.push('/')}
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  Bảng tin
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="text-gray-600 hover:text-emerald-600"
-                  onClick={() => router.push('/helpers')}
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  Tìm chuyên gia
-                </Button>
-                <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">
-                  <MapIcon className="w-4 h-4 mr-2" />
-                  Bản đồ
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="text-gray-600 hover:text-emerald-600"
-                  onClick={() => router.push('/messages')}
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Tin nhắn
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm">
-                <Bell className="w-5 h-5" />
-              </Button>
-              <Button onClick={() => router.push('/profile')} variant="ghost" size="sm">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="/vietnamese-user.png" alt="Profile" />
-                  <AvatarFallback className="bg-emerald-100 text-emerald-700">U</AvatarFallback>
-                </Avatar>
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  }
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.8, 0.25, 1] as const
+      }
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-100">
+      <Navigation />
+
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
           {/* Left Sidebar - Controls */}
-          <div className="lg:col-span-1 space-y-4 overflow-y-auto">
+          <motion.div className="lg:col-span-1 space-y-4 overflow-y-auto" variants={itemVariants}>
             {/* Search Bar */}
-            <Card className="shadow-sm">
-              <CardContent className="p-3">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 transition-colors">
+                <CardContent className="p-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
@@ -212,24 +192,39 @@ export default function MapPage() {
                 </div>
               </CardContent>
             </Card>
+            </motion.div>
 
             {/* Location Controls */}
-            <LocationControls
-              currentLocation={currentLocation}
-              onLocationChange={handleLocationChange}
-              onCurrentLocationClick={handleCurrentLocationClick}
-            />
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <LocationControls
+                currentLocation={currentLocation}
+                onLocationChange={handleLocationChange}
+                onCurrentLocationClick={handleCurrentLocationClick}
+              />
+            </motion.div>
 
             {/* Distance Slider */}
-            <DistanceSlider
-              initialDistance={searchDistance}
-              onDistanceChange={setSearchDistance}
-              helperCount={filteredHelpers.length}
-            />
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <DistanceSlider
+                initialDistance={searchDistance}
+                onDistanceChange={setSearchDistance}
+                helperCount={filteredHelpers.length}
+              />
+            </motion.div>
 
             {/* View Toggle */}
-            <Card className="shadow-sm">
-              <CardContent className="p-3">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 transition-colors">
+                <CardContent className="p-3">
                 <div className="flex space-x-2">
                   <Button
                     variant={!showListView ? "default" : "outline"}
@@ -252,10 +247,15 @@ export default function MapPage() {
                 </div>
               </CardContent>
             </Card>
+            </motion.div>
 
             {/* Results Summary */}
-            <Card className="shadow-sm">
-              <CardContent className="p-3">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card className="shadow-sm border-2 border-gray-100 hover:border-emerald-200 bg-gradient-to-br from-emerald-50 to-blue-50">
+                <CardContent className="p-3">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-emerald-600">
                     {filteredHelpers.length}
@@ -266,25 +266,42 @@ export default function MapPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Main Content - Map or List */}
-          <div className="lg:col-span-3">
-            {!showListView ? (
-              <Card className="shadow-lg h-full">
-                <CardContent className="p-0 h-full">
-                  <InteractiveMap
-                    helpers={filteredHelpers}
-                    center={mapCenter}
-                    zoom={13}
-                    onHelperSelect={handleHelperSelect}
-                    className="w-full h-full rounded-lg"
-                  />
-                </CardContent>
-              </Card>
-            ) : (
-              <Card className="shadow-lg h-full">
-                <CardContent className="p-4 h-full overflow-y-auto">
+          <motion.div className="lg:col-span-3" variants={itemVariants}>
+            <AnimatePresence mode="wait">
+              {!showListView ? (
+                <motion.div
+                  key="map-view"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="shadow-lg h-full border-2 border-gray-100 hover:border-emerald-200 transition-colors">
+                    <CardContent className="p-0 h-full">
+                      <InteractiveMap
+                        helpers={filteredHelpers}
+                        center={mapCenter}
+                        zoom={13}
+                        onHelperSelect={handleHelperSelect}
+                        className="w-full h-full rounded-lg"
+                      />
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list-view"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="shadow-lg h-full border-2 border-gray-100 hover:border-emerald-200 transition-colors">
+                    <CardContent className="p-4 h-full overflow-y-auto">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h2 className="text-lg font-semibold text-gray-900">
@@ -319,7 +336,7 @@ export default function MapPage() {
                                     </Badge>
                                   )}
                                   {helper.isOnline && (
-                                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <div className="w-2 h-2 bg-green-500 rounded-full" />
                                   )}
                                 </div>
                                 <p className="text-sm text-gray-600 truncate">
@@ -335,8 +352,8 @@ export default function MapPage() {
                                   </div>
                                 </div>
                                 <div className="flex flex-wrap gap-1 mt-2">
-                                  {helper.canHelp.slice(0, 2).map((skill, index) => (
-                                    <Badge key={index} variant="outline" className="text-xs">
+                                  {helper.canHelp.slice(0, 2).map((skill) => (
+                                    <Badge key={skill} variant="outline" className="text-xs">
                                       {skill}
                                     </Badge>
                                   ))}
@@ -350,10 +367,12 @@ export default function MapPage() {
                   </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

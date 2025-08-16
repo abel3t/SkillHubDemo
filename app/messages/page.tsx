@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { ChatInterface } from "@/components/chat/ChatInterface"
 import { useRouter } from "next/navigation"
+import { Navigation } from "@/components/shared/Navigation"
 
 export default function MessagesPage() {
   const router = useRouter()
@@ -147,7 +148,9 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-100">
+      <Navigation />
+      
       {/* Mobile Header */}
       <div className="lg:hidden bg-white border-b px-4 py-3 flex items-center gap-3">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>

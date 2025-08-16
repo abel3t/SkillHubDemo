@@ -1,16 +1,9 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { SkillFeed } from "@/components/home/SkillFeed"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
-import {
-  Home,
-  Bell,
-  MessageCircle,
-  Users,
-} from "lucide-react"
+import { Navigation } from "@/components/shared/Navigation"
 
 export default function HelpersPage() {
   const router = useRouter()
@@ -157,49 +150,16 @@ export default function HelpersPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation */}
-      <Card className="bg-white shadow-sm border-gray-200 rounded-none border-x-0 border-t-0">
-        <CardContent className="p-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold text-emerald-600">SkillHub</h1>
-              <div className="hidden md:flex space-x-6">
-                <Button 
-                  variant="ghost" 
-                  className="text-gray-600 hover:text-emerald-600"
-                  onClick={() => router.push('/')}
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  Bảng tin
-                </Button>
-                <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">
-                  <Users className="w-4 h-4 mr-2" />
-                  Tìm chuyên gia
-                </Button>
-                <Button variant="ghost" className="text-gray-600 hover:text-emerald-600">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Tin nhắn
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm">
-                <Bell className="w-5 h-5" />
-              </Button>
-              <Button onClick={() => router.push('/profile')} variant="ghost" size="sm">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="/vietnamese-user.png" alt="Profile" />
-                  <AvatarFallback className="bg-emerald-100 text-emerald-700">U</AvatarFallback>
-                </Avatar>
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-slate-100">
+      <Navigation />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <SkillFeed 
           helpers={communityMembers}
           onHelperSelect={(helper) => {
@@ -207,7 +167,7 @@ export default function HelpersPage() {
             router.push('/profile')
           }}
         />
-      </div>
+      </motion.div>
     </div>
   )
 }

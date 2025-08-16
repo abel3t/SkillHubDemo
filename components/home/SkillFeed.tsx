@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 import { SearchBar } from "./SearchBar"
 import { CategoryGrid } from "./CategoryGrid"
 import { QuickFilters } from "./QuickFilters"
@@ -130,10 +131,39 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
     { term: "dạy tiếng anh", count: 45, trend: "+5%" }
   ]
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  }
+
   return (
-    <div className="space-y-6">
+    <motion.div 
+      className="space-y-6"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Header with Search */}
-      <div className="text-center space-y-4">
+      <motion.div className="text-center space-y-4" variants={itemVariants}>
         <div className="space-y-2">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Tìm người giúp đỡ <span className="text-emerald-600">gần bạn</span>
@@ -144,10 +174,10 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
         </div>
         
         <SearchBar onSearch={handleSearch} />
-      </div>
+      </motion.div>
 
       {/* Quick Stats & Trending */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-4" variants={itemVariants}>
         <Card className="text-center border border-gray-100">
           <CardContent className="p-4">
             <div className="text-2xl font-bold text-emerald-600 mb-1">{helpers.length}</div>
@@ -172,11 +202,11 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
             <div className="text-sm text-gray-600">Lượt kết nối</div>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
 
       {/* Community Highlights */}
       {showCommunityHighlights && (
-        <div className="space-y-4">
+        <motion.div className="space-y-4" variants={itemVariants}>
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
               <Heart className="w-5 h-5 text-red-500" />
@@ -224,17 +254,19 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
               </Card>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Category Grid */}
-      <CategoryGrid 
-        onCategorySelect={handleCategorySelect}
-        selectedCategory={selectedCategory}
-      />
+      <motion.div variants={itemVariants}>
+        <CategoryGrid 
+          onCategorySelect={handleCategorySelect}
+          selectedCategory={selectedCategory}
+        />
+      </motion.div>
 
       {/* Filters and Controls */}
-      <div className="space-y-4">
+      <motion.div className="space-y-4" variants={itemVariants}>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold text-gray-900">
@@ -319,10 +351,10 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
           onFiltersChange={handleFiltersChange}
           showAdvanced={showFilters}
         />
-      </div>
+      </motion.div>
 
       {/* Helper Cards */}
-      <div className="space-y-4">
+      <motion.div className="space-y-4" variants={itemVariants}>
         {filteredHelpers.length === 0 ? (
           <Card className="text-center py-12 border border-gray-100">
             <CardContent>
@@ -387,11 +419,12 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
             )}
           </>
         )}
-      </div>
+      </motion.div>
 
       {/* Trending Searches */}
       {!searchQuery && !selectedCategory && (
-        <Card className="border border-gray-100">
+        <motion.div variants={itemVariants}>
+          <Card className="border border-gray-100">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-orange-600" />
@@ -418,7 +451,8 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

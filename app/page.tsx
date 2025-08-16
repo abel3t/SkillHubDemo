@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bell, Bookmark, Star, PlusCircle, ExternalLink } from "lucide-react"
+import { Bookmark, Star, PlusCircle, ExternalLink } from "lucide-react"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { PostComposer } from "@/components/home/PostComposer"
 import { InfiniteScrollFeed } from "@/components/home/InfiniteScrollFeed"
+import { Navigation } from "@/components/shared/Navigation"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,22 +35,7 @@ const Page = () => {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      {/* Top Navigation */}
-      <header className="bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-200/80 sticky top-0 z-40">
-        <div className="max-w-screen-xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold text-emerald-600">SkillHub</h1>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100"><Bell className="w-6 h-6" /></Button>
-              <Button onClick={() => router.push('/profile')} variant="ghost" size="icon" className="rounded-full">
-                <Avatar className="w-9 h-9 border-2 border-transparent hover:border-emerald-500"><AvatarImage src="/vietnamese-user.png" alt="Profile" /><AvatarFallback className="bg-emerald-100 text-emerald-700">U</AvatarFallback></Avatar>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Main Content */}
       <main className="max-w-screen-xl mx-auto px-4 py-6">
