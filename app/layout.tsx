@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
+import { MiniChatManager } from "@/components/chat/MiniChatManager"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -26,7 +27,10 @@ html {
 }
         `}</style>
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-body antialiased">
+        {children}
+        <MiniChatManager currentUserId="user123" />
+      </body>
     </html>
   )
 }

@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { openMiniChat } from "@/components/chat/MiniChatManager"
 import {
   MapPin,
   Star,
@@ -183,7 +184,20 @@ export function HelperCard({ helper, variant = "default" }: HelperCardProps) {
           </div>
           
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button 
+              size="sm" 
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                openMiniChat({
+                  id: helper.id.toString(),
+                  name: helper.name,
+                  avatar: helper.avatar,
+                  skill: helper.title,
+                  online: helper.isOnline
+                });
+              }}
+            >
               <MessageCircle className="w-4 h-4 mr-2" />
               Nhắn tin
             </Button>

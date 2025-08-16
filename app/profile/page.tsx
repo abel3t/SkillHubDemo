@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ProfileHeader } from "@/components/profile/ProfileHeader"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
+import { Navigation } from "@/components/shared/Navigation"
 import { 
     Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
     BarChart2, Eye, MessageSquare, Search, ThumbsUp, Award, Sparkles
@@ -144,6 +145,7 @@ const SkillsSection = ({ skills }) => (
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-100">
+      <Navigation />
       <main className="max-w-4xl mx-auto px-2 sm:px-4 py-4">
         <motion.div 
             className="space-y-4 sm:space-y-6"

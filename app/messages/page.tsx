@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowLeft, Search, MessageCircle } from "lucide-react"
+import { ArrowLeft, Search, MessageCircle, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { ChatInterface } from "@/components/chat/ChatInterface"
+import { openMiniChat } from "@/components/chat/MiniChatManager"
 import { useRouter } from "next/navigation"
 import { Navigation } from "@/components/shared/Navigation"
 
@@ -223,6 +224,29 @@ export default function MessagesPage() {
                         {conversation.unread > 0 && (
                           <Badge className="bg-blue-500 text-white text-xs px-1.5 py-0 flex-shrink-0">{conversation.unread}</Badge>
                         )}
+                      </div>
+                      <div className="flex items-center justify-end mt-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openMiniChat(
+                              {
+                                id: conversation.id.toString(),
+                                name: conversation.name,
+                                avatar: conversation.avatar,
+                                skill: conversation.skill,
+                                online: conversation.online
+                              },
+                              [] // You can pass existing messages here
+                            );
+                          }}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+                        >
+                          <ExternalLink className="w-3 h-3 mr-1" />
+                          Mini Chat
+                        </Button>
                       </div>
                     </div>
                   </div>
