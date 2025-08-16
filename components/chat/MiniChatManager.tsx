@@ -288,14 +288,16 @@ export function MiniChatManager({ currentUserId }: MiniChatManagerProps) {
   return (
     <>
       {/* Chat Windows */}
-      <div className="fixed bottom-0 right-0 z-50 flex items-end">
+      <div className="fixed bottom-0 right-0 flex items-end" style={{ zIndex: 9998 }}>
         {/* Collapsed Chat Avatars */}
         {collapsedChats.length > 0 && (
           <div className="mr-2 mb-0">
             <div className="relative" ref={dropdownRef}>
               <button
+                type="button"
                 onClick={() => setShowCollapsedDropdown(!showCollapsedDropdown)}
                 className="flex items-center justify-center w-12 h-12 bg-white border border-gray-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+                style={{ zIndex: 9999 }}
               >
                 <div className="flex -space-x-2">
                   {collapsedChats.slice(0, 3).map((chat, index) => (
@@ -389,7 +391,7 @@ export function MiniChatManager({ currentUserId }: MiniChatManagerProps) {
               key={window.id}
               style={{ 
                 transform: `translateX(-${(chatWindows.length - 1 - index) * 85}%)`,
-                zIndex: 50 + index
+                zIndex: 9999 + index
               }}
             >
               <MiniChatWindow
@@ -411,6 +413,7 @@ export function MiniChatManager({ currentUserId }: MiniChatManagerProps) {
       {chatWindows.length === 0 && collapsedChats.length === 0 && (
         <div className="fixed bottom-6 right-6 z-40">
           <button
+            type="button"
             onClick={() => openChat(mockContacts[1], mockMessages[mockContacts[1].id])}
             className="bg-emerald-500 hover:bg-emerald-600 text-white p-3 rounded-full shadow-lg transition-colors"
           >

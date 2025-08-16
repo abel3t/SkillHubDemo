@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ProfileHeader } from "@/components/profile/ProfileHeader"
+import { AvailabilityCalendar } from "@/components/profile/AvailabilityCalendar"
+import { PricingCard } from "@/components/profile/PricingCard"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { Navigation } from "@/components/shared/Navigation"
 import { 
@@ -146,20 +148,114 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-100">
       <Navigation />
-      <main className="max-w-4xl mx-auto px-2 sm:px-4 py-4">
+      
+      {/* Enhanced LinkedIn-style Layout */}
+      <main className="max-w-6xl mx-auto px-2 sm:px-4 py-4">
         <motion.div 
-            className="space-y-4 sm:space-y-6"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <ProfileHeader user={userData} isOwnProfile={true} />
-          <AnalyticsSection data={analyticsData} />
-          <TrustAndReliabilitySection data={trustData} />
-          <AboutSection about={aboutData} />
-          <ExperienceSection experiences={experienceData} />
-          <EducationSection educations={educationData} />
-          <SkillsSection skills={skillsData} />
+          {/* Left Column - Main Profile Content */}
+          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+            {/* Hero Section */}
+            <motion.div variants={containerVariants}>
+              <ProfileHeader user={userData} isOwnProfile={true} />
+            </motion.div>
+
+            {/* About Section */}
+            <motion.div variants={containerVariants}>
+              <AboutSection about={aboutData} />
+            </motion.div>
+
+            {/* Experience & Education */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+              <motion.div variants={containerVariants}>
+                <ExperienceSection experiences={experienceData} />
+              </motion.div>
+              <motion.div variants={containerVariants}>
+                <EducationSection educations={educationData} />
+              </motion.div>
+            </div>
+
+            {/* Skills */}
+            <motion.div variants={containerVariants}>
+              <SkillsSection skills={skillsData} />
+            </motion.div>
+
+            {/* Availability Calendar */}
+            <motion.div variants={containerVariants}>
+              <AvailabilityCalendar 
+                isOwnProfile={true}
+                onBookSlot={(date, slot) => console.log('Book slot:', date, slot)}
+                onEditSlot={(date, slot) => console.log('Edit slot:', date, slot)}
+              />
+            </motion.div>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="lg:col-span-4 space-y-4 sm:space-y-6">
+            {/* Analytics - Only for own profile */}
+            <motion.div variants={containerVariants} className="lg:sticky lg:top-20">
+              <AnalyticsSection data={analyticsData} />
+            </motion.div>
+
+            {/* Trust & Reliability */}
+            <motion.div variants={containerVariants}>
+              <TrustAndReliabilitySection data={trustData} />
+            </motion.div>
+
+            {/* Pricing Card */}
+            <motion.div variants={containerVariants}>
+              <PricingCard 
+                isOwnProfile={true}
+                onEditPricing={() => console.log('Edit pricing')}
+                onBookService={(tier) => console.log('Book service:', tier)}
+              />
+            </motion.div>
+
+            {/* Professional Tips Card */}
+            <motion.div variants={containerVariants}>
+              <VibrantCard className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+                <VibrantCardHeader>
+                  <h3 className="text-lg font-semibold text-blue-900 flex items-center">
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Nâng cao hồ sơ
+                  </h3>
+                </VibrantCardHeader>
+                <VibrantCardContent className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">Thêm portfolio</p>
+                      <p className="text-xs text-blue-700">Hiển thị công việc đã hoàn thành</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">Xin endorsement</p>
+                      <p className="text-xs text-blue-700">Mời khách hàng đánh giá</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">Cập nhật thường xuyên</p>
+                      <p className="text-xs text-blue-700">Chia sẻ tips và kiến thức</p>
+                    </div>
+                  </div>
+                </VibrantCardContent>
+              </VibrantCard>
+            </motion.div>
+          </div>
         </motion.div>
       </main>
     </div>
