@@ -1,6 +1,6 @@
 "use client"
 
-import { InfiniteScrollFeed } from "@/components/home/InfiniteScrollFeed"
+import { SkillFeed } from "@/components/home/SkillFeed"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -12,7 +12,7 @@ import {
   Users,
 } from "lucide-react"
 
-export default function SkillHubApp() {
+export default function HelpersPage() {
   const router = useRouter()
 
   const communityMembers = [
@@ -165,15 +165,15 @@ export default function SkillHubApp() {
             <div className="flex items-center space-x-6">
               <h1 className="text-2xl font-bold text-emerald-600">SkillHub</h1>
               <div className="hidden md:flex space-x-6">
-                <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">
-                  <Home className="w-4 h-4 mr-2" />
-                  Bảng tin
-                </Button>
                 <Button 
                   variant="ghost" 
                   className="text-gray-600 hover:text-emerald-600"
-                  onClick={() => router.push('/helpers')}
+                  onClick={() => router.push('/')}
                 >
+                  <Home className="w-4 h-4 mr-2" />
+                  Bảng tin
+                </Button>
+                <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">
                   <Users className="w-4 h-4 mr-2" />
                   Tìm chuyên gia
                 </Button>
@@ -199,8 +199,8 @@ export default function SkillHubApp() {
       </Card>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <InfiniteScrollFeed 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <SkillFeed 
           helpers={communityMembers}
           onHelperSelect={(helper) => {
             console.log('Selected helper:', helper)
