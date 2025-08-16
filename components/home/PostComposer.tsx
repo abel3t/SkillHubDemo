@@ -3,92 +3,52 @@
 import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Image,
-  Video,
-  X,
-} from "lucide-react"
+import { Image as ImageIcon, Video, MapPin, Send } from "lucide-react"
 
 export function PostComposer() {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [postText, setPostText] = useState("")
-
-  const handleSubmit = () => {
-    // Handle post submission
-    console.log("Posting:", postText)
-    setPostText("")
-    setIsExpanded(false)
-  }
+  const [postContent, setPostContent] = useState("")
 
   return (
-    <Card className="border border-gray-200 bg-white shadow-sm">
-      <CardContent className="p-1.5">
-        <div className="flex items-center gap-1.5">
-          <Avatar className="w-6 h-6">
-            <AvatarImage src="/vietnamese-user.png" alt="Your avatar" />
-            <AvatarFallback className="bg-emerald-50 text-emerald-700 text-xs">
-              U
-            </AvatarFallback>
-          </Avatar>
-          
-          <div className="flex-1">
-            {!isExpanded ? (
-              <button
-                type="button"
-                onClick={() => setIsExpanded(true)}
-                className="w-full text-left bg-gray-50 hover:bg-gray-100 rounded-full px-2 py-1 text-gray-500 transition-colors text-xs"
-              >
-                Chia sẻ kỹ năng? 🌟
-              </button>
-            ) : (
-              <div className="space-y-1">
-                <Textarea
-                  value={postText}
-                  onChange={(e) => setPostText(e.target.value)}
-                  placeholder="Chia sẻ..."
-                  className="min-h-[40px] border-0 p-0 resize-none text-xs placeholder:text-gray-400 focus-visible:ring-0"
-                  autoFocus
-                />
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-0.5">
-                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0">
-                      <Image className="w-2.5 h-2.5" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0">
-                      <Video className="w-2.5 h-2.5" />
-                    </Button>
-                  </div>
-                  
-                  <div className="flex items-center gap-0.5">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setIsExpanded(false)
-                        setPostText("")
-                      }}
-                      className="h-5 w-5 p-0"
-                    >
-                      <X className="w-2.5 h-2.5" />
-                    </Button>
-                    <Button
-                      onClick={handleSubmit}
-                      disabled={!postText.trim()}
-                      size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white h-5 px-1.5 text-xs"
-                    >
-                      Đăng
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
+    <div className="p-4">
+      <div className="flex items-start space-x-4">
+        <Avatar className="w-12 h-12 border-2 border-white shadow-sm">
+          <AvatarImage src="/vietnamese-user.png" alt="Your Avatar" />
+          <AvatarFallback>BẠN</AvatarFallback>
+        </Avatar>
+        <div className="flex-1">
+          <Textarea
+            placeholder="Bạn có mẹo gì hay? Hãy chia sẻ với cộng đồng!"
+            className="w-full border-slate-200/80 rounded-lg p-3 text-base focus:ring-emerald-500/50 focus:border-emerald-500 bg-slate-50/80 shadow-inner"
+            rows={3}
+            value={postContent}
+            onChange={(e) => setPostContent(e.target.value)}
+          />
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex items-center space-x-1">
+              <Button variant="ghost" size="sm" className="text-slate-500 hover:text-green-600">
+                <ImageIcon className="w-5 h-5" />
+                <span className="ml-2 hidden sm:inline">Ảnh</span>
+              </Button>
+              <Button variant="ghost" size="sm" className="text-slate-500 hover:text-blue-600">
+                <Video className="w-5 h-5" />
+                <span className="ml-2 hidden sm:inline">Video</span>
+              </Button>
+              <Button variant="ghost" size="sm" className="text-slate-500 hover:text-red-600">
+                <MapPin className="w-5 h-5" />
+                <span className="ml-2 hidden sm:inline">Vị trí</span>
+              </Button>
+            </div>
+            <Button 
+              disabled={!postContent.trim()}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-full px-6 shadow-sm disabled:bg-slate-300"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              Đăng
+            </Button>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

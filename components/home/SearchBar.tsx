@@ -40,7 +40,7 @@ interface SearchBarProps {
 
 export function SearchBar({ 
   onSearch, 
-  placeholder = "Bạn cần giúp gì? (VD: sửa điện, dạy piano, dọn nhà...)",
+  placeholder = "Tìm kiếm chuyên gia, dịch vụ...",
   showFilters = true 
 }: SearchBarProps) {
   const router = useRouter()

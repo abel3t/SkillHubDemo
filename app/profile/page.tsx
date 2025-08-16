@@ -1,496 +1,165 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { ProfileHeader } from "@/components/profile/ProfileHeader"
-import { SkillCard } from "@/components/profile/SkillCard"
-import { PortfolioGallery } from "@/components/profile/PortfolioGallery"
-import {
-  Award,
-  Calendar,
-  Phone,
-  Mail,
-  Briefcase,
-  GraduationCap,
-  MapPin,
-  MessageSquare,
-  ThumbsUp,
-  MessageCircle,
+import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
+import { 
+    Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
+    BarChart2, Eye, MessageSquare, Search, ThumbsUp, Award, Sparkles
 } from "lucide-react"
 
-export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("about")
+// MOCK DATA
+const userData = { name: "Lê Thị Hương", title: "Giáo viên Piano & Âm nhạc cao cấp", location: "Quận 3, TP.HCM", connections: 488, isVerified: true, coverImage: "/vietnamese-workshop.png", avatarImage: "/vietnamese-user.png", isOnline: true };
+const analyticsData = { profileViews: 245, postImpressions: 1204, searchAppearances: 98 };
+const trustData = { responseTime: "5 phút", completionRate: 98, neighborEndorsements: 23, verifications: ["Số điện thoại", "CMND/CCCD", "Chứng chỉ chuyên môn"] };
+const aboutData = "Với hơn 10 năm kinh nghiệm giảng dạy piano cho mọi lứa tuổi, tôi đam mê truyền cảm hứng và giúp học viên phát triển tài năng âm nhạc. Phương pháp của tôi tập trung vào việc xây dựng nền tảng vững chắc và khơi dậy tình yêu với âm nhạc.";
+const experienceData = [{ id: 1, title: "Giáo viên Piano Tự do", company: "SkillHub", dates: "2021 - Hiện tại", description: "Cung cấp các khóa học piano cá nhân hóa."}, { id: 2, title: "Giáo viên Âm nhạc", company: "Trung tâm Âm nhạc Harmony", dates: "2018 - 2021", description: "Giảng dạy piano và lý thuyết âm nhạc." }];
+const educationData = [{ id: 1, school: "Nhạc viện TP.HCM", degree: "Cử nhân Sư phạm Âm nhạc", dates: "2014 - 2018" }];
+const skillsData = [{ id: "1", name: "Piano Cổ điển", endorsements: 18 }, { id: "2", name: "Lý thuyết Âm nhạc", endorsements: 12 }, { id: "3", name: "Sáng tác Nhạc", endorsements: 7 }];
 
-  // Mock data - would come from API/database
-  const userData = {
-    name: "Nguyễn Văn Minh",
-    title: "Thợ điện chuyên nghiệp",
-    location: "Quận 1, TP.HCM",
-    connections: 1234,
-    rating: 4.9,
-    reviews: 156,
-    isVerified: true,
-    coverImage: "/vietnamese-workshop.png",
-    avatarImage: "/vietnamese-user.png",
-    isOnline: true,
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
   }
+};
 
-  const skillsData = [
-    {
-      id: "1",
-      name: "Lắp đặt hệ thống điện",
-      level: 95,
-      experienceYears: 8,
-      endorsements: [
-        {
-          id: "1",
-          name: "Trần Thị Lan",
-          avatar: "/vietnamese-user.png",
-          role: "Chủ nhà",
-          message: "Anh Minh làm việc rất chuyên nghiệp, tỉ mỉ và an toàn. Hệ thống điện nhà tôi hoạt động hoàn hảo.",
-          date: "2 tuần trước"
-        },
-        {
-          id: "2",
-          name: "Lê Văn Hùng",
-          avatar: "/vietnamese-user.png",
-          role: "Kỹ sư xây dựng",
-          message: "Kinh nghiệm và kỹ năng của anh Minh rất xuất sắc. Đã hợp tác nhiều dự án thành công.",
-          date: "1 tháng trước"
-        }
-      ],
-      hourlyRate: { min: 150, max: 300 },
-      projects: 89,
-      rating: 4.9,
-      availability: "available" as const,
-      certifications: ["Chứng chỉ Thợ điện bậc cao", "An toàn lao động"],
-      trending: true
-    },
-    {
-      id: "2",
-      name: "Sửa chữa thiết bị điện",
-      level: 90,
-      experienceYears: 6,
-      endorsements: [
-        {
-          id: "3",
-          name: "Phạm Thị Mai",
-          avatar: "/vietnamese-user.png",
-          role: "Chủ cửa hàng",
-          message: "Sửa chữa nhanh chóng, giá cả hợp lý. Rất hài lòng với dịch vụ.",
-          date: "3 ngày trước"
-        }
-      ],
-      hourlyRate: { min: 100, max: 200 },
-      projects: 67,
-      rating: 4.8,
-      availability: "available" as const,
-      certifications: ["Chứng chỉ sửa chữa điện"]
-    }
-  ]
-
-  const portfolioData = [
-    {
-      id: "1",
-      title: "Lắp đặt hệ thống điện nhà 3 tầng",
-      description: "Thiết kế và lắp đặt hoàn chỉnh hệ thống điện cho ngôi nhà 3 tầng tại Quận 7. Bao gồm hệ thống chiếu sáng, ổ cắm, hệ thống an toàn và tự động hóa thông minh.",
-      images: ["/electrical-installation.png", "/placeholder-i72fx.png"],
-      category: "Điện dân dụng",
-      location: "Quận 7, TP.HCM",
-      completedDate: "Tháng 11, 2023",
-      duration: "2 tuần",
-      clientName: "Gia đình Trần Văn A",
-      rating: 5,
-      feedback: "Công việc được thực hiện rất chuyên nghiệp, đúng tiến độ và chất lượng cao. Anh Minh tư vấn rất tận tâm.",
-      tags: ["Điện dân dụng", "Tự động hóa", "An toàn điện"],
-      achievements: [
-        "Hoàn thành đúng tiến độ cam kết",
-        "Tiết kiệm 15% chi phí so với dự toán ban đầu",
-        "Hệ thống đạt chứng nhận an toàn điện"
-      ]
-    },
-    {
-      id: "2",
-      title: "Sửa chữa hệ thống điện văn phòng",
-      description: "Khắc phục sự cố và nâng cấp hệ thống điện cho tòa nhà văn phòng 5 tầng, đảm bảo hoạt động ổn định 24/7.",
-      images: ["/placeholder-i72fx.png"],
-      category: "Điện công nghiệp",
-      location: "Quận 1, TP.HCM",
-      completedDate: "Tháng 10, 2023",
-      duration: "1 tuần",
-      rating: 4.8,
-      feedback: "Xử lý sự cố nhanh chóng, không ảnh hưởng đến hoạt động kinh doanh.",
-      tags: ["Điện công nghiệp", "Sửa chữa khẩn cấp"]
-    }
-  ]
-
-
-  const ContributionStats = () => (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <Card className="text-center border border-gray-100 hover:border-emerald-200 transition-colors">
-        <CardContent className="p-4 sm:p-6">
-          <div className="text-2xl sm:text-3xl font-bold text-emerald-600 mb-1">156</div>
-          <div className="text-xs sm:text-sm text-gray-600 font-medium">Dự án hoàn thành</div>
-        </CardContent>
-      </Card>
-      <Card className="text-center border border-gray-100 hover:border-blue-200 transition-colors">
-        <CardContent className="p-4 sm:p-6">
-          <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">4.9</div>
-          <div className="text-xs sm:text-sm text-gray-600 font-medium">Đánh giá trung bình</div>
-        </CardContent>
-      </Card>
-      <Card className="text-center border border-gray-100 hover:border-amber-200 transition-colors">
-        <CardContent className="p-4 sm:p-6">
-          <div className="text-2xl sm:text-3xl font-bold text-amber-600 mb-1">89</div>
-          <div className="text-xs sm:text-sm text-gray-600 font-medium">Lời khuyên chia sẻ</div>
-        </CardContent>
-      </Card>
-      <Card className="text-center border border-gray-100 hover:border-purple-200 transition-colors">
-        <CardContent className="p-4 sm:p-6">
-          <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-1">1.2k</div>
-          <div className="text-xs sm:text-sm text-gray-600 font-medium">Kết nối</div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  const AboutSection = () => (
-    <div className="space-y-6">
-      <Card className="border border-gray-100">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-gray-900">
-            <Briefcase className="w-5 h-5 text-emerald-600" />
-            Giới thiệu
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-700 leading-relaxed text-base">
-            Thợ điện chuyên nghiệp với hơn 8 năm kinh nghiệm trong lĩnh vực điện dân dụng và công nghiệp. Chuyên về lắp
-            đặt hệ thống điện, sửa chữa thiết bị điện, và tư vấn an toàn điện. Cam kết mang đến dịch vụ chất lượng cao
-            và an toàn tuyệt đối cho khách hàng.
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="border border-gray-100">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-gray-900">
-            <MapPin className="w-5 h-5 text-emerald-600" />
-            Thông tin liên hệ
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <Phone className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span className="text-gray-700 font-medium">0901 234 567</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <Mail className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span className="text-gray-700 font-medium break-all">minh.nguyen@email.com</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <MapPin className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span className="text-gray-700 font-medium">Quận 1, Thành phố Hồ Chí Minh</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <Calendar className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span className="text-gray-700 font-medium">Tham gia từ tháng 3, 2022</span>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  const SkillsSection = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Kỹ năng chuyên môn</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">Lắp đặt hệ thống điện</span>
-                <span className="text-sm text-muted-foreground">95%</span>
-              </div>
-              <Progress value={95} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">Sửa chữa thiết bị điện</span>
-                <span className="text-sm text-muted-foreground">90%</span>
-              </div>
-              <Progress value={90} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">Tư vấn an toàn điện</span>
-                <span className="text-sm text-muted-foreground">88%</span>
-              </div>
-              <Progress value={88} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">Điện công nghiệp</span>
-                <span className="text-sm text-muted-foreground">85%</span>
-              </div>
-              <Progress value={85} className="h-2" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Chứng chỉ & Bằng cấp</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <GraduationCap className="w-5 h-5 text-primary mt-1" />
-              <div>
-                <h4 className="font-medium">Chứng chỉ Thợ điện bậc cao</h4>
-                <p className="text-sm text-muted-foreground">Bộ Lao động - Thương binh và Xã hội • 2020</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Award className="w-5 h-5 text-primary mt-1" />
-              <div>
-                <h4 className="font-medium">Chứng chỉ An toàn lao động</h4>
-                <p className="text-sm text-muted-foreground">Sở Lao động TP.HCM • 2021</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  const ContributionsSection = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Lời khuyên gần đây</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="border-l-4 border-primary pl-4">
-            <h4 className="font-medium">Cách kiểm tra an toàn hệ thống điện gia đình</h4>
-            <p className="text-sm text-muted-foreground mt-1">
-              Hướng dẫn chi tiết cách kiểm tra và bảo trì hệ thống điện an toàn tại nhà...
-            </p>
-            <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <ThumbsUp className="w-3 h-3" />
-                45 lượt thích
-              </span>
-              <span className="flex items-center gap-1">
-                <MessageSquare className="w-3 h-3" />
-                12 bình luận
-              </span>
-              <span>2 ngày trước</span>
-            </div>
-          </div>
-
-          <div className="border-l-4 border-primary pl-4">
-            <h4 className="font-medium">Lựa chọn dây điện phù hợp cho từng mục đích</h4>
-            <p className="text-sm text-muted-foreground mt-1">
-              So sánh các loại dây điện và cách chọn dây phù hợp với công suất sử dụng...
-            </p>
-            <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <ThumbsUp className="w-3 h-3" />
-                67 lượt thích
-              </span>
-              <span className="flex items-center gap-1">
-                <MessageSquare className="w-3 h-3" />
-                23 bình luận
-              </span>
-              <span>1 tuần trước</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Dự án nổi bật</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="border rounded-lg p-4">
-              <img
-                src="/electrical-installation.png"
-                alt="Dự án lắp đặt điện"
-                className="w-full h-32 object-cover rounded mb-3"
-              />
-              <h4 className="font-medium">Lắp đặt hệ thống điện nhà 3 tầng</h4>
-              <p className="text-sm text-muted-foreground mt-1">
-                Thiết kế và lắp đặt hoàn chỉnh hệ thống điện cho ngôi nhà 3 tầng tại Quận 7
-              </p>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge variant="secondary">Hoàn thành</Badge>
-                <span className="text-xs text-muted-foreground">Tháng 11, 2023</span>
-              </div>
-            </div>
-
-            <div className="border rounded-lg p-4">
-              <img
-                src="/placeholder-i72fx.png"
-                alt="Dự án sửa chữa điện"
-                className="w-full h-32 object-cover rounded mb-3"
-              />
-              <h4 className="font-medium">Sửa chữa hệ thống điện văn phòng</h4>
-              <p className="text-sm text-muted-foreground mt-1">
-                Khắc phục sự cố và nâng cấp hệ thống điện cho tòa nhà văn phòng 5 tầng
-              </p>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge variant="secondary">Hoàn thành</Badge>
-                <span className="text-xs text-muted-foreground">Tháng 10, 2023</span>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  const ConnectionsSection = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Kết nối (1,234)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                name: "Trần Thị Lan",
-                role: "Thợ nước chuyên nghiệp",
-                location: "Quận 3, TP.HCM",
-                avatar: "/vietnamese-user.png",
-              },
-              {
-                name: "Lê Văn Hùng",
-                role: "Thợ sửa chữa điện lạnh",
-                location: "Quận 7, TP.HCM",
-                avatar: "/vietnamese-user.png",
-              },
-              {
-                name: "Phạm Thị Mai",
-                role: "Thợ vệ sinh chuyên nghiệp",
-                location: "Quận 1, TP.HCM",
-                avatar: "/vietnamese-user.png",
-              },
-              {
-                name: "Nguyễn Văn Đức",
-                role: "Thợ xây dựng",
-                location: "Quận 5, TP.HCM",
-                avatar: "/vietnamese-user.png",
-              },
-            ].map((connection, index) => (
-              <div key={`connection-${index}`} className="flex items-center gap-3 p-4 border border-gray-100 rounded-lg hover:border-emerald-200 transition-colors">
-                <Avatar className="w-12 h-12 border-2 border-emerald-100">
-                  <AvatarImage src={connection.avatar || "/placeholder.svg"} alt={connection.name} />
-                  <AvatarFallback className="bg-emerald-50 text-emerald-700 font-medium">
-                    {connection.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm text-gray-900 truncate">{connection.name}</h4>
-                  <p className="text-xs text-gray-600 truncate mb-1">{connection.role}</p>
-                  <p className="text-xs text-gray-500 flex items-center gap-1">
-                    <MapPin className="w-3 h-3 flex-shrink-0" />
-                    <span className="truncate">{connection.location}</span>
-                  </p>
+// Reusable Section Component using VibrantCard
+const Section = ({ icon, title, onEdit, children }) => (
+    <VibrantCard as={motion.div} variants={containerVariants}>
+        <VibrantCardHeader>
+            <div className="flex items-center gap-3">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-50 to-green-100">
+                    {icon}
                 </div>
-                <Button variant="outline" size="sm" className="border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                  <MessageCircle className="w-4 h-4" />
-                </Button>
-              </div>
+                <h2 className="text-xl font-bold text-slate-800">{title}</h2>
+            </div>
+            {onEdit && <Button variant="ghost" size="icon" onClick={onEdit}><Pencil className="w-4 h-4 text-slate-500" /></Button>}
+        </VibrantCardHeader>
+        <VibrantCardContent>
+            {children}
+        </VibrantCardContent>
+    </VibrantCard>
+);
+
+// Individual Sections rebuilt with the new style
+const AnalyticsSection = ({ data }) => (
+    <Section icon={<BarChart2 className="w-6 h-6 text-emerald-600" />} title="Private Analytics">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[ { icon: Eye, label: "Profile Views", value: data.profileViews, color: "blue" }, { icon: MessageSquare, label: "Post Impressions", value: data.postImpressions, color: "purple" }, { icon: Search, label: "Search Appearances", value: data.searchAppearances, color: "amber" } ].map(stat => (
+                <div key={stat.label} className={`bg-gradient-to-br from-${stat.color}-50 to-${stat.color}-100 p-4 rounded-xl text-center shadow-inner border border-${stat.color}-200/50`}>
+                    <stat.icon className={`w-8 h-8 mx-auto mb-2 text-${stat.color}-600`} />
+                    <p className={`text-3xl font-bold text-${stat.color}-800`}>{stat.value}</p>
+                    <p className="text-sm text-slate-600 font-medium">{stat.label}</p>
+                </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <ProfileHeader user={userData} isOwnProfile={true} />
         </div>
-        <ContributionStats />
+    </Section>
+);
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-white border border-gray-200 rounded-lg p-1 mb-6">
-            <TabsTrigger 
-              value="about" 
-              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
-            >
-              <span className="hidden sm:inline">Giới thiệu</span>
-              <span className="sm:hidden">GT</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="skills" 
-              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
-            >
-              <span className="hidden sm:inline">Kỹ năng</span>
-              <span className="sm:hidden">KN</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="contributions" 
-              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
-            >
-              <span className="hidden sm:inline">Đóng góp</span>
-              <span className="sm:hidden">ĐG</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="connections" 
-              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
-            >
-              <span className="hidden sm:inline">Kết nối</span>
-              <span className="sm:hidden">KN</span>
-            </TabsTrigger>
-          </TabsList>
+const TrustAndReliabilitySection = ({ data }) => (
+    <Section icon={<Sparkles className="w-6 h-6 text-emerald-600" />} title="Trust & Reliability">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+             {[ { icon: Clock, label: "Response Time", value: data.responseTime, color: "emerald" }, { icon: CheckCircle, label: "Job Completion", value: `${data.completionRate}%`, color: "blue" }, { icon: Users, label: "Neighbor Endorsements", value: data.neighborEndorsements, color: "purple" } ].map(stat => (
+                <div key={stat.label} className="text-center">
+                    <div className={`flex items-center justify-center gap-2 text-${stat.color}-600`}>
+                        <stat.icon className="w-6 h-6" />
+                        <span className="text-2xl font-bold">{stat.value}</span>
+                    </div>
+                    <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
+                </div>
+            ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+            {data.verifications.map(v => <Badge key={v} className="bg-green-100 text-green-800 border border-green-200/80 text-sm py-1 px-3 shadow-sm"><ShieldCheck className="w-4 h-4 mr-2"/>{v}</Badge>)}
+        </div>
+    </Section>
+);
 
-          <TabsContent value="about" className="mt-0">
-            <AboutSection />
-          </TabsContent>
+const AboutSection = ({ about }) => (
+    <Section icon={<Briefcase className="w-6 h-6 text-emerald-600" />} title="About" onEdit={() => {}}>
+        <p className="text-slate-700 text-base leading-relaxed whitespace-pre-line">{about}</p>
+    </Section>
+);
 
-          <TabsContent value="skills" className="mt-0">
-            <div className="space-y-6">
-              {skillsData.map((skill) => (
-                <SkillCard 
-                  key={skill.id} 
-                  skill={skill} 
-                  isOwnProfile={true} 
-                />
-              ))}
-            </div>
-          </TabsContent>
+const ExperienceSection = ({ experiences }) => (
+    <Section icon={<Briefcase className="w-6 h-6 text-emerald-600" />} title="Experience" onEdit={() => {}}>
+        <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:bg-slate-200">
+            {experiences.map((exp) => (
+                <div key={exp.id} className="relative flex gap-5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md z-10">
+                        <Briefcase className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-slate-800">{exp.title}</h3>
+                        <p className="font-semibold text-md text-slate-600">{exp.company}</p>
+                        <p className="text-sm text-slate-400 mb-2">{exp.dates}</p>
+                        <p className="text-slate-700">{exp.description}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </Section>
+);
 
-          <TabsContent value="contributions" className="mt-0">
-            <div className="space-y-6">
-              <PortfolioGallery items={portfolioData} isOwnProfile={true} />
-              <ContributionsSection />
-            </div>
-          </TabsContent>
+const EducationSection = ({ educations }) => (
+    <Section icon={<GraduationCap className="w-6 h-6 text-emerald-600" />} title="Education" onEdit={() => {}}>
+        <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:bg-slate-200">
+            {educations.map((edu) => (
+                <div key={edu.id} className="relative flex gap-5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white shadow-md z-10">
+                        <GraduationCap className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-slate-800">{edu.school}</h3>
+                        <p className="font-semibold text-md text-slate-600">{edu.degree}</p>
+                        <p className="text-sm text-slate-400">{edu.dates}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </Section>
+);
 
-          <TabsContent value="connections" className="mt-0">
-            <ConnectionsSection />
-          </TabsContent>
-        </Tabs>
-      </div>
+const SkillsSection = ({ skills }) => (
+    <Section icon={<Star className="w-6 h-6 text-emerald-600" />} title="Skills" onEdit={() => {}}>
+        <div className="flex flex-wrap gap-3">
+            {skills.map((skill) => (
+                <div key={skill.id} className="bg-slate-100 border border-slate-200 rounded-lg px-4 py-2">
+                    <h3 className="font-semibold text-slate-800">{skill.name}</h3>
+                    <p className="text-sm text-emerald-600 font-medium">{skill.endorsements} endorsements</p>
+                </div>
+            ))}
+        </div>
+    </Section>
+);
+
+export default function ProfilePage() {
+  return (
+    <div className="min-h-screen bg-slate-100">
+      <main className="max-w-4xl mx-auto p-4">
+        <motion.div 
+            className="space-y-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+          <ProfileHeader user={userData} isOwnProfile={true} />
+          <AnalyticsSection data={analyticsData} />
+          <TrustAndReliabilitySection data={trustData} />
+          <AboutSection about={aboutData} />
+          <ExperienceSection experiences={experienceData} />
+          <EducationSection educations={educationData} />
+          <SkillsSection skills={skillsData} />
+        </motion.div>
+      </main>
     </div>
   )
 }

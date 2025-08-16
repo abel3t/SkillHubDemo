@@ -99,35 +99,20 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - Smart sorting with relevance, quality, location, speed, and price categories
 **UX Goal**: Users find exactly what they need effortlessly with Amazon-level search quality
 
-#### Unified Search Experience - PERFECT UX SOLUTION ✅
-**Problem Solved**: Users were confused about having two separate search experiences
-**Solution**: Progressive search flow that smoothly transitions from discovery to advanced search
-**Implementation**:
-- SearchBar now redirects to /search page when users perform searches
-- Added "Advanced Search" buttons throughout the helpers page
-- Breadcrumb navigation shows user journey (Discovery → Advanced Search → Results)
-- Welcome message explains advanced search capabilities
-- Smooth transitions with visual indicators and hints
-**User Flow**: Discovery (/helpers) → Search (/search) → Results → Back to Discovery
-**Result**: Unified, intuitive search experience that guides users naturally
-
-#### Home Feed & Discovery System - IMPLEMENTED ✅
-**Target**: Instant skill discovery that feels engaging
-**Components Built**:
-- SkillFeed - Main feed component with search, categories, and helper listings
-- HelperCard - Beautiful cards with multiple variants (default, compact, featured)
-- SearchBar - Instant search with autocomplete and popular suggestions (already existed)
-- CategoryGrid - Visual category browsing with trending indicators
-- QuickFilters - Advanced filtering with sliders, badges, and presets
-**Focus Areas**:
-- Beautiful cards with hover effects and smooth transitions
-- Smooth scrolling with infinite scroll capability
-- Instant search results with real-time filtering
-- Community highlights with success stories and tips
-- Multiple view modes (grid, list, compact)
-- Quick filter presets for common searches
-**UX Goal**: Users find help in under 30 seconds with engaging discovery experience
-**Status**: Fully implemented and integrated into /helpers page
+#### Home Feed & Discovery System - CURRENT FOCUS
+**Target**: A rich, engaging community feed, similar to LinkedIn or Facebook.
+**Core Idea**: The homepage (`/`) should be the central hub for all community activity, encouraging interaction and connection, not just transactions.
+**Feed Content Strategy**: The feed should be a mix of different content types to keep it dynamic and interesting:
+- **Community Posts**: Questions, success stories, tips, and general updates from users.
+- **Helper Listings**: Profiles of skilled individuals should be intelligently mixed into the feed.
+- **Community Highlights**: Featuring top-rated helpers, successful projects, or trending skills.
+**Components to Build/Refine**:
+- **`PostComposer`**: A rich text editor for creating engaging posts.
+- **`FeedPost`**: A component to display various post types (text, images, links).
+- **`InfiniteScrollFeed`**: To ensure a seamless browsing experience.
+- **`HelperCard`**: To showcase helpers within the feed.
+**UX Goal**: Create a vibrant, endlessly scrollable "village square" where users feel connected to their community, can ask for help, share their successes, and discover skilled neighbors organically.
+**Status**: The basic `InfiniteScrollFeed` is implemented on the homepage. The next step is to enrich the feed with diverse content types and a robust post composer. The `/helpers` page will remain a dedicated directory for finding skilled individuals.
 
 #### Privacy & Location Controls - CRITICAL PRIVACY FEATURE
 - **General location only by default** - Users can only see general location (ward, city, district) of other users
