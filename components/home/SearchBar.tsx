@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,6 +16,7 @@ import {
   X,
   TrendingUp,
   Users,
+  ArrowRight,
 } from "lucide-react"
 
 interface SearchResult {
@@ -41,6 +43,7 @@ export function SearchBar({
   placeholder = "Bạn cần giúp gì? (VD: sửa điện, dạy piano, dọn nhà...)",
   showFilters = true 
 }: SearchBarProps) {
+  const router = useRouter()
   const [query, setQuery] = useState("")
   const [isSearching, setIsSearching] = useState(false)
   const [showResults, setShowResults] = useState(false)
@@ -115,15 +118,14 @@ export function SearchBar({
   }
 
   const handleResultClick = (result: SearchResult) => {
-    setQuery(result.name)
-    setShowResults(false)
-    onSearch(result.name)
+    // Navigate to search page with the selected result
+    router.push(`/search?q=${encodeURIComponent(result.name)}`)
   }
 
   const handleSearch = () => {
     if (query.trim()) {
-      setShowResults(false)
-      onSearch(query.trim())
+      // Navigate to search page with the query
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
     }
   }
 
@@ -191,14 +193,17 @@ export function SearchBar({
           </div>
         </div>
 
-        {/* Filters Button */}
+        {/* Advanced Search Button */}
         {showFilters && (
           <Button
             variant="outline"
             size="sm"
-            className="absolute -right-16 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500"
+            onClick={() => router.push('/search')}
+            className="absolute -right-20 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all duration-200 group"
+            title="Tìm kiếm nâng cao"
           >
-            <Filter className="w-4 h-4" />
+            <Filter className="w-4 h-4 mr-1" />
+            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
           </Button>
         )}
       </div>
@@ -308,7 +313,18 @@ export function SearchBar({
       {/* Popular Searches */}
       {!showResults && !query && (
         <div className="mt-4">
-          <p className="text-sm text-gray-600 mb-3">Tìm kiếm phổ biến:</p>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm text-gray-600">Tìm kiếm phổ biến:</p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push('/search')}
+              className="text-emerald-600 hover:text-emerald-700 text-xs flex items-center gap-1"
+            >
+              Tìm kiếm nâng cao
+              <ArrowRight className="w-3 h-3" />
+            </Button>
+          </div>
           <div className="flex flex-wrap gap-2">
             {popularSearches.map((search, index) => (
               <Badge
@@ -316,14 +332,16 @@ export function SearchBar({
                 variant="secondary"
                 className="cursor-pointer hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
                 onClick={() => {
-                  setQuery(search)
-                  onSearch(search)
+                  router.push(`/search?q=${encodeURIComponent(search)}`)
                 }}
               >
                 {search}
               </Badge>
             ))}
           </div>
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            💡 <strong>Mẹo:</strong> Nhập từ khóa và nhấn Enter để chuyển sang tìm kiếm nâng cao
+          </p>
         </div>
       )}
     </div>

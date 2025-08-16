@@ -84,6 +84,51 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - Professional yet friendly communication tone
 **UX Goal**: Seamless communication that encourages professional networking while maintaining approachable, friendly interactions
 
+#### Search & Filters System - TARGET FEATURE
+**Target**: Amazon-quality search and filtering experience
+**Components Built**:
+- AdvancedSearch - Instant search with autocomplete, recent searches, and popular categories
+- FilterPanel - Comprehensive filtering with location, price, rating, skills, experience, and verification
+- SortOptions - Multiple sorting options with beautiful transitions and category grouping
+- ResultsList - Rich result cards with smooth animations, availability status, and action buttons
+**Focus Areas**:
+- Instant results with debounced search (200ms response time)
+- Intuitive filters with real-time application and active count indicators
+- Beautiful transitions and animations for all interactions
+- Comprehensive result cards showing ratings, distance, pricing, specialties, and recent work
+- Smart sorting with relevance, quality, location, speed, and price categories
+**UX Goal**: Users find exactly what they need effortlessly with Amazon-level search quality
+
+#### Unified Search Experience - PERFECT UX SOLUTION ✅
+**Problem Solved**: Users were confused about having two separate search experiences
+**Solution**: Progressive search flow that smoothly transitions from discovery to advanced search
+**Implementation**:
+- SearchBar now redirects to /search page when users perform searches
+- Added "Advanced Search" buttons throughout the helpers page
+- Breadcrumb navigation shows user journey (Discovery → Advanced Search → Results)
+- Welcome message explains advanced search capabilities
+- Smooth transitions with visual indicators and hints
+**User Flow**: Discovery (/helpers) → Search (/search) → Results → Back to Discovery
+**Result**: Unified, intuitive search experience that guides users naturally
+
+#### Home Feed & Discovery System - IMPLEMENTED ✅
+**Target**: Instant skill discovery that feels engaging
+**Components Built**:
+- SkillFeed - Main feed component with search, categories, and helper listings
+- HelperCard - Beautiful cards with multiple variants (default, compact, featured)
+- SearchBar - Instant search with autocomplete and popular suggestions (already existed)
+- CategoryGrid - Visual category browsing with trending indicators
+- QuickFilters - Advanced filtering with sliders, badges, and presets
+**Focus Areas**:
+- Beautiful cards with hover effects and smooth transitions
+- Smooth scrolling with infinite scroll capability
+- Instant search results with real-time filtering
+- Community highlights with success stories and tips
+- Multiple view modes (grid, list, compact)
+- Quick filter presets for common searches
+**UX Goal**: Users find help in under 30 seconds with engaging discovery experience
+**Status**: Fully implemented and integrated into /helpers page
+
 #### Privacy & Location Controls - CRITICAL PRIVACY FEATURE
 - **General location only by default** - Users can only see general location (ward, city, district) of other users
 - **No exact location visibility** - Precise GPS coordinates are NEVER shown without explicit permission

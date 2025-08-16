@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { SearchBar } from "./SearchBar"
 import { CategoryGrid } from "./CategoryGrid"
 import { QuickFilters } from "./QuickFilters"
@@ -24,6 +25,7 @@ import {
   Heart,
   MessageSquare,
   ThumbsUp,
+  Search,
 } from "lucide-react"
 
 interface SkillFeedProps {
@@ -32,6 +34,7 @@ interface SkillFeedProps {
 }
 
 export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list" | "compact">("grid")
@@ -296,6 +299,17 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter className="w-4 h-4" />
+            </Button>
+
+            {/* Advanced Search Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push('/search')}
+              className="bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Tìm kiếm nâng cao
             </Button>
           </div>
         </div>
