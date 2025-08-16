@@ -10,6 +10,7 @@ import {
   Bell,
   MessageCircle,
   Users,
+  Map,
 } from "lucide-react"
 
 export default function SkillHubApp() {
@@ -177,7 +178,19 @@ export default function SkillHubApp() {
                   <Users className="w-4 h-4 mr-2" />
                   Tìm chuyên gia
                 </Button>
-                <Button variant="ghost" className="text-gray-600 hover:text-emerald-600">
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-600 hover:text-emerald-600"
+                  onClick={() => router.push('/map')}
+                >
+                  <Map className="w-4 h-4 mr-2" />
+                  Bản đồ
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-600 hover:text-emerald-600"
+                  onClick={() => router.push('/messages')}
+                >
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Tin nhắn
                 </Button>

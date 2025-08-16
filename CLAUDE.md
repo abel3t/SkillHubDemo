@@ -65,10 +65,31 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - **Certificates & verification** - Multiple trust signals (community + formal verification)
 
 #### Communication & Safety
-- **Real-time chat** - Built-in messaging system
+- **Real-time chat** - Built-in messaging system with WhatsApp-quality experience
 - **Direct negotiation** - No platform fees, users set their own prices
 - **Simple verification** - Keep verification lightweight for beginner app (avoid complex ID verification initially)
 - **Community-based trust** - Rely primarily on user reviews and endorsements
+
+#### Real-time Chat System - TARGET FEATURE
+**Target**: WhatsApp-quality messaging experience
+**Components to Build**:
+- ChatInterface - Main chat container with message history and input
+- MessageBubble - Individual message styling with sender/receiver distinction
+- MediaUpload - Photo, video, document sharing capabilities
+- QuickReplies - Predefined response buttons for common messages
+**Focus Areas**:
+- Smooth animations and transitions between messages
+- Instant delivery with real-time updates
+- Rich media support (images, videos, documents)
+- Professional yet friendly communication tone
+**UX Goal**: Seamless communication that encourages professional networking while maintaining approachable, friendly interactions
+
+#### Privacy & Location Controls - CRITICAL PRIVACY FEATURE
+- **General location only by default** - Users can only see general location (ward, city, district) of other users
+- **No exact location visibility** - Precise GPS coordinates are NEVER shown without explicit permission
+- **Opt-in location sharing** - Users must explicitly allow and send exact location to specific people when they need help
+- **Location control in chat/settings** - Users control location sharing through chat interface or privacy settings
+- **Privacy-first approach** - Location visibility is user-controlled, not platform-controlled
 
 #### Discovery & Matching
 - **Map view** - Visual discovery of nearby skilled people
