@@ -7,128 +7,153 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
+import { ProfileHeader } from "@/components/profile/ProfileHeader"
+import { SkillCard } from "@/components/profile/SkillCard"
+import { PortfolioGallery } from "@/components/profile/PortfolioGallery"
 import {
-  MapPin,
-  Star,
-  Users,
   Award,
   Calendar,
   Phone,
   Mail,
-  Camera,
-  MessageCircle,
-  UserPlus,
-  Share2,
-  MoreHorizontal,
   Briefcase,
   GraduationCap,
-  ThumbsUp,
+  MapPin,
   MessageSquare,
+  ThumbsUp,
+  MessageCircle,
 } from "lucide-react"
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("about")
 
-  const ProfileHeader = () => (
-    <div className="relative">
-      {/* Cover Photo */}
-      <div className="h-80 bg-gradient-to-r from-primary to-secondary rounded-lg relative overflow-hidden">
-        <img src="/vietnamese-workshop.png" alt="Cover" className="w-full h-full object-cover" />
-        <Button
-          variant="secondary"
-          size="sm"
-          className="absolute top-4 right-4 bg-black/20 hover:bg-black/30 text-white border-0"
-        >
-          <Camera className="w-4 h-4 mr-2" />
-          Chỉnh sửa ảnh bìa
-        </Button>
-      </div>
+  // Mock data - would come from API/database
+  const userData = {
+    name: "Nguyễn Văn Minh",
+    title: "Thợ điện chuyên nghiệp",
+    location: "Quận 1, TP.HCM",
+    connections: 1234,
+    rating: 4.9,
+    reviews: 156,
+    isVerified: true,
+    coverImage: "/vietnamese-workshop.png",
+    avatarImage: "/vietnamese-user.png",
+    isOnline: true,
+  }
 
-      {/* Profile Info */}
-      <div className="relative px-6 pb-6">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between -mt-20 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end gap-4">
-            {/* Profile Picture */}
-            <div className="relative">
-              <Avatar className="w-40 h-40 border-4 border-background shadow-lg">
-                <AvatarImage src="/vietnamese-user.png" alt="Nguyễn Văn Minh" />
-                <AvatarFallback className="text-2xl font-semibold">NM</AvatarFallback>
-              </Avatar>
-              <Button
-                size="sm"
-                className="absolute bottom-2 right-2 rounded-full w-8 h-8 p-0 bg-muted hover:bg-muted/80"
-              >
-                <Camera className="w-4 h-4" />
-              </Button>
-            </div>
+  const skillsData = [
+    {
+      id: "1",
+      name: "Lắp đặt hệ thống điện",
+      level: 95,
+      experienceYears: 8,
+      endorsements: [
+        {
+          id: "1",
+          name: "Trần Thị Lan",
+          avatar: "/vietnamese-user.png",
+          role: "Chủ nhà",
+          message: "Anh Minh làm việc rất chuyên nghiệp, tỉ mỉ và an toàn. Hệ thống điện nhà tôi hoạt động hoàn hảo.",
+          date: "2 tuần trước"
+        },
+        {
+          id: "2",
+          name: "Lê Văn Hùng",
+          avatar: "/vietnamese-user.png",
+          role: "Kỹ sư xây dựng",
+          message: "Kinh nghiệm và kỹ năng của anh Minh rất xuất sắc. Đã hợp tác nhiều dự án thành công.",
+          date: "1 tháng trước"
+        }
+      ],
+      hourlyRate: { min: 150, max: 300 },
+      projects: 89,
+      rating: 4.9,
+      availability: "available" as const,
+      certifications: ["Chứng chỉ Thợ điện bậc cao", "An toàn lao động"],
+      trending: true
+    },
+    {
+      id: "2",
+      name: "Sửa chữa thiết bị điện",
+      level: 90,
+      experienceYears: 6,
+      endorsements: [
+        {
+          id: "3",
+          name: "Phạm Thị Mai",
+          avatar: "/vietnamese-user.png",
+          role: "Chủ cửa hàng",
+          message: "Sửa chữa nhanh chóng, giá cả hợp lý. Rất hài lòng với dịch vụ.",
+          date: "3 ngày trước"
+        }
+      ],
+      hourlyRate: { min: 100, max: 200 },
+      projects: 67,
+      rating: 4.8,
+      availability: "available" as const,
+      certifications: ["Chứng chỉ sửa chữa điện"]
+    }
+  ]
 
-            {/* User Info */}
-            <div className="flex-1 md:mb-4">
-              <h1 className="text-3xl font-bold text-foreground">Nguyễn Văn Minh</h1>
-              <p className="text-lg text-muted-foreground">Thợ điện chuyên nghiệp</p>
-              <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  Quận 1, TP.HCM
-                </div>
-                <div className="flex items-center gap-1">
-                  <Users className="w-4 h-4" />
-                  1,234 kết nối
-                </div>
-                <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  4.9 (156 đánh giá)
-                </div>
-              </div>
-            </div>
-          </div>
+  const portfolioData = [
+    {
+      id: "1",
+      title: "Lắp đặt hệ thống điện nhà 3 tầng",
+      description: "Thiết kế và lắp đặt hoàn chỉnh hệ thống điện cho ngôi nhà 3 tầng tại Quận 7. Bao gồm hệ thống chiếu sáng, ổ cắm, hệ thống an toàn và tự động hóa thông minh.",
+      images: ["/electrical-installation.png", "/placeholder-i72fx.png"],
+      category: "Điện dân dụng",
+      location: "Quận 7, TP.HCM",
+      completedDate: "Tháng 11, 2023",
+      duration: "2 tuần",
+      clientName: "Gia đình Trần Văn A",
+      rating: 5,
+      feedback: "Công việc được thực hiện rất chuyên nghiệp, đúng tiến độ và chất lượng cao. Anh Minh tư vấn rất tận tâm.",
+      tags: ["Điện dân dụng", "Tự động hóa", "An toàn điện"],
+      achievements: [
+        "Hoàn thành đúng tiến độ cam kết",
+        "Tiết kiệm 15% chi phí so với dự toán ban đầu",
+        "Hệ thống đạt chứng nhận an toàn điện"
+      ]
+    },
+    {
+      id: "2",
+      title: "Sửa chữa hệ thống điện văn phòng",
+      description: "Khắc phục sự cố và nâng cấp hệ thống điện cho tòa nhà văn phòng 5 tầng, đảm bảo hoạt động ổn định 24/7.",
+      images: ["/placeholder-i72fx.png"],
+      category: "Điện công nghiệp",
+      location: "Quận 1, TP.HCM",
+      completedDate: "Tháng 10, 2023",
+      duration: "1 tuần",
+      rating: 4.8,
+      feedback: "Xử lý sự cố nhanh chóng, không ảnh hưởng đến hoạt động kinh doanh.",
+      tags: ["Điện công nghiệp", "Sửa chữa khẩn cấp"]
+    }
+  ]
 
-          {/* Action Buttons */}
-          <div className="flex gap-2 mt-4 md:mt-0">
-            <Button variant="outline" size="sm">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Nhắn tin
-            </Button>
-            <Button size="sm">
-              <UserPlus className="w-4 h-4 mr-2" />
-              Kết nối
-            </Button>
-            <Button variant="outline" size="sm">
-              <Share2 className="w-4 h-4" />
-            </Button>
-            <Button variant="outline" size="sm">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
 
   const ContributionStats = () => (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <Card className="text-center">
-        <CardContent className="p-4">
-          <div className="text-2xl font-bold text-primary">156</div>
-          <div className="text-sm text-muted-foreground">Dự án hoàn thành</div>
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <Card className="text-center border border-gray-100 hover:border-emerald-200 transition-colors">
+        <CardContent className="p-4 sm:p-6">
+          <div className="text-2xl sm:text-3xl font-bold text-emerald-600 mb-1">156</div>
+          <div className="text-xs sm:text-sm text-gray-600 font-medium">Dự án hoàn thành</div>
         </CardContent>
       </Card>
-      <Card className="text-center">
-        <CardContent className="p-4">
-          <div className="text-2xl font-bold text-primary">4.9</div>
-          <div className="text-sm text-muted-foreground">Đánh giá trung bình</div>
+      <Card className="text-center border border-gray-100 hover:border-blue-200 transition-colors">
+        <CardContent className="p-4 sm:p-6">
+          <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">4.9</div>
+          <div className="text-xs sm:text-sm text-gray-600 font-medium">Đánh giá trung bình</div>
         </CardContent>
       </Card>
-      <Card className="text-center">
-        <CardContent className="p-4">
-          <div className="text-2xl font-bold text-primary">89</div>
-          <div className="text-sm text-muted-foreground">Lời khuyên chia sẻ</div>
+      <Card className="text-center border border-gray-100 hover:border-amber-200 transition-colors">
+        <CardContent className="p-4 sm:p-6">
+          <div className="text-2xl sm:text-3xl font-bold text-amber-600 mb-1">89</div>
+          <div className="text-xs sm:text-sm text-gray-600 font-medium">Lời khuyên chia sẻ</div>
         </CardContent>
       </Card>
-      <Card className="text-center">
-        <CardContent className="p-4">
-          <div className="text-2xl font-bold text-primary">1.2k</div>
-          <div className="text-sm text-muted-foreground">Kết nối</div>
+      <Card className="text-center border border-gray-100 hover:border-purple-200 transition-colors">
+        <CardContent className="p-4 sm:p-6">
+          <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-1">1.2k</div>
+          <div className="text-xs sm:text-sm text-gray-600 font-medium">Kết nối</div>
         </CardContent>
       </Card>
     </div>
@@ -136,15 +161,15 @@ export default function ProfilePage() {
 
   const AboutSection = () => (
     <div className="space-y-6">
-      <Card>
+      <Card className="border border-gray-100">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Briefcase className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-gray-900">
+            <Briefcase className="w-5 h-5 text-emerald-600" />
             Giới thiệu
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-gray-700 leading-relaxed text-base">
             Thợ điện chuyên nghiệp với hơn 8 năm kinh nghiệm trong lĩnh vực điện dân dụng và công nghiệp. Chuyên về lắp
             đặt hệ thống điện, sửa chữa thiết bị điện, và tư vấn an toàn điện. Cam kết mang đến dịch vụ chất lượng cao
             và an toàn tuyệt đối cho khách hàng.
@@ -152,29 +177,29 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border border-gray-100">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-gray-900">
+            <MapPin className="w-5 h-5 text-emerald-600" />
             Thông tin liên hệ
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-center gap-3">
-            <Phone className="w-4 h-4 text-muted-foreground" />
-            <span>0901 234 567</span>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <Phone className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span className="text-gray-700 font-medium">0901 234 567</span>
           </div>
-          <div className="flex items-center gap-3">
-            <Mail className="w-4 h-4 text-muted-foreground" />
-            <span>minh.nguyen@email.com</span>
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <Mail className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span className="text-gray-700 font-medium break-all">minh.nguyen@email.com</span>
           </div>
-          <div className="flex items-center gap-3">
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            <span>Quận 1, Thành phố Hồ Chí Minh</span>
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <MapPin className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span className="text-gray-700 font-medium">Quận 1, Thành phố Hồ Chí Minh</span>
           </div>
-          <div className="flex items-center gap-3">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
-            <span>Tham gia từ tháng 3, 2022</span>
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <Calendar className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span className="text-gray-700 font-medium">Tham gia từ tháng 3, 2022</span>
           </div>
         </CardContent>
       </Card>
@@ -369,25 +394,25 @@ export default function ProfilePage() {
                 avatar: "/vietnamese-user.png",
               },
             ].map((connection, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
-                <Avatar className="w-12 h-12">
+              <div key={`connection-${index}`} className="flex items-center gap-3 p-4 border border-gray-100 rounded-lg hover:border-emerald-200 transition-colors">
+                <Avatar className="w-12 h-12 border-2 border-emerald-100">
                   <AvatarImage src={connection.avatar || "/placeholder.svg"} alt={connection.name} />
-                  <AvatarFallback>
+                  <AvatarFallback className="bg-emerald-50 text-emerald-700 font-medium">
                     {connection.name
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1">
-                  <h4 className="font-medium text-sm">{connection.name}</h4>
-                  <p className="text-xs text-muted-foreground">{connection.role}</p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1">
-                    <MapPin className="w-3 h-3" />
-                    {connection.location}
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-sm text-gray-900 truncate">{connection.name}</h4>
+                  <p className="text-xs text-gray-600 truncate mb-1">{connection.role}</p>
+                  <p className="text-xs text-gray-500 flex items-center gap-1">
+                    <MapPin className="w-3 h-3 flex-shrink-0" />
+                    <span className="truncate">{connection.location}</span>
                   </p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-emerald-200 text-emerald-600 hover:bg-emerald-50">
                   <MessageCircle className="w-4 h-4" />
                 </Button>
               </div>
@@ -399,32 +424,69 @@ export default function ProfilePage() {
   )
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-4">
-        <ProfileHeader />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <ProfileHeader user={userData} isOwnProfile={true} />
+        </div>
         <ContributionStats />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="about">Giới thiệu</TabsTrigger>
-            <TabsTrigger value="skills">Kỹ năng</TabsTrigger>
-            <TabsTrigger value="contributions">Đóng góp</TabsTrigger>
-            <TabsTrigger value="connections">Kết nối</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 bg-white border border-gray-200 rounded-lg p-1 mb-6">
+            <TabsTrigger 
+              value="about" 
+              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
+            >
+              <span className="hidden sm:inline">Giới thiệu</span>
+              <span className="sm:hidden">GT</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="skills" 
+              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
+            >
+              <span className="hidden sm:inline">Kỹ năng</span>
+              <span className="sm:hidden">KN</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="contributions" 
+              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
+            >
+              <span className="hidden sm:inline">Đóng góp</span>
+              <span className="sm:hidden">ĐG</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="connections" 
+              className="data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 text-sm font-medium"
+            >
+              <span className="hidden sm:inline">Kết nối</span>
+              <span className="sm:hidden">KN</span>
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="about" className="mt-6">
+          <TabsContent value="about" className="mt-0">
             <AboutSection />
           </TabsContent>
 
-          <TabsContent value="skills" className="mt-6">
-            <SkillsSection />
+          <TabsContent value="skills" className="mt-0">
+            <div className="space-y-6">
+              {skillsData.map((skill) => (
+                <SkillCard 
+                  key={skill.id} 
+                  skill={skill} 
+                  isOwnProfile={true} 
+                />
+              ))}
+            </div>
           </TabsContent>
 
-          <TabsContent value="contributions" className="mt-6">
-            <ContributionsSection />
+          <TabsContent value="contributions" className="mt-0">
+            <div className="space-y-6">
+              <PortfolioGallery items={portfolioData} isOwnProfile={true} />
+              <ContributionsSection />
+            </div>
           </TabsContent>
 
-          <TabsContent value="connections" className="mt-6">
+          <TabsContent value="connections" className="mt-0">
             <ConnectionsSection />
           </TabsContent>
         </Tabs>

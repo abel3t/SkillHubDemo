@@ -81,6 +81,32 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - **Skill-based groups** - Professional communities for knowledge sharing
 - **Monthly highlights** - Featured helpers and success stories
 
+### UI Development Strategy - MEMORIZED TARGET
+
+**CRITICAL GOAL**: Create UI/UX that is BETTER than LinkedIn and Facebook
+- **UX Priority**: User experience is MORE important than visual design
+- **Component Strategy**: Build reusable React components for scalability
+- **Focus**: PERFECT UI/UX for MVP to attract users to build profiles
+- **Why Users Join**: App is FREE + PERFECT UX + improves customer opportunities
+
+#### Step 1: Enhanced Profile Pages - CURRENT FOCUS
+**Target**: LinkedIn-quality BUT BETTER - users feel PROUD to share their profile
+**Components to Build**:
+- ProfileHeader - Cover photo, avatar, name, location, verification status
+- SkillCard - Individual skill with endorsement count, level indicator, pricing
+- PortfolioGallery - Before/after photos, work samples, certificates  
+- EndorsementSection - Community recommendations with photos and testimonials
+- AvailabilityCalendar - Clean calendar showing free time slots
+- PricingCard - Transparent pricing for different services
+
+**UX Standards**:
+- Visual hierarchy BETTER than LinkedIn
+- Professional look but approachable 
+- Easy skill editing (inline editing)
+- Smooth animations and transitions
+- Mobile-first responsive design
+- Load time under 2 seconds
+
 ### UI/UX Principles
 - **Minimalist design** with compressed layouts for maximum content visibility
 - **Non-tech-savvy user focus** with simplified navigation
