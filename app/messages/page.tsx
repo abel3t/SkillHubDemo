@@ -1,17 +1,63 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowLeft, Search, Send, Paperclip, Smile, MessageCircle, Phone, Video, MoreVertical } from "lucide-react"
+import { ArrowLeft, Search, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { ChatInterface } from "@/components/chat/ChatInterface"
 import { useRouter } from "next/navigation"
 
 export default function MessagesPage() {
   const router = useRouter()
   const [selectedChat, setSelectedChat] = useState(1)
-  const [newMessage, setNewMessage] = useState("")
+  const currentUserId = "user123"
+  
+  const initialMessages = [
+    {
+      id: "1",
+      senderId: "minh123",
+      content: "Chào anh, em có thể giúp anh sửa điện tại nhà được không?",
+      timestamp: new Date(Date.now() - 240 * 60000), // 4 hours ago
+      type: 'text' as const,
+      status: 'read' as const,
+    },
+    {
+      id: "2",
+      senderId: "user123",
+      content: "Chào em, anh cần sửa ổ cắm điện ở phòng khách. Em có rảnh không?",
+      timestamp: new Date(Date.now() - 235 * 60000),
+      type: 'text' as const,
+      status: 'read' as const,
+    },
+    {
+      id: "3",
+      senderId: "minh123",
+      content: "Dạ có ạ. Em có thể đến xem và báo giá cho anh. Địa chỉ anh ở đâu?",
+      timestamp: new Date(Date.now() - 230 * 60000),
+      type: 'text' as const,
+      status: 'read' as const,
+    },
+    {
+      id: "4",
+      senderId: "user123",
+      content: "Anh ở 123 Nguyễn Huệ, Quận 1. Em có thể đến chiều mai được không?",
+      timestamp: new Date(Date.now() - 225 * 60000),
+      type: 'text' as const,
+      status: 'read' as const,
+    },
+    {
+      id: "5",
+      senderId: "minh123",
+      content: "Tôi có thể đến sửa vào chiều mai được không?",
+      timestamp: new Date(Date.now() - 30 * 60000), // 30 minutes ago
+      type: 'text' as const,
+      status: 'delivered' as const,
+    },
+  ]
+  
+  const [messages, setMessages] = useState(initialMessages)
 
   const conversations = [
     {
@@ -49,40 +95,56 @@ export default function MessagesPage() {
     },
   ]
 
-  const messages = [
-    {
-      id: 1,
-      sender: "other",
-      content: "Chào anh, em có thể giúp anh sửa điện tại nhà được không?",
-      time: "09:00",
-    },
-    {
-      id: 2,
-      sender: "me",
-      content: "Chào em, anh cần sửa ổ cắm điện ở phòng khách. Em có rảnh không?",
-      time: "09:05",
-    },
-    {
-      id: 3,
-      sender: "other",
-      content: "Dạ có ạ. Em có thể đến xem và báo giá cho anh. Địa chỉ anh ở đâu?",
-      time: "09:10",
-    },
-    {
-      id: 4,
-      sender: "me",
-      content: "Anh ở 123 Nguyễn Huệ, Quận 1. Em có thể đến chiều mai được không?",
-      time: "09:15",
-    },
-    {
-      id: 5,
-      sender: "other",
-      content: "Tôi có thể đến sửa vào chiều mai được không?",
-      time: "10:30",
-    },
-  ]
-
   const selectedConversation = conversations.find((c) => c.id === selectedChat)
+  
+  const handleSendMessage = (content: string, type: 'text' | 'image' | 'video' | 'document', mediaUrl?: string) => {
+    const newMessage = {
+      id: Date.now().toString(),
+      senderId: currentUserId,
+      content,
+      timestamp: new Date(),
+      type,
+      mediaUrl,
+      status: 'sending' as const,
+    }
+    
+    setMessages(prev => [...prev, newMessage])
+    
+    // Simulate message delivery
+    setTimeout(() => {
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === newMessage.id 
+            ? { ...msg, status: 'delivered' as const }
+            : msg
+        )
+      )
+    }, 1000)
+  }
+  
+  const handleSendLocation = (location: { latitude: number; longitude: number; address: string }) => {
+    const newMessage = {
+      id: Date.now().toString(),
+      senderId: currentUserId,
+      content: 'Đã chia sẻ vị trí',
+      timestamp: new Date(),
+      type: 'location' as const,
+      location,
+      status: 'sending' as const,
+    }
+    
+    setMessages(prev => [...prev, newMessage])
+    
+    setTimeout(() => {
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === newMessage.id 
+            ? { ...msg, status: 'delivered' as const }
+            : msg
+        )
+      )
+    }, 1000)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -165,111 +227,23 @@ export default function MessagesPage() {
           {/* Chat Area */}
           <div className={`flex-1 flex flex-col bg-white ${selectedChat ? "block" : "hidden lg:flex"}`}>
             {selectedConversation && (
-              <>
-                {/* Chat Header */}
-                <div className="p-4 border-b flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSelectedChat(0)}>
-                      <ArrowLeft className="h-5 w-5" />
-                    </Button>
-
-                    <div className="relative">
-                      <Avatar className="h-10 w-10">
-                        <AvatarImage src={selectedConversation.avatar || "/placeholder.svg"} />
-                        <AvatarFallback>{selectedConversation.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      {selectedConversation.online && (
-                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-                      )}
-                    </div>
-
-                    <div>
-                      <h3 className="font-medium">{selectedConversation.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className="text-xs">
-                          {selectedConversation.skill}
-                        </Badge>
-                        <span className="text-xs text-gray-500">
-                          {selectedConversation.online ? "Đang hoạt động" : "Offline"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">
-                      <Phone className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <Video className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.sender === "me" ? "justify-end" : "justify-start"}`}
-                    >
-                      <div
-                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
-                          message.sender === "me" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-900"
-                        }`}
-                      >
-                        <p className="text-sm">{message.content}</p>
-                        <p className={`text-xs mt-1 ${message.sender === "me" ? "text-blue-100" : "text-gray-500"}`}>
-                          {message.time}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Input Area */}
-                <div className="p-4 border-t">
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">
-                      <Paperclip className="h-4 w-4" />
-                    </Button>
-
-                    <div className="flex-1 relative">
-                      <Input
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Nhập tin nhắn..."
-                        className="pr-10"
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter" && newMessage.trim()) {
-                            // Handle send message
-                            setNewMessage("")
-                          }
-                        }}
-                      />
-                      <Button variant="ghost" size="sm" className="absolute right-1 top-1/2 transform -translate-y-1/2">
-                        <Smile className="h-4 w-4" />
-                      </Button>
-                    </div>
-
-                    <Button
-                      size="sm"
-                      disabled={!newMessage.trim()}
-                      onClick={() => {
-                        if (newMessage.trim()) {
-                          // Handle send message
-                          setNewMessage("")
-                        }
-                      }}
-                    >
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </>
+              <ChatInterface
+                contact={{
+                  id: selectedConversation.id.toString(),
+                  name: selectedConversation.name,
+                  avatar: selectedConversation.avatar,
+                  skill: selectedConversation.skill,
+                  online: selectedConversation.online,
+                  location: selectedConversation.location,
+                  verified: true,
+                  lastSeen: selectedConversation.online ? undefined : new Date(Date.now() - 60000)
+                }}
+                messages={messages}
+                currentUserId={currentUserId}
+                onSendMessage={handleSendMessage}
+                onSendLocation={handleSendLocation}
+                onBackClick={() => setSelectedChat(0)}
+              />
             )}
             {!selectedConversation && (
               <div className="flex-1 flex items-center justify-center">
