@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated color tokens to match Facebook-style profile design brief */
+  --background: #ffffff; /* Page background */
+  --foreground: #475569; /* Main text color */
+  --card: #f1f5f9; /* Card background */
+  --card-foreground: #475569; /* Card text color */
+  --popover: #ffffff; /* Popover background */
+  --popover-foreground: #475569; /* Popover text color */
+  --primary: #059669; /* Primary buttons and highlights - emerald-600 */
+  --primary-foreground: #ffffff; /* Text on primary buttons */
+  --secondary: #10b981; /* Secondary accents */
+  --secondary-foreground: #ffffff; /* Text on secondary components */
+  --muted: #f1f5f9; /* Muted text */
+  --muted-foreground: #475569; /* Muted text color */
+  --accent: #10b981; /* Accents for links and highlights */
+  --accent-foreground: #ffffff; /* Text on accent backgrounds */
+  --destructive: #dc2626; /* Error messages or warnings */
+  --destructive-foreground: #ffffff; /* Text on destructive backgrounds */
+  --border: #e5e7eb; /* Card and section borders */
+  --input: #ffffff; /* Input field background */
+  --ring: #059669; /* Focus ring color */
+  --chart-1: #059669; /* Chart color 1 */
+  --chart-2: #10b981; /* Chart color 2 */
+  --chart-3: #dc2626; /* Chart color 3 */
+  --chart-4: #a16207; /* Chart color 4 */
+  --chart-5: #f59e0b; /* Chart color 5 */
+  --radius: 0.5rem; /* Corner rounding for cards and buttons */
+  --sidebar: #f1f5f9; /* Sidebar background */
+  --sidebar-foreground: #475569; /* Sidebar text color */
+  --sidebar-primary: #059669; /* Sidebar primary color */
+  --sidebar-primary-foreground: #ffffff; /* Sidebar primary text */
+  --sidebar-accent: #10b981; /* Sidebar accent color */
+  --sidebar-accent-foreground: #ffffff; /* Sidebar accent text */
+  --sidebar-border: #e5e7eb; /* Sidebar border color */
+  --sidebar-ring: #059669; /* Sidebar focus ring */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.678 0.151 41.116); /* Orange as primary in dark mode */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.235 0.094 258.338); /* Blue as secondary in dark mode */
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.678 0.151 41.116); /* Orange accent */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.678 0.151 41.116 / 0.5);
+  --chart-1: oklch(0.678 0.151 41.116);
+  --chart-2: oklch(0.235 0.094 258.338);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.678 0.151 41.116);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.678 0.151 41.116 / 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Updated custom Vietnamese font support and responsive utilities */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
+
+@layer base {
+  .font-heading {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+  }
+
+  .font-body {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 400;
+  }
+}
+
+/* Custom responsive breakpoints for SkillHub */
+@media (max-width: 768px) {
+  .mobile-nav {
+    @apply fixed bottom-0 left-0 right-0 z-50;
+  }
+}
