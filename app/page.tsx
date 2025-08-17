@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bookmark, Star, PlusCircle, ExternalLink } from "lucide-react"
+import { Bookmark, Star, PlusCircle, ExternalLink, Award } from "lucide-react"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { PostComposer } from "@/components/home/PostComposer"
 import { InfiniteScrollFeed } from "@/components/home/InfiniteScrollFeed"
 import { Navigation } from "@/components/shared/Navigation"
+import { ReputationCard } from "@/components/community/ReputationCard"
+import { ContributionPoints, UserBadge } from "@/lib/contribution-system"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,6 +30,46 @@ const suggestedHelpers = [
 const communityMembers = [
     { id: 1, name: "Nguyễn Văn Minh", title: "Có thể giúp về điện", location: "Quận 1, TP.HCM", distance: "0.8km", rating: 4.9, helpedPeople: 127, contributions: 23, avatar: "/vietnamese-technician.png", verified: true, isOnline: true, responseTime: "2 phút", neighborEndorsements: 8, lastActive: "Vừa xong", availableToHelp: true, connectionStatus: "not_connected", canHelp: ["Điện dân dụng", "Sửa chữa thiết bị", "Tư vấn an toàn điện"], recentShare: "Chia sẻ cách kiểm tra an toàn hệ thống điện trong mùa mưa", mutualConnections: ["Trần Văn A", "Nguyễn Thị B"], helpedThisMonth: 12, personality: "Nhiệt tình, kiên nhẫn" },
     { id: 2, name: "Lê Thị Hương", title: "Dạy Piano & chia sẻ âm nhạc", location: "Quận 3, TP.HCM", distance: "1.1km", rating: 4.9, helpedPeople: 89, contributions: 45, avatar: "/vietnamese-user.png", verified: true, isOnline: true, responseTime: "5 phút", neighborEndorsements: 15, lastActive: "Đang hoạt động", availableToHelp: true, connectionStatus: "not_connected", canHelp: ["Piano cơ bản", "Lý thuyết âm nhạc", "Hướng dẫn mua đàn", "Tư vấn học nhạc"], recentShare: "Chia sẻ cách luyện ngón tay linh hoạt cho người mới bắt đầu", mutualConnections: ["Trần Văn C", "Nguyễn Thị D"], helpedThisMonth: 8, personality: "Tận tâm, dễ gần" },
+];
+
+// Current user's community data
+const currentUserPoints: ContributionPoints = {
+  total: 1456,
+  breakdown: {
+    reviews: 89,
+    photos: 150,
+    tutorials: 300,
+    mentoring: 600,
+    verification: 120,
+    moderation: 97,
+    events: 100,
+    localIntelligence: 0
+  }
+}
+
+const currentUserBadges: UserBadge[] = [
+  {
+    id: "1",
+    name: "Good Neighbor",
+    nameVi: "Người hàng xóm",
+    description: "Active in local neighborhood",
+    descriptionVi: "Tích cực trong khu phố địa phương",
+    icon: "🏠",
+    earnedAt: new Date("2023-12-10"),
+    category: "cultural",
+    rarity: "common"
+  },
+  {
+    id: "2",
+    name: "Community Teacher",
+    nameVi: "Thầy giáo cộng đồng",
+    description: "Teaches skills to others",
+    descriptionVi: "Dạy kỹ năng cho người khác",
+    icon: "📚",
+    earnedAt: new Date("2024-01-15"),
+    category: "cultural",
+    rarity: "rare"
+  }
 ];
 
 const Page = () => {
@@ -65,6 +107,56 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="border-t border-slate-200/80 p-2 bg-slate-50/80"><Button variant="ghost" className="w-full justify-start text-sm text-slate-700 font-semibold"><Bookmark className="w-4 h-4 mr-2 text-slate-500"/> Mục đã lưu</Button></div>
+              </VibrantCard>
+
+              {/* Community Champions Card */}
+              <ReputationCard 
+                points={currentUserPoints}
+                badges={currentUserBadges}
+                compact={true}
+                onViewProfile={() => router.push('/profile')}
+              />
+
+              {/* Badges Showcase */}
+              <VibrantCard>
+                <VibrantCardHeader>
+                  <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-emerald-600" />
+                    Huy hiệu của bạn
+                  </h3>
+                </VibrantCardHeader>
+                <VibrantCardContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    {currentUserBadges.map((badge) => (
+                      <div 
+                        key={badge.id}
+                        className="text-center p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                        title={badge.descriptionVi}
+                      >
+                        <div className="text-2xl mb-1">{badge.icon}</div>
+                        <div className="text-xs font-medium text-gray-700 truncate">
+                          {badge.nameVi}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {currentUserBadges.length === 0 && (
+                    <div className="text-center py-4">
+                      <div className="text-gray-400 text-sm">Chưa có huy hiệu nào</div>
+                      <div className="text-xs text-gray-500 mt-1">Đóng góp cộng đồng để nhận huy hiệu đầu tiên!</div>
+                    </div>
+                  )}
+                  
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full mt-3 text-emerald-600 hover:text-emerald-700"
+                    onClick={() => router.push('/profile')}
+                  >
+                    Xem tất cả huy hiệu
+                  </Button>
+                </VibrantCardContent>
               </VibrantCard>
 
               <VibrantCard>

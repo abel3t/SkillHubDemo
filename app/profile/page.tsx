@@ -10,9 +10,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { ProfileHeader } from "@/components/profile/ProfileHeader"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { Navigation } from "@/components/shared/Navigation"
+import { ReputationCard } from "@/components/community/ReputationCard"
+import { ContributionTracker } from "@/components/community/ContributionTracker"
+import { CommunityLeaderboard } from "@/components/community/CommunityLeaderboard"
+import { ContributionPoints, UserBadge } from "@/lib/contribution-system"
 import { 
     Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
-    Sparkles, Heart, MessageCircle, Share2, TrendingUp, Award, Activity
+    Sparkles, Heart, MessageCircle, Share2
 } from "lucide-react"
 
 // MOCK DATA
@@ -57,25 +61,6 @@ const userPostsData = [
   }
 ];
 
-// Community Contributions Data
-const contributionsData = {
-  totalContributions: 127,
-  helpedPeople: 89,
-  postsShared: 45,
-  answersGiven: 32,
-  badges: [
-    { id: 1, name: "Mentor Xuất sắc", description: "Đã giúp đỡ hơn 50 người", icon: "🏆", color: "bg-yellow-100 text-yellow-800" },
-    { id: 2, name: "Chia sẻ tích cực", description: "Đã đăng hơn 40 bài viết hữu ích", icon: "📝", color: "bg-blue-100 text-blue-800" },
-    { id: 3, name: "Phản hồi nhanh", description: "Luôn phản hồi trong vòng 5 phút", icon: "⚡", color: "bg-green-100 text-green-800" },
-    { id: 4, name: "Được tin tưởng", description: "Có 20+ lời chứng thực từ hàng xóm", icon: "🤝", color: "bg-purple-100 text-purple-800" }
-  ],
-  recentActivities: [
-    { type: "helped", description: "Đã giúp Nguyễn Văn A học piano cơ bản", time: "2 giờ trước" },
-    { type: "posted", description: "Chia sẻ mẹo luyện ngón tay linh hoạt", time: "2 giờ trước" },
-    { type: "answered", description: "Trả lời câu hỏi về lý thuyết âm nhạc", time: "1 ngày trước" },
-    { type: "endorsed", description: "Nhận chứng thực từ Trần Thị B", time: "2 ngày trước" }
-  ]
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -261,77 +246,75 @@ const UserPostsSection = ({ posts }) => {
   );
 };
 
-// Community Contributions Section
-const CommunityContributionsSection = ({ contributions }) => (
-  <Section icon={<Award className="w-6 h-6 text-emerald-600" />} title="Đóng góp cộng đồng">
-    <div className="space-y-6">
-      {/* Statistics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: "Tổng đóng góp", value: contributions.totalContributions, icon: TrendingUp, color: "emerald" },
-          { label: "Người đã giúp", value: contributions.helpedPeople, icon: Users, color: "blue" },
-          { label: "Bài viết chia sẻ", value: contributions.postsShared, icon: MessageCircle, color: "purple" },
-          { label: "Câu trả lời", value: contributions.answersGiven, icon: CheckCircle, color: "orange" }
-        ].map((stat) => (
-          <div key={stat.label} className="text-center p-4 bg-slate-50 rounded-xl">
-            <div className={`flex items-center justify-center gap-2 text-${stat.color}-600`}>
-              <stat.icon className="w-5 h-5" />
-              <span className="text-2xl font-bold">{stat.value}</span>
-            </div>
-            <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
-          </div>
-        ))}
-      </div>
 
-      {/* Achievement Badges */}
-      <div>
-        <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-          <Award className="w-5 h-5 text-emerald-600" />
-          Huy hiệu thành tích
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {contributions.badges.map((badge) => (
-            <div key={badge.id} className={`${badge.color} rounded-xl p-4 border border-opacity-20`}>
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{badge.icon}</span>
-                <div>
-                  <h4 className="font-semibold">{badge.name}</h4>
-                  <p className="text-sm opacity-80">{badge.description}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+// Community Champions Data
+const userContributionPoints: ContributionPoints = {
+  total: 2890,
+  breakdown: {
+    reviews: 200,
+    photos: 180,
+    tutorials: 600,
+    mentoring: 1500,
+    verification: 210,
+    moderation: 100,
+    events: 100,
+    localIntelligence: 0
+  }
+}
 
-      {/* Recent Activities */}
-      <div>
-        <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-          <Activity className="w-5 h-5 text-emerald-600" />
-          Hoạt động gần đây
-        </h3>
-        <div className="space-y-3">
-          {contributions.recentActivities.map((activity, index) => (
-            <div key={`${activity.type}-${index}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-              <div className={`w-2 h-2 rounded-full ${
-                activity.type === 'helped' ? 'bg-green-500' :
-                activity.type === 'posted' ? 'bg-blue-500' :
-                activity.type === 'answered' ? 'bg-purple-500' :
-                'bg-orange-500'
-              }`} />
-              <div className="flex-1">
-                <p className="text-sm text-slate-700">{activity.description}</p>
-                <p className="text-xs text-slate-500">{activity.time}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </Section>
-);
+const userBadges: UserBadge[] = [
+  {
+    id: "1",
+    name: "Community Teacher",
+    nameVi: "Thầy giáo cộng đồng",
+    description: "Teaches skills to others",
+    descriptionVi: "Dạy kỹ năng cho người khác",
+    icon: "📚",
+    earnedAt: new Date("2024-01-15"),
+    category: "cultural",
+    rarity: "rare"
+  },
+  {
+    id: "2", 
+    name: "Trusted Person",
+    nameVi: "Người tin cậy",
+    description: "Consistently reliable contributions",
+    descriptionVi: "Đóng góp đáng tin cậy nhất quán",
+    icon: "🌟",
+    earnedAt: new Date("2024-02-20"),
+    category: "quality",
+    rarity: "legendary"
+  },
+  {
+    id: "3",
+    name: "Good Neighbor", 
+    nameVi: "Người hàng xóm",
+    description: "Active in local neighborhood",
+    descriptionVi: "Tích cực trong khu phố địa phương",
+    icon: "🏠",
+    earnedAt: new Date("2023-12-10"),
+    category: "cultural", 
+    rarity: "common"
+  }
+]
 
 export default function ProfilePage() {
+  const [contributionPoints, setContributionPoints] = useState<ContributionPoints>(userContributionPoints)
+  const [badges, setBadges] = useState<UserBadge[]>(userBadges)
+
+  const handlePointsUpdate = (newPoints: ContributionPoints) => {
+    setContributionPoints(newPoints)
+  }
+
+  const handleBadgeEarned = (newBadge: Omit<UserBadge, 'earnedAt'>) => {
+    const badge: UserBadge = {
+      ...newBadge,
+      id: Date.now().toString(),
+      earnedAt: new Date()
+    }
+    setBadges(prev => [...prev, badge])
+  }
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Navigation />
@@ -369,9 +352,32 @@ export default function ProfilePage() {
             <UserPostsSection posts={userPostsData} />
           </motion.div>
 
-          {/* Community Contributions */}
+          {/* Community Champions System */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div variants={containerVariants}>
+              <ReputationCard 
+                points={contributionPoints}
+                badges={badges}
+                onViewProfile={() => console.log('View full profile')}
+              />
+            </motion.div>
+            <motion.div variants={containerVariants}>
+              <ContributionTracker 
+                currentPoints={contributionPoints}
+                currentBadges={badges}
+                onPointsUpdate={handlePointsUpdate}
+                onBadgeEarned={handleBadgeEarned}
+              />
+            </motion.div>
+          </div>
+
+          {/* Community Leaderboard */}
           <motion.div variants={containerVariants}>
-            <CommunityContributionsSection contributions={contributionsData} />
+            <CommunityLeaderboard 
+              users={[]}
+              currentUserId="2"
+              wardName="Quận 3"
+            />
           </motion.div>
 
           {/* Experience & Education Side by Side */}
