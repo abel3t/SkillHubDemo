@@ -116,7 +116,12 @@ export const Navigation = () => {
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-6">
-            <h1 className="text-2xl font-bold text-emerald-600">SkillHub</h1>
+            <h1 
+              className="text-2xl font-bold text-emerald-600 cursor-pointer hover:text-emerald-700 transition-colors"
+              onClick={() => router.push('/')}
+            >
+              SkillHub
+            </h1>
           </div>
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100">
