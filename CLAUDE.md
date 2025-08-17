@@ -21,13 +21,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Architecture Overview
 
 ### Project Structure
-- **`app/`**: Next.js App Router pages and layouts
+- **`app/`**: Next.js App Router pages and layouts (4 core pages - "less is more")
   - `layout.tsx`: Root layout with Vietnamese locale and custom fonts
-  - `page.tsx`: Main community feed with LinkedIn-style interface
-  - `messages/`: Messaging functionality
-  - `profile/`: User profile pages
+  - `page.tsx`: Professional networking feed with LinkedIn-style interface
+  - `search/`: Unified smart discovery with list/map/grid view modes
+  - `profile/`: Profile building & management (PRIMARY FOCUS)
+  - `messages/`: Professional communication
 - **`components/`**: Reusable UI components
   - `ui/`: Complete shadcn/ui component library with Radix UI primitives
+  - `search/`: Unified discovery components (list, map, grid views)
   - `theme-provider.tsx`: Theme management
 - **`lib/`**: Utility functions (cn helper for Tailwind class merging)
 - **`hooks/`**: Custom React hooks (mobile detection, toast notifications)
@@ -84,20 +86,22 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - Professional yet friendly communication tone
 **UX Goal**: Seamless communication that encourages professional networking while maintaining approachable, friendly interactions
 
-#### Search & Filters System - TARGET FEATURE
-**Target**: Amazon-quality search and filtering experience
+#### Unified Smart Discovery System - TARGET FEATURE
+**Target**: LinkedIn-quality professional discovery with location intelligence
+**Core Philosophy**: Profile building is PRIMARY, smart location-aware discovery is secondary
 **Components Built**:
-- AdvancedSearch - Instant search with autocomplete, recent searches, and popular categories
-- FilterPanel - Comprehensive filtering with location, price, rating, skills, experience, and verification
-- SortOptions - Multiple sorting options with beautiful transitions and category grouping
-- ResultsList - Rich result cards with smooth animations, availability status, and action buttons
+- UnifiedSearch - Single intelligent search combining profiles, skills, and location
+- ViewModeToggle - Seamless switching between list/map/grid views in one page
+- ProfileCard - LinkedIn-style rich profile cards with location context
+- LocationIntelligence - Smart distance filtering and Vietnamese transport awareness
+- SmartRanking - Profile quality + skill match first, then distance + availability
 **Focus Areas**:
-- Instant results with debounced search (200ms response time)
-- Intuitive filters with real-time application and active count indicators
-- Beautiful transitions and animations for all interactions
-- Comprehensive result cards showing ratings, distance, pricing, specialties, and recent work
-- Smart sorting with relevance, quality, location, speed, and price categories
-**UX Goal**: Users find exactly what they need effortlessly with Amazon-level search quality
+- Profile-first discovery with location enhancement (not location-first)
+- Intelligent ranking: Skills → Endorsements → Distance → Availability
+- Multiple view modes without page changes (list/map/grid toggle)
+- Vietnamese-specific features (motorbike travel times, neighborhood awareness)
+- Rich professional profiles always shown, regardless of view mode
+**UX Goal**: Users discover skilled professionals through rich profiles, enhanced by smart location context
 
 #### Home Feed & Discovery System - CURRENT FOCUS
 **Target**: A rich, engaging community feed, similar to LinkedIn or Facebook.
@@ -112,7 +116,7 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - **`InfiniteScrollFeed`**: To ensure a seamless browsing experience.
 - **`HelperCard`**: To showcase helpers within the feed.
 **UX Goal**: Create a vibrant, endlessly scrollable "village square" where users feel connected to their community, can ask for help, share their successes, and discover skilled neighbors organically.
-**Status**: The basic `InfiniteScrollFeed` is implemented on the homepage. The next step is to enrich the feed with diverse content types and a robust post composer. The `/helpers` page will remain a dedicated directory for finding skilled individuals.
+**Status**: The basic `InfiniteScrollFeed` is implemented on the homepage. The next step is to enrich the feed with diverse content types and a robust post composer. Professional discovery is unified in `/search` with multiple view modes.
 
 #### Privacy & Location Controls - CRITICAL PRIVACY FEATURE
 - **General location only by default** - Users can only see general location (ward, city, district) of other users
@@ -121,11 +125,27 @@ This is **SkillHub**, a community-focused social network for Vietnamese users to
 - **Location control in chat/settings** - Users control location sharing through chat interface or privacy settings
 - **Privacy-first approach** - Location visibility is user-controlled, not platform-controlled
 
-#### Discovery & Matching
-- **Map view** - Visual discovery of nearby skilled people
-- **Smart filters** - By skill, distance, availability, price range, rating
-- **Skill categories** - Visual icons for easy browsing
-- **Recommendations** - Based on similar user hiring patterns
+#### Unified Discovery & Matching Philosophy
+- **Profile-first approach** - Professional profiles drive discovery, not location
+- **Multiple view modes** - List (LinkedIn-style), Map (geographical), Grid (compact)
+- **Smart ranking algorithm** - Skills + Endorsements + Profile Quality → Distance + Availability
+- **Location enhancement** - Adds context without dominating search results
+- **Vietnamese-optimized** - Motorbike travel times, neighborhood clustering
+- **One search system** - No separate pages, unified intelligent discovery
+
+#### App Architecture - Simplified Navigation
+**Core Philosophy**: "Less is more" - 4 essential pages only
+**Navigation Structure**:
+1. **`/` (Home)** - Professional networking feed, community posts, profile building nudges
+2. **`/search`** - Unified smart discovery with list/map/grid toggle in ONE page
+3. **`/profile`** - Profile building & management (PRIMARY FOCUS)
+4. **`/messages`** - Professional communication
+
+**Key Decision**: Consolidated `/map` and `/search` into single intelligent search page
+- Eliminates redundancy and confusion
+- Maintains all functionality in unified interface
+- Supports multiple view modes without page switching
+- Profile-first approach with location intelligence enhancement
 
 #### Community Building
 - **Local community feed** - Tips sharing, thank you posts, before/after photos

@@ -54,7 +54,9 @@ const mockResults = [
       rating: 5.0,
       comment: "Làm việc rất chuyên nghiệp và nhanh chóng",
       date: "2 ngày trước"
-    }]
+    }],
+    lat: 10.7769 + (Math.random() - 0.5) * 0.01,
+    lng: 106.7009 + (Math.random() - 0.5) * 0.01
   },
   {
     id: "2",
@@ -83,7 +85,9 @@ const mockResults = [
       rating: 4.9,
       comment: "Cô dạy rất tận tâm và kiên nhẫn",
       date: "1 tuần trước"
-    }]
+    }],
+    lat: 10.7756 + (Math.random() - 0.5) * 0.01,
+    lng: 106.6878 + (Math.random() - 0.5) * 0.01
   },
   {
     id: "3",
@@ -112,7 +116,9 @@ const mockResults = [
       rating: 4.8,
       comment: "Sửa nhanh, giá cả hợp lý",
       date: "3 ngày trước"
-    }]
+    }],
+    lat: 10.7364 + (Math.random() - 0.5) * 0.01,
+    lng: 106.7217 + (Math.random() - 0.5) * 0.01
   },
   {
     id: "4",
@@ -141,7 +147,9 @@ const mockResults = [
       rating: 4.7,
       comment: "Làm việc sạch sẽ và tỉ mỉ",
       date: "5 ngày trước"
-    }]
+    }],
+    lat: 10.7745 + (Math.random() - 0.5) * 0.01,
+    lng: 106.7006 + (Math.random() - 0.5) * 0.01
   }
 ]
 
@@ -155,7 +163,7 @@ export default function SearchPage() {
   const [filteredResults, setFilteredResults] = useState(mockResults)
   const [loading, setLoading] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
+  const [viewMode, setViewMode] = useState<'list' | 'grid' | 'map'>('list')
   const [currentSort, setCurrentSort] = useState('relevance')
   const [currentDirection, setCurrentDirection] = useState<'asc' | 'desc'>('desc')
   const [currentPage, setCurrentPage] = useState(1)
@@ -282,12 +290,13 @@ export default function SearchPage() {
           const priceB = b.price ? (b.price.min + b.price.max) / 2 : 0
           comparison = priceA - priceB
           break
-        default:
-          // Relevance - featured first, then trending, then rating
-          const scoreA = (a.featured ? 1000 : 0) + (a.trending ? 100 : 0) + a.rating * 10
-          const scoreB = (b.featured ? 1000 : 0) + (b.trending ? 100 : 0) + b.rating * 10
+        default: {
+          // LinkedIn-style relevance: Profile Quality + Skills + Endorsements first, then location
+          const scoreA = (a.endorsements || 0) * 10 + (a.featured ? 500 : 0) + (a.verified ? 200 : 0) + a.rating * 50 + (a.trending ? 100 : 0)
+          const scoreB = (b.endorsements || 0) * 10 + (b.featured ? 500 : 0) + (b.verified ? 200 : 0) + b.rating * 50 + (b.trending ? 100 : 0)
           comparison = scoreB - scoreA
           return comparison
+        }
       }
       
       return direction === 'asc' ? comparison : -comparison
@@ -334,11 +343,11 @@ export default function SearchPage() {
   const totalResults = filteredResults.length
   const totalPages = Math.ceil(totalResults / 10)
 
-  // Popular searches and quick stats
+  // Vietnamese-focused community stats
   const quickStats = [
     { label: 'Chuyên gia', value: '2,340+', icon: Users, color: 'text-blue-600' },
     { label: 'Đánh giá', value: '4.8⭐', icon: Star, color: 'text-yellow-600' },
-    { label: 'Phản hồi TB', value: '< 10 phút', icon: Clock, color: 'text-green-600' },
+    { label: 'Thời gian xe máy', value: '< 15 phút', icon: Clock, color: 'text-green-600' },
     { label: 'Kỹ năng', value: '120+', icon: Zap, color: 'text-purple-600' },
   ]
 
@@ -354,10 +363,10 @@ export default function SearchPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.push('/helpers')}
+              onClick={() => router.push('/')}
               className="text-emerald-600 hover:text-emerald-700 p-0 h-auto font-normal"
             >
-              Khám phá cộng đồng
+              Trang chủ
             </Button>
             <span>/</span>
             <span className="text-gray-900 font-medium">Tìm kiếm nâng cao</span>
@@ -373,11 +382,11 @@ export default function SearchPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.push('/helpers')}
+              onClick={() => router.push('/')}
               className="flex-shrink-0 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 self-start"
             >
               <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Về trang khám phá</span>
+              <span className="hidden sm:inline">Về trang chủ</span>
               <span className="sm:hidden">Quay lại</span>
             </Button>
             
@@ -387,29 +396,29 @@ export default function SearchPage() {
                 onSearch={handleSearch}
                 onFilterToggle={() => setShowFilters(true)}
                 initialQuery={query}
-                placeholder="Tìm kỹ năng, chuyên gia hoặc dịch vụ..."
+                placeholder="Tìm chuyên gia piano, thợ điện, giáo viên tiếng Anh..."
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Welcome Message for Advanced Search - Mobile optimized */}
+      {/* Professional Discovery Welcome - LinkedIn Style */}
       {!query && (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-6">
           <div className="bg-gradient-to-r from-emerald-50 to-blue-50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-emerald-200">
             <div className="text-center">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <Search className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">Tìm kiếm nâng cao</h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 max-w-md mx-auto px-2">
-                Sử dụng bộ lọc chi tiết và tùy chọn sắp xếp để tìm chính xác người bạn cần
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">Khám phá cộng đồng chuyên gia</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 max-w-lg mx-auto px-2">
+                Tìm kiếm và kết nối với các chuyên gia địa phương. Xây dựng mạng lưới chuyên nghiệp và tìm kiếm sự hỗ trợ từ cộng đồng.
               </p>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
-                <Badge className="bg-emerald-100 text-emerald-700 text-xs">9+ bộ lọc</Badge>
-                <Badge className="bg-blue-100 text-blue-700 text-xs">10+ tùy chọn sắp xếp</Badge>
-                <Badge className="bg-purple-100 text-purple-700 text-xs">Kết quả chi tiết</Badge>
+                <Badge className="bg-emerald-100 text-emerald-700 text-xs">Hồ sơ chuyên nghiệp</Badge>
+                <Badge className="bg-blue-100 text-blue-700 text-xs">Kết nối địa phương</Badge>
+                <Badge className="bg-purple-100 text-purple-700 text-xs">Đánh giá thực tế</Badge>
               </div>
             </div>
           </div>
@@ -437,11 +446,11 @@ export default function SearchPage() {
           <div className="space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between mb-4 sm:mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
-                {query ? `Kết quả cho "${query}"` : 'Tất cả chuyên gia'}
+                {query ? `Chuyên gia cho "${query}"` : 'Khám phá chuyên gia trong cộng đồng'}
               </h1>
               {totalResults > 0 && (
                 <Badge variant="secondary" className="px-2 sm:px-3 py-1 self-start">
-                  {totalResults.toLocaleString()} kết quả
+                  {totalResults.toLocaleString()} hồ sơ
                 </Badge>
               )}
             </div>
@@ -474,6 +483,14 @@ export default function SearchPage() {
                   className="px-2 sm:px-3"
                 >
                   <Grid3X3 className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'map' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('map')}
+                  className="px-2 sm:px-3"
+                >
+                  <MapPin className="w-4 h-4" />
                 </Button>
               </div>
 

@@ -26,6 +26,7 @@ import {
   CheckCircle2,
   Eye
 } from "lucide-react"
+import { InteractiveMap } from "@/components/map/InteractiveMap"
 import { cn } from "@/lib/utils"
 
 interface SearchResult {
@@ -63,6 +64,8 @@ interface SearchResult {
     comment: string
     date: string
   }[]
+  lat?: number
+  lng?: number
 }
 
 interface ResultsListProps {
@@ -72,7 +75,7 @@ interface ResultsListProps {
   totalResults: number
   currentPage: number
   totalPages: number
-  viewMode: 'list' | 'grid'
+  viewMode: 'list' | 'grid' | 'map'
   onResultClick: (result: SearchResult) => void
   onContact: (result: SearchResult) => void
   onFavorite: (result: SearchResult) => void
@@ -217,12 +220,39 @@ export function ResultsList({
         <span>Trang {currentPage} / {totalPages}</span>
       </div>
 
-      {/* Results Grid/List */}
-      <div className={cn(
-        viewMode === 'grid' 
-          ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-          : "space-y-4"
-      )}>
+      {/* Results Grid/List/Map */}
+      {viewMode === 'map' ? (
+        <div className="h-[600px] rounded-lg overflow-hidden border border-gray-200">
+          <InteractiveMap
+            helpers={results.filter(r => r.lat && r.lng).map(result => ({
+              id: parseInt(result.id),
+              name: result.name,
+              title: result.title || '',
+              location: result.location,
+              distance: result.distance || '',
+              rating: result.rating,
+              avatar: result.avatar || '/placeholder.svg',
+              canHelp: result.specialties,
+              lat: result.lat!,
+              lng: result.lng!,
+              verified: result.verified,
+              isOnline: result.online
+            }))}
+            center={[10.7769, 106.7009]} // TP.HCM center
+            zoom={12}
+            onHelperSelect={(helper) => {
+              const result = results.find(r => r.id === helper.id.toString())
+              if (result) onResultClick(result)
+            }}
+            className="w-full h-full"
+          />
+        </div>
+      ) : (
+        <div className={cn(
+          viewMode === 'grid' 
+            ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+            : "space-y-4"
+        )}>
         {results.map((result, index) => {
           const isFavorited = favorites.has(result.id)
           const isAnimating = animatingItems.has(result.id)
@@ -462,7 +492,8 @@ export function ResultsList({
             </Card>
           )
         })}
-      </div>
+        </div>
+      )}
 
       {/* Load More */}
       {currentPage < totalPages && (

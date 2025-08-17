@@ -4,8 +4,11 @@ import React, { useState, useRef, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { motion, AnimatePresence } from "framer-motion"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useGlobalSearch } from "@/hooks/use-global-search"
+import { GlobalSearchModal } from "@/components/search/GlobalSearchModal"
 import { 
   Bell, 
   Search,
@@ -15,7 +18,8 @@ import {
   HelpCircle,
   Crown,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Command
 } from "lucide-react"
 
 export const Navigation = () => {
@@ -24,6 +28,7 @@ export const Navigation = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const avatarRef = useRef<HTMLButtonElement>(null);
+  const { isSearchOpen, openSearch, closeSearch } = useGlobalSearch();
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -43,8 +48,7 @@ export const Navigation = () => {
   }, []);
 
   const navItems = [
-    { path: "/helpers", label: "Chuyên gia", icon: "Users" },
-    { path: "/map", label: "Bản đồ", icon: "MapPin" },
+    { path: "/search", label: "Khám phá", icon: "Search" },
   ];
 
   const dropdownItems = [
@@ -111,6 +115,7 @@ export const Navigation = () => {
   };
 
   return (
+    <>
     <header className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -130,7 +135,35 @@ export const Navigation = () => {
             </button>
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100">
+            {/* Global Search Button */}
+            <Button 
+              variant="ghost" 
+              className={`hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                isActive('/search') 
+                  ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' 
+                  : 'text-slate-500 hover:bg-slate-100'
+              }`}
+              onClick={openSearch}
+            >
+              <Search className="w-4 h-4" />
+              <span className="text-sm">Tìm kiếm...</span>
+              <Badge variant="outline" className="text-xs ml-2 hidden lg:flex">
+                <Command className="w-3 h-3 mr-1" />
+                K
+              </Badge>
+            </Button>
+            
+            {/* Mobile Search Icon */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className={`sm:hidden rounded-full transition-all ${
+                isActive('/search') 
+                  ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' 
+                  : 'text-slate-500 hover:bg-slate-100'
+              }`}
+              onClick={openSearch}
+            >
               <Search className="w-6 h-6" />
             </Button>
             <Button 
@@ -259,5 +292,9 @@ export const Navigation = () => {
       </div>
       
     </header>
+    
+    {/* Global Search Modal */}
+    <GlobalSearchModal isOpen={isSearchOpen} onClose={closeSearch} />
+  </>
   );
 };
