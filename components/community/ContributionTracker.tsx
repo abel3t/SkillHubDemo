@@ -64,22 +64,22 @@ const ACTIVITY_OPTIONS: ActivityOption[] = [
     description: 'Tổ chức buổi chia sẻ kỹ năng'
   },
   {
-    key: 'VERIFY_PROVIDER',
+    key: 'VERIFY_NEIGHBOR',
     icon: <Shield className="w-4 h-4" />,
     color: 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200',
-    description: 'Xác minh nhà cung cấp dịch vụ'
+    description: 'Xác minh hàng xóm'
   },
   {
-    key: 'VOTE_REVIEW',
+    key: 'VOTE_AUTHENTIC_REVIEW',
     icon: <Star className="w-4 h-4" />,
     color: 'bg-orange-100 text-orange-700 hover:bg-orange-200',
-    description: 'Bình chọn đánh giá hữu ích'
+    description: 'Bình chọn đánh giá chân thực'
   },
   {
-    key: 'FLAG_CONTENT',
-    icon: <Flag className="w-4 h-4" />,
-    color: 'bg-red-100 text-red-700 hover:bg-red-200',
-    description: 'Báo cáo nội dung không phù hợp'
+    key: 'HOST_TEA_CIRCLE',
+    icon: <Users className="w-4 h-4" />,
+    color: 'bg-green-100 text-green-700 hover:bg-green-200',
+    description: 'Tổ chức vòng tròn trà'
   }
 ]
 
@@ -194,6 +194,8 @@ export function ContributionTracker({
           <div className="grid grid-cols-2 gap-2">
             {ACTIVITY_OPTIONS.map((option) => {
               const activity = CONTRIBUTION_ACTIVITIES[option.key]
+              if (!activity) return null // Skip if activity doesn't exist
+              
               return (
                 <Button
                   key={option.key}

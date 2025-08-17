@@ -100,59 +100,147 @@ export const COMMUNITY_LEVELS: CommunityLevel[] = [
 
 // Vietnamese Cultural Badges
 export const CULTURAL_BADGES: Omit<UserBadge, 'id' | 'earnedAt'>[] = [
+  // Traditional Vietnamese Values
   {
     name: 'Elder Respect',
     nameVi: 'Tôn kính người lớn',
     description: 'Consistently helps elderly community members',
     descriptionVi: 'Thường xuyên giúp đỡ người lớn tuổi trong cộng đồng',
     icon: '👵',
-    category: 'cultural',
-    rarity: 'uncommon'
+    category: 'văn_hóa',
+    rarity: 'ít_gặp'
   },
   {
     name: 'Good Neighbor',
-    nameVi: 'Người hàng xóm',
+    nameVi: 'Người hàng xóm tốt',
     description: 'Active in local neighborhood',
     descriptionVi: 'Tích cực trong khu phố địa phương',
     icon: '🏠',
-    category: 'cultural',
-    rarity: 'common'
+    category: 'văn_hóa',
+    rarity: 'phổ_biến'
   },
   {
     name: 'Community Teacher',
-    nameVi: 'Thầy giáo cộng đồng',
-    description: 'Teaches skills to others',
-    descriptionVi: 'Dạy kỹ năng cho người khác',
+    nameVi: 'Thầy/Cô cộng đồng',
+    description: 'Teaches skills with patience and dedication',
+    descriptionVi: 'Dạy kỹ năng với sự kiên nhẫn và tận tâm',
     icon: '📚',
-    category: 'cultural',
-    rarity: 'rare'
+    category: 'văn_hóa',
+    rarity: 'hiếm'
+  },
+  {
+    name: 'Family Helper',
+    nameVi: 'Người giúp đỡ gia đình',
+    description: 'Supports families with children and household needs',
+    descriptionVi: 'Hỗ trợ các gia đình có trẻ em và nhu cầu gia đình',
+    icon: '👨‍👩‍👧‍👦',
+    category: 'văn_hóa',
+    rarity: 'ít_gặp'
+  },
+  
+  // Community Building
+  {
+    name: 'Ward Guardian',
+    nameVi: 'Người bảo vệ phường',
+    description: 'Actively ensures neighborhood safety and cleanliness',
+    descriptionVi: 'Tích cực đảm bảo an toàn và sạch sẽ cho khu phố',
+    icon: '🛡️',
+    category: 'cộng_đồng',
+    rarity: 'hiếm'
+  },
+  {
+    name: 'Festival Organizer',
+    nameVi: 'Người tổ chức lễ hội',
+    description: 'Organizes community celebrations and cultural events',
+    descriptionVi: 'Tổ chức các lễ kỷ niệm và sự kiện văn hóa cộng đồng',
+    icon: '🎊',
+    category: 'cộng_đồng',
+    rarity: 'hiếm'
   },
   {
     name: 'Connector',
-    nameVi: 'Người môi giới',
-    description: 'Successfully connects people',
-    descriptionVi: 'Kết nối mọi người thành công',
+    nameVi: 'Người kết nối',
+    description: 'Successfully connects people and builds relationships',
+    descriptionVi: 'Kết nối mọi người và xây dựng mối quan hệ thành công',
     icon: '🤝',
-    category: 'community',
-    rarity: 'uncommon'
+    category: 'cộng_đồng',
+    rarity: 'ít_gặp'
+  },
+  {
+    name: 'Local Ambassador',
+    nameVi: 'Đại sứ địa phương',
+    description: 'Welcomes newcomers and helps them integrate',
+    descriptionVi: 'Chào đón người mới và giúp họ hòa nhập',
+    icon: '🌏',
+    category: 'cộng_đồng',
+    rarity: 'hiếm'
+  },
+
+  // Expertise & Quality
+  {
+    name: 'Master Craftsperson',
+    nameVi: 'Thợ thủ công bậc thầy',
+    description: 'Exceptional skill in traditional Vietnamese crafts',
+    descriptionVi: 'Kỹ năng xuất sắc trong nghề thủ công truyền thống Việt Nam',
+    icon: '🏺',
+    category: 'thành_tích',
+    rarity: 'huyền_thoại'
   },
   {
     name: 'Local Expert',
     nameVi: 'Chuyên gia địa phương',
-    description: 'Deep local area knowledge',
-    descriptionVi: 'Hiểu biết sâu về khu vực địa phương',
+    description: 'Deep knowledge of local area, culture, and services',
+    descriptionVi: 'Hiểu biết sâu về khu vực, văn hóa và dịch vụ địa phương',
     icon: '🎯',
-    category: 'contribution',
-    rarity: 'rare'
+    category: 'đóng_góp',
+    rarity: 'hiếm'
   },
   {
     name: 'Trusted Person',
-    nameVi: 'Người tin cậy',
-    description: 'Consistently reliable contributions',
-    descriptionVi: 'Đóng góp đáng tin cậy nhất quán',
+    nameVi: 'Người đáng tin cậy',
+    description: 'Consistently reliable with strong community endorsement',
+    descriptionVi: 'Luôn đáng tin cậy với sự ủng hộ mạnh mẽ từ cộng đồng',
     icon: '🌟',
-    category: 'quality',
-    rarity: 'legendary'
+    category: 'chất_lượng',
+    rarity: 'huyền_thoại'
+  },
+  {
+    name: 'Emergency Helper',
+    nameVi: 'Người trợ giúp khẩn cấp',
+    description: 'Always available to help in urgent situations',
+    descriptionVi: 'Luôn sẵn sàng giúp đỡ trong các tình huống khẩn cấp',
+    icon: '🚨',
+    category: 'cộng_đồng',
+    rarity: 'hiếm'
+  },
+
+  // Special Vietnamese Cultural Badges
+  {
+    name: 'Rice Harvest Helper',
+    nameVi: 'Người giúp mùa gặt',
+    description: 'Helps during agricultural seasons and food preparation',
+    descriptionVi: 'Giúp đỡ trong mùa vụ nông nghiệp và chuẩn bị thức ăn',
+    icon: '🌾',
+    category: 'văn_hóa',
+    rarity: 'ít_gặp'
+  },
+  {
+    name: 'Tea Circle Host',
+    nameVi: 'Chủ nhà vòng tròn trà',
+    description: 'Regularly hosts community tea gatherings for connection',
+    descriptionVi: 'Thường xuyên tổ chức buổi uống trà cộng đồng để kết nối',
+    icon: '🍵',
+    category: 'văn_hóa',
+    rarity: 'ít_gặp'
+  },
+  {
+    name: 'Motorbike Taxi Guide',
+    nameVi: 'Hướng dẫn viên xe ôm',
+    description: 'Expert in local transportation and navigation',
+    descriptionVi: 'Chuyên gia về giao thông và định hướng địa phương',
+    icon: '🛵',
+    category: 'đóng_góp',
+    rarity: 'ít_gặp'
   }
 ]
 
@@ -166,19 +254,55 @@ export const CONTRIBUTION_ACTIVITIES = {
   MENTOR_PROVIDER: { points: 30, nameVi: 'Hướng dẫn nhà cung cấp mới', category: 'content' },
   ORGANIZE_EVENT: { points: 50, nameVi: 'Tổ chức sự kiện cộng đồng', category: 'content' },
 
-  // Local Intelligence
+  // Vietnamese Cultural Events
+  HOST_TEA_CIRCLE: { points: 20, nameVi: 'Tổ chức vòng tròn trà', category: 'culture' },
+  ORGANIZE_TET_CELEBRATION: { points: 40, nameVi: 'Tổ chức lễ Tết', category: 'culture' },
+  TEACH_TRADITIONAL_CRAFT: { points: 30, nameVi: 'Dạy nghề thủ công truyền thống', category: 'culture' },
+  SHARE_FAMILY_RECIPE: { points: 15, nameVi: 'Chia sẻ công thức gia đình', category: 'culture' },
+  HELP_ELDERLY_NEIGHBOR: { points: 25, nameVi: 'Giúp đỡ hàng xóm lớn tuổi', category: 'culture' },
+  WELCOME_NEW_RESIDENT: { points: 20, nameVi: 'Chào đón cư dân mới', category: 'culture' },
+
+  // Hyperlocal Intelligence
   UPDATE_AVAILABILITY: { points: 5, nameVi: 'Cập nhật tình trạng', category: 'intelligence' },
   REPORT_BUSINESS_CHANGE: { points: 10, nameVi: 'Báo cáo thay đổi doanh nghiệp', category: 'intelligence' },
   ADD_SAFETY_TIPS: { points: 15, nameVi: 'Thêm mẹo an toàn', category: 'intelligence' },
   CREATE_TRANSPORT_GUIDE: { points: 20, nameVi: 'Tạo hướng dẫn di chuyển', category: 'intelligence' },
   MAP_SERVICE_AREA: { points: 25, nameVi: 'Bản đồ khu vực dịch vụ', category: 'intelligence' },
+  REPORT_STREET_CONDITION: { points: 12, nameVi: 'Báo cáo tình trạng đường phố', category: 'intelligence' },
+  UPDATE_LOCAL_PRICES: { points: 8, nameVi: 'Cập nhật giá cả địa phương', category: 'intelligence' },
+  SHARE_WEATHER_ALERT: { points: 10, nameVi: 'Chia sẻ cảnh báo thời tiết', category: 'intelligence' },
 
-  // Quality Control
-  VOTE_REVIEW: { points: 5, nameVi: 'Bình chọn đánh giá', category: 'quality' },
-  FLAG_CONTENT: { points: 10, nameVi: 'Báo cáo nội dung không phù hợp', category: 'quality' },
-  VERIFY_PROVIDER: { points: 15, nameVi: 'Xác minh nhà cung cấp', category: 'quality' },
+  // Anti-Commercial Quality Control
+  VOTE_AUTHENTIC_REVIEW: { points: 8, nameVi: 'Bình chọn đánh giá chân thực', category: 'quality' },
+  FLAG_FAKE_CONTENT: { points: 15, nameVi: 'Báo cáo nội dung giả mạo', category: 'quality' },
+  VERIFY_NEIGHBOR: { points: 20, nameVi: 'Xác minh hàng xóm', category: 'quality' },
   MODERATE_DISCUSSION: { points: 20, nameVi: 'Kiểm duyệt thảo luận', category: 'quality' },
-  RESOLVE_DISPUTE: { points: 30, nameVi: 'Giải quyết tranh chấp', category: 'quality' }
+  RESOLVE_DISPUTE: { points: 30, nameVi: 'Giải quyết tranh chấp', category: 'quality' },
+  PROTECT_COMMUNITY_VALUES: { points: 25, nameVi: 'Bảo vệ giá trị cộng đồng', category: 'quality' },
+
+  // Emergency & Mutual Help
+  EMERGENCY_RESPONSE: { points: 40, nameVi: 'Ứng phó khẩn cấp', category: 'emergency' },
+  NATURAL_DISASTER_HELP: { points: 50, nameVi: 'Trợ giúp thiên tai', category: 'emergency' },
+  COORDINATE_NEIGHBORHOOD_WATCH: { points: 30, nameVi: 'Điều phối tuần tra khu phố', category: 'emergency' }
+}
+
+// Ward-level Community Events
+export interface CommunityEvent {
+  id: string
+  title: string
+  titleVi: string
+  description: string
+  descriptionVi: string
+  type: 'workshop' | 'festival' | 'safety' | 'cultural' | 'skill_share' | 'social'
+  wardName: string
+  date: Date
+  location: string
+  organizer: string
+  attendeeCount: number
+  maxAttendees: number
+  isRecurring: boolean
+  culturalSignificance?: 'high' | 'medium' | 'low'
+  antiCommercial: boolean
 }
 
 // Utility Functions
