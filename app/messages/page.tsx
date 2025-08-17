@@ -117,9 +117,8 @@ export default function MessagesPage() {
   }
 
   const conversationListVariants = {
-    initial: { opacity: 0, x: -20 },
+    initial: { x: -20 },
     animate: { 
-      opacity: 1, 
       x: 0,
       transition: {
         duration: 0.4,
@@ -128,16 +127,14 @@ export default function MessagesPage() {
       }
     },
     exit: { 
-      opacity: 0, 
       x: -20, 
       transition: { duration: 0.3 } 
     }
   }
 
   const conversationItemVariants = {
-    initial: { opacity: 0, x: -10 },
+    initial: { x: -10 },
     animate: { 
-      opacity: 1, 
       x: 0,
       transition: { duration: 0.3, ease: "easeOut" }
     },
@@ -149,14 +146,12 @@ export default function MessagesPage() {
   }
 
   const chatAreaVariants = {
-    initial: { opacity: 0, x: 20 },
+    initial: { x: 20 },
     animate: { 
-      opacity: 1, 
       x: 0,
       transition: { duration: 0.4, ease: "easeOut" }
     },
     exit: { 
-      opacity: 0, 
       x: 20, 
       transition: { duration: 0.3 } 
     }
@@ -225,13 +220,7 @@ export default function MessagesPage() {
   }
 
   return (
-    <motion.div 
-      className="min-h-screen bg-white"
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <div className="min-h-screen bg-white">
       {/* Top Header */}
       <Navigation />
 
@@ -248,60 +237,33 @@ export default function MessagesPage() {
                 exit="exit"
               >
                 {/* Header with Title and Search */}
-                <motion.div 
-                  className="p-4 border-b border-gray-100"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
-                >
+                <div className="p-4 border-b border-gray-100">
                   <div className="flex items-center justify-between mb-4">
-                    <motion.h1 
-                      className="text-2xl font-bold text-gray-900"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.3, duration: 0.3 }}
-                    >
+                    <h1 className="text-2xl font-bold text-gray-900">
                       Tin nhắn
-                    </motion.h1>
-                    <motion.div 
-                      className="flex gap-2"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.4, duration: 0.3 }}
-                    >
-                      <motion.button 
+                    </h1>
+                    <div className="flex gap-2">
+                      <button 
+                        type="button"
                         className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                       >
                         <Search className="w-5 h-5 text-gray-600" />
-                      </motion.button>
-                    </motion.div>
+                      </button>
+                    </div>
                   </div>
                   
                   {/* Modern Search Bar - Facebook Style */}
-                  <motion.div 
-                    className="relative"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.3 }}
-                  >
+                  <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <motion.input 
+                    <input 
                       placeholder="Tìm kiếm tin nhắn..." 
                       className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-0 rounded-full text-sm placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-500 transition-all"
-                      whileFocus={{ scale: 1.02 }}
                     />
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
 
                 {/* Conversations List - Facebook Style */}
-                <motion.div 
-                  className="overflow-y-auto"
-                  variants={conversationListVariants}
-                  initial="initial"
-                  animate="animate"
-                >
+                <div className="overflow-y-auto">
                   {conversations.map((conversation, index) => (
                     <motion.button
                       key={conversation.id}
@@ -406,7 +368,7 @@ export default function MessagesPage() {
                       </div>
                     </motion.button>
                   ))}
-                </motion.div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -423,11 +385,7 @@ export default function MessagesPage() {
                 exit="exit"
               >
                 {selectedConversation && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.3 }}
-                  >
+                  <div>
                     <ChatInterface
                       contact={{
                         id: selectedConversation.id.toString(),
@@ -445,7 +403,7 @@ export default function MessagesPage() {
                       onSendLocation={handleSendLocation}
                       onBackClick={() => setSelectedChat(0)}
                     />
-                  </motion.div>
+                  </div>
                 )}
               </motion.div>
             ) : (
@@ -456,69 +414,42 @@ export default function MessagesPage() {
                 animate="animate"
                 exit="exit"
               >
-                <motion.div 
-                  className="flex-1 flex items-center justify-center p-8"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
-                >
+                <div className="flex-1 flex items-center justify-center p-8">
                   <div className="text-center max-w-sm">
                     {/* Facebook-style empty state */}
-                    <motion.div 
-                      className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-full flex items-center justify-center mx-auto mb-6"
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ delay: 0.5, type: "spring", stiffness: 200, damping: 20 }}
-                    >
+                    <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-full flex items-center justify-center mx-auto mb-6">
                       <MessageCircle className="h-12 w-12 text-emerald-600" />
-                    </motion.div>
+                    </div>
                     
-                    <motion.h3 
-                      className="text-xl font-semibold text-gray-900 mb-3"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7, duration: 0.3 }}
-                    >
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
                       Kết nối với chuyên gia
-                    </motion.h3>
+                    </h3>
                     
-                    <motion.p 
-                      className="text-gray-600 leading-relaxed"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8, duration: 0.3 }}
-                    >
+                    <p className="text-gray-600 leading-relaxed">
                       Chọn một cuộc trò chuyện từ danh sách bên trái để bắt đầu trao đổi với các chuyên gia tài năng.
-                    </motion.p>
+                    </p>
                     
                     {/* Action suggestion */}
-                    <motion.div 
-                      className="mt-8 p-4 bg-emerald-50 rounded-xl"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1, duration: 0.4 }}
-                    >
+                    <div className="mt-8 p-4 bg-emerald-50 rounded-xl">
                       <p className="text-sm text-emerald-700 mb-3">
                         <span className="font-medium">💡 Gợi ý:</span> Tìm chuyên gia mới?
                       </p>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="border-emerald-200 text-emerald-700 hover:bg-emerald-100"
-                          onClick={() => router.push('/map')}
-                        >
-                          Khám phá bản đồ
-                        </Button>
-                      </motion.div>
-                    </motion.div>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                        onClick={() => router.push('/map')}
+                      >
+                        Khám phá bản đồ
+                      </Button>
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   )
 }

@@ -45,7 +45,6 @@ export const Navigation = () => {
   const navItems = [
     { path: "/helpers", label: "Chuyên gia", icon: "Users" },
     { path: "/map", label: "Bản đồ", icon: "MapPin" },
-    { path: "/messages", label: "Tin nhắn", icon: "MessageCircle" },
   ];
 
   const dropdownItems = [
@@ -112,16 +111,23 @@ export const Navigation = () => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-200/80 sticky top-0 z-40">
+    <header className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-6">
-            <h1 
-              className="text-2xl font-bold text-emerald-600 cursor-pointer hover:text-emerald-700 transition-colors"
+            <button
+              type="button"
+              className="text-2xl font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
               onClick={() => router.push('/')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  router.push('/');
+                }
+              }}
             >
               SkillHub
-            </h1>
+            </button>
           </div>
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100">
@@ -185,7 +191,7 @@ export const Navigation = () => {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -10 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="absolute right-0 sm:right-0 top-full mt-2 w-64 sm:w-72 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-gray-200/80 py-2 z-50 max-w-[calc(100vw-2rem)] mr-2 sm:mr-0"
+                    className="absolute right-0 sm:right-0 top-full mt-2 w-64 sm:w-72 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 max-w-[calc(100vw-2rem)] mr-2 sm:mr-0"
                   >
                     {/* User Info Header */}
                     <div className="px-4 py-3 border-b border-gray-100">

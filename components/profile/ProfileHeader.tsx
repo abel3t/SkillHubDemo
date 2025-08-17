@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Pen, Save, X, MapPin, Users, Star, Shield, CircleCheckBig } from "lucide-react"
+import { Pen, Save, X, MapPin, Users, Star, Shield, CircleCheckBig, Clock, TrendingUp, MessageCircle, Award } from "lucide-react"
 
 export function ProfileHeader({ user, isOwnProfile }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -73,8 +73,52 @@ export function ProfileHeader({ user, isOwnProfile }) {
                 </div>
                 <p className="text-lg text-slate-600">{editData.title}</p>
                 <div className="flex items-center gap-4 mt-2 text-sm text-slate-500">
-                  <span>{editData.location}</span>
-                  <span>{user.connections} connections</span>
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-4 h-4" />
+                    {editData.location}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Users className="w-4 h-4" />
+                    {user.connections} kết nối
+                  </span>
+                  {user.isOnline && (
+                    <Badge className="bg-green-100 text-green-800 text-xs">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-1" />
+                      Đang hoạt động
+                    </Badge>
+                  )}
+                </div>
+
+                {/* Activity Summary */}
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-50 rounded-xl">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1 text-emerald-600">
+                      <Clock className="w-4 h-4" />
+                      <span className="text-lg font-bold">5 phút</span>
+                    </div>
+                    <p className="text-xs text-slate-500">Phản hồi</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1 text-blue-600">
+                      <Star className="w-4 h-4" />
+                      <span className="text-lg font-bold">4.9</span>
+                    </div>
+                    <p className="text-xs text-slate-500">Đánh giá</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1 text-purple-600">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-lg font-bold">89</span>
+                    </div>
+                    <p className="text-xs text-slate-500">Đã giúp</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1 text-orange-600">
+                      <Award className="w-4 h-4" />
+                      <span className="text-lg font-bold">4</span>
+                    </div>
+                    <p className="text-xs text-slate-500">Huy hiệu</p>
+                  </div>
                 </div>
               </div>
             )}

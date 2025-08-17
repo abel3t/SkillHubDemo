@@ -12,7 +12,7 @@ import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components
 import { Navigation } from "@/components/shared/Navigation"
 import { 
     Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
-    Sparkles
+    Sparkles, Heart, MessageCircle, Share2, TrendingUp, Award, Activity
 } from "lucide-react"
 
 // MOCK DATA
@@ -22,6 +22,60 @@ const aboutData = "Với hơn 10 năm kinh nghiệm giảng dạy piano cho mọ
 const experienceData = [{ id: 1, title: "Giáo viên Piano Tự do", company: "SkillHub", dates: "2021 - Hiện tại", description: "Cung cấp các khóa học piano cá nhân hóa."}, { id: 2, title: "Giáo viên Âm nhạc", company: "Trung tâm Âm nhạc Harmony", dates: "2018 - 2021", description: "Giảng dạy piano và lý thuyết âm nhạc." }];
 const educationData = [{ id: 1, school: "Nhạc viện TP.HCM", degree: "Cử nhân Sư phạm Âm nhạc", dates: "2014 - 2018" }];
 const skillsData = [{ id: "1", name: "Piano Cổ điển", endorsements: 18 }, { id: "2", name: "Lý thuyết Âm nhạc", endorsements: 12 }, { id: "3", name: "Sáng tác Nhạc", endorsements: 7 }];
+
+// User Posts Data
+const userPostsData = [
+  {
+    id: 1,
+    content: "Chia sẻ một số mẹo luyện ngón tay linh hoạt cho người mới bắt đầu học piano. Hãy bắt đầu với các bài tập đơn giản và kiên trì mỗi ngày nhé! 🎹",
+    timestamp: "2 giờ trước",
+    likes: 24,
+    comments: 8,
+    type: "text",
+    hasImage: false,
+    image: null
+  },
+  {
+    id: 2,
+    content: "Hôm nay đã có buổi học piano rất thú vị với em học sinh 8 tuổi. Việc dạy trẻ em luôn mang lại niềm vui và năng lượng tích cực! 🎵",
+    timestamp: "1 ngày trước",
+    likes: 42,
+    comments: 15,
+    type: "text_image",
+    hasImage: true,
+    image: "/vietnamese-workshop.png"
+  },
+  {
+    id: 3,
+    content: "Mình vừa hoàn thành khóa học nâng cao về phương pháp giảng dạy piano hiện đại. Rất háo hức được áp dụng những kiến thức mới này vào việc giảng dạy! 📚",
+    timestamp: "3 ngày trước",
+    likes: 18,
+    comments: 6,
+    type: "text",
+    hasImage: false,
+    image: null
+  }
+];
+
+// Community Contributions Data
+const contributionsData = {
+  totalContributions: 127,
+  helpedPeople: 89,
+  postsShared: 45,
+  answersGiven: 32,
+  badges: [
+    { id: 1, name: "Mentor Xuất sắc", description: "Đã giúp đỡ hơn 50 người", icon: "🏆", color: "bg-yellow-100 text-yellow-800" },
+    { id: 2, name: "Chia sẻ tích cực", description: "Đã đăng hơn 40 bài viết hữu ích", icon: "📝", color: "bg-blue-100 text-blue-800" },
+    { id: 3, name: "Phản hồi nhanh", description: "Luôn phản hồi trong vòng 5 phút", icon: "⚡", color: "bg-green-100 text-green-800" },
+    { id: 4, name: "Được tin tưởng", description: "Có 20+ lời chứng thực từ hàng xóm", icon: "🤝", color: "bg-purple-100 text-purple-800" }
+  ],
+  recentActivities: [
+    { type: "helped", description: "Đã giúp Nguyễn Văn A học piano cơ bản", time: "2 giờ trước" },
+    { type: "posted", description: "Chia sẻ mẹo luyện ngón tay linh hoạt", time: "2 giờ trước" },
+    { type: "answered", description: "Trả lời câu hỏi về lý thuyết âm nhạc", time: "1 ngày trước" },
+    { type: "endorsed", description: "Nhận chứng thực từ Trần Thị B", time: "2 ngày trước" }
+  ]
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -128,6 +182,155 @@ const SkillsSection = ({ skills }) => (
     </Section>
 );
 
+// User Posts Section
+const UserPostsSection = ({ posts }) => {
+  const [likedPosts, setLikedPosts] = useState(new Set());
+
+  const handleLike = (postId) => {
+    const newLikedPosts = new Set(likedPosts);
+    if (newLikedPosts.has(postId)) {
+      newLikedPosts.delete(postId);
+    } else {
+      newLikedPosts.add(postId);
+    }
+    setLikedPosts(newLikedPosts);
+  };
+
+  return (
+    <Section icon={<MessageCircle className="w-6 h-6 text-emerald-600" />} title={`Bài viết (${posts.length})`}>
+      <div className="space-y-6">
+        {posts.map((post) => (
+          <div key={post.id} className="border border-slate-200 rounded-xl p-4 bg-white">
+            {/* Post Header */}
+            <div className="flex items-center gap-3 mb-3">
+              <Avatar className="w-10 h-10">
+                <AvatarImage src="/vietnamese-user.png" alt="Lê Thị Hương" />
+                <AvatarFallback>H</AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <h4 className="font-semibold text-slate-800">Lê Thị Hương</h4>
+                <p className="text-sm text-slate-500">{post.timestamp}</p>
+              </div>
+            </div>
+
+            {/* Post Content */}
+            <div className="mb-4">
+              <p className="text-slate-700 leading-relaxed">{post.content}</p>
+              {post.hasImage && post.image && (
+                <div className="mt-3">
+                  <img 
+                    src={post.image} 
+                    alt="Shared content from user post" 
+                    className="w-full rounded-lg shadow-sm max-h-64 object-cover"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Post Actions */}
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+              <div className="flex items-center gap-6">
+                <button 
+                  type="button"
+                  onClick={() => handleLike(post.id)}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${
+                    likedPosts.has(post.id) 
+                      ? 'text-red-600 bg-red-50 hover:bg-red-100' 
+                      : 'text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  <Heart className={`w-4 h-4 ${likedPosts.has(post.id) ? 'fill-current' : ''}`} />
+                  <span className="text-sm font-medium">
+                    {likedPosts.has(post.id) ? post.likes + 1 : post.likes}
+                  </span>
+                </button>
+                <button type="button" className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                  <span className="text-sm font-medium">{post.comments}</span>
+                </button>
+                <button type="button" className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors">
+                  <Share2 className="w-4 h-4" />
+                  <span className="text-sm font-medium">Chia sẻ</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+};
+
+// Community Contributions Section
+const CommunityContributionsSection = ({ contributions }) => (
+  <Section icon={<Award className="w-6 h-6 text-emerald-600" />} title="Đóng góp cộng đồng">
+    <div className="space-y-6">
+      {/* Statistics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: "Tổng đóng góp", value: contributions.totalContributions, icon: TrendingUp, color: "emerald" },
+          { label: "Người đã giúp", value: contributions.helpedPeople, icon: Users, color: "blue" },
+          { label: "Bài viết chia sẻ", value: contributions.postsShared, icon: MessageCircle, color: "purple" },
+          { label: "Câu trả lời", value: contributions.answersGiven, icon: CheckCircle, color: "orange" }
+        ].map((stat) => (
+          <div key={stat.label} className="text-center p-4 bg-slate-50 rounded-xl">
+            <div className={`flex items-center justify-center gap-2 text-${stat.color}-600`}>
+              <stat.icon className="w-5 h-5" />
+              <span className="text-2xl font-bold">{stat.value}</span>
+            </div>
+            <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Achievement Badges */}
+      <div>
+        <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+          <Award className="w-5 h-5 text-emerald-600" />
+          Huy hiệu thành tích
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {contributions.badges.map((badge) => (
+            <div key={badge.id} className={`${badge.color} rounded-xl p-4 border border-opacity-20`}>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{badge.icon}</span>
+                <div>
+                  <h4 className="font-semibold">{badge.name}</h4>
+                  <p className="text-sm opacity-80">{badge.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent Activities */}
+      <div>
+        <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-emerald-600" />
+          Hoạt động gần đây
+        </h3>
+        <div className="space-y-3">
+          {contributions.recentActivities.map((activity, index) => (
+            <div key={`${activity.type}-${index}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+              <div className={`w-2 h-2 rounded-full ${
+                activity.type === 'helped' ? 'bg-green-500' :
+                activity.type === 'posted' ? 'bg-blue-500' :
+                activity.type === 'answered' ? 'bg-purple-500' :
+                'bg-orange-500'
+              }`} />
+              <div className="flex-1">
+                <p className="text-sm text-slate-700">{activity.description}</p>
+                <p className="text-xs text-slate-500">{activity.time}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+);
+
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-100">
@@ -159,6 +362,16 @@ export default function ProfilePage() {
           {/* Skills */}
           <motion.div variants={containerVariants}>
             <SkillsSection skills={skillsData} />
+          </motion.div>
+
+          {/* User Posts */}
+          <motion.div variants={containerVariants}>
+            <UserPostsSection posts={userPostsData} />
+          </motion.div>
+
+          {/* Community Contributions */}
+          <motion.div variants={containerVariants}>
+            <CommunityContributionsSection contributions={contributionsData} />
           </motion.div>
 
           {/* Experience & Education Side by Side */}

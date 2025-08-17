@@ -4,8 +4,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { 
   Home, 
   Users, 
-  MapPin, 
-  MessageCircle,
+  MapPin,
 } from "lucide-react"
 
 export const BottomNavigation = () => {
@@ -13,10 +12,9 @@ export const BottomNavigation = () => {
   const pathname = usePathname();
 
   const navItems = [
-    { path: "/", label: "Trang chủ", mobileLabel: "Chủ", icon: Home },
+    { path: "/", label: "Trang chủ", mobileLabel: "Trang chủ", icon: Home },
     { path: "/helpers", label: "Chuyên gia", mobileLabel: "Chuyên gia", icon: Users },
     { path: "/map", label: "Bản đồ", mobileLabel: "Bản đồ", icon: MapPin },
-    { path: "/messages", label: "Tin nhắn", mobileLabel: "Tin nhắn", icon: MessageCircle },
   ];
 
   const isActive = (path: string) => pathname === path;
