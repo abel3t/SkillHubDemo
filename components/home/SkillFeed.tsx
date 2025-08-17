@@ -286,65 +286,69 @@ export function SkillFeed({ helpers, onHelperSelect }: SkillFeedProps) {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Sort Options */}
-            <select 
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="text-sm border border-gray-200 rounded-md px-3 py-2 bg-white"
-            >
-              <option value="distance">Gần nhất</option>
-              <option value="rating">Đánh giá cao</option>
-              <option value="response">Phản hồi nhanh</option>
-              <option value="helped">Kinh nghiệm nhiều</option>
-            </select>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            {/* Mobile: Stack controls vertically */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
+              {/* Sort Options */}
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="text-sm border border-gray-200 rounded-md px-3 py-2 bg-white flex-shrink-0"
+              >
+                <option value="distance">Gần nhất</option>
+                <option value="rating">Đánh giá cao</option>
+                <option value="response">Phản hồi nhanh</option>
+                <option value="helped">Kinh nghiệm nhiều</option>
+              </select>
 
-            {/* View Mode */}
-            <div className="flex border border-gray-200 rounded-md">
+              {/* View Mode */}
+              <div className="flex border border-gray-200 rounded-md flex-shrink-0">
+                <Button
+                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("grid")}
+                  className="rounded-r-none px-2"
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                  className="rounded-none px-2"
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "compact" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("compact")}
+                  className="rounded-l-none px-2"
+                >
+                  <Users className="w-4 h-4" />
+                </Button>
+              </div>
+
               <Button
-                variant={viewMode === "grid" ? "default" : "ghost"}
+                variant="outline"
                 size="sm"
-                onClick={() => setViewMode("grid")}
-                className="rounded-r-none"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex-shrink-0 px-2"
               >
-                <LayoutGrid className="w-4 h-4" />
+                <Filter className="w-4 h-4" />
               </Button>
+
+              {/* Advanced Search Button */}
               <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
+                variant="outline"
                 size="sm"
-                onClick={() => setViewMode("list")}
-                className="rounded-none"
+                onClick={() => router.push('/search')}
+                className="bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 flex-shrink-0 whitespace-nowrap"
               >
-                <List className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === "compact" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setViewMode("compact")}
-                className="rounded-l-none"
-              >
-                <Users className="w-4 h-4" />
+                <Search className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Tìm kiếm nâng cao</span>
               </Button>
             </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className="w-4 h-4" />
-            </Button>
-
-            {/* Advanced Search Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => router.push('/search')}
-              className="bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"
-            >
-              <Search className="w-4 h-4 mr-2" />
-              Tìm kiếm nâng cao
-            </Button>
           </div>
         </div>
 

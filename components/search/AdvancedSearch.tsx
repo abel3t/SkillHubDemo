@@ -323,12 +323,12 @@ export function AdvancedSearch({
           </div>
         </div>
 
-        {/* Filter Button */}
+        {/* Filter Button - Mobile responsive */}
         <Button
           variant="outline"
           size="sm"
           onClick={onFilterToggle}
-          className="absolute -right-16 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 rounded-xl shadow-md transition-all duration-200"
+          className="hidden sm:flex absolute -right-16 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 rounded-xl shadow-md transition-all duration-200"
         >
           <Filter className="w-4 h-4" />
         </Button>
@@ -543,6 +543,19 @@ export function AdvancedSearch({
           </CardContent>
         </Card>
       )}
+
+      {/* Mobile Filter Button */}
+      <div className="sm:hidden mt-3">
+        <Button
+          variant="outline"
+          onClick={onFilterToggle}
+          className="w-full border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 rounded-xl shadow-md transition-all duration-200 group"
+        >
+          <Filter className="w-4 h-4 mr-2" />
+          Bộ lọc tìm kiếm
+          <Sparkles className="w-3 h-3 ml-auto group-hover:rotate-12 transition-transform" />
+        </Button>
+      </div>
     </div>
   )
 }

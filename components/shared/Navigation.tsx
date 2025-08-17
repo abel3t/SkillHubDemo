@@ -9,6 +9,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { 
   Bell, 
   Search,
+  MessageCircle,
   User,
   Settings,
   HelpCircle,
@@ -120,6 +121,18 @@ export const Navigation = () => {
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100">
               <Search className="w-6 h-6" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className={`rounded-full transition-all ${
+                isActive('/messages') 
+                  ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' 
+                  : 'text-slate-500 hover:bg-slate-100'
+              }`}
+              onClick={() => router.push('/messages')}
+            >
+              <MessageCircle className="w-6 h-6" />
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full text-slate-500 hover:bg-slate-100">
               <Bell className="w-6 h-6" />

@@ -166,7 +166,7 @@ export function SearchBar({
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             placeholder={placeholder}
-            className="pl-12 pr-20 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 shadow-lg"
+            className="pl-12 pr-16 sm:pr-20 py-4 text-base sm:text-lg border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 shadow-lg"
           />
           
           {/* Clear and Search Buttons */}
@@ -193,13 +193,13 @@ export function SearchBar({
           </div>
         </div>
 
-        {/* Advanced Search Button */}
+        {/* Advanced Search Button - Mobile responsive */}
         {showFilters && (
           <Button
             variant="outline"
             size="sm"
             onClick={() => router.push('/search')}
-            className="absolute -right-20 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all duration-200 group"
+            className="hidden sm:flex absolute -right-20 top-1/2 -translate-y-1/2 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all duration-200 group"
             title="Tìm kiếm nâng cao"
           >
             <Filter className="w-4 h-4 mr-1" />
@@ -310,6 +310,22 @@ export function SearchBar({
         </Card>
       )}
 
+      {/* Mobile Filter Button */}
+      {showFilters && (
+        <div className="sm:hidden mt-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => router.push('/search')}
+            className="w-full border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all duration-200 group"
+          >
+            <Filter className="w-4 h-4 mr-2" />
+            Tìm kiếm nâng cao
+            <ArrowRight className="w-3 h-3 ml-auto group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
+      )}
+
       {/* Popular Searches */}
       {!showResults && !query && (
         <div className="mt-4">
@@ -319,7 +335,7 @@ export function SearchBar({
               variant="ghost"
               size="sm"
               onClick={() => router.push('/search')}
-              className="text-emerald-600 hover:text-emerald-700 text-xs flex items-center gap-1"
+              className="hidden sm:flex text-emerald-600 hover:text-emerald-700 text-xs items-center gap-1"
             >
               Tìm kiếm nâng cao
               <ArrowRight className="w-3 h-3" />

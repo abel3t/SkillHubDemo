@@ -175,162 +175,231 @@ export default function MapPage() {
         initial="hidden"
         animate="visible"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)]">
-          {/* Mobile-first Controls - Collapsible on small screens */}
-          <motion.div className="lg:col-span-1 space-y-4 sm:space-y-6 overflow-y-auto" variants={itemVariants}>
-            {/* Enhanced Search Section - Mobile optimized */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
+        {/* Mobile Controls - Clean and Simple */}
+        <div className="lg:hidden mb-4 space-y-3">
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-emerald-500" />
+            <input
+              type="text"
+              placeholder="Tìm kỹ năng (điện, piano, tiếng Anh...)"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-300 text-sm shadow-sm"
+            />
+          </div>
+
+          {/* Location and Controls Row */}
+          <div className="flex gap-3">
+            {/* Location */}
+            <div className="flex-1 flex items-center bg-white rounded-xl p-3 shadow-sm border border-gray-200">
+              <MapIcon className="w-4 h-4 text-emerald-600 mr-2 flex-shrink-0" />
+              <span className="text-sm text-gray-700 truncate">{currentLocation}</span>
+            </div>
+
+            {/* Distance */}
+            <div className="w-20 bg-white rounded-xl p-3 shadow-sm border border-gray-200 text-center">
+              <div className="text-xs text-gray-500">Bán kính</div>
+              <div className="text-sm font-semibold text-emerald-600">{searchDistance}km</div>
+            </div>
+
+            {/* View Toggle */}
+            <div className="flex bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "p-2 rounded-lg transition-all",
+                  !showListView 
+                    ? "bg-emerald-500 text-white shadow-sm" 
+                    : "text-gray-600 hover:bg-gray-100"
+                )}
+                onClick={() => setShowListView(false)}
+              >
+                <MapIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "p-2 rounded-lg transition-all",
+                  showListView 
+                    ? "bg-emerald-500 text-white shadow-sm" 
+                    : "text-gray-600 hover:bg-gray-100"
+                )}
+                onClick={() => setShowListView(true)}
+              >
+                <List className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Results Count */}
+          <div className="flex items-center justify-between bg-emerald-50 rounded-lg p-3">
+            <span className="text-sm text-emerald-700">
+              Tìm thấy <span className="font-semibold">{filteredHelpers.length}</span> chuyên gia gần bạn
+            </span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-emerald-600 hover:text-emerald-700 h-6 px-2"
+              onClick={() => {/* Open filter modal */}}
             >
-              <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-emerald-50">
-                <CardContent className="p-3 sm:p-4">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
-                    <Search className="w-4 h-4 mr-2 text-emerald-600" />
-                    Tìm kiếm
-                  </h3>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-emerald-500" />
-                    <input
-                      type="text"
-                      placeholder="Nhập kỹ năng..."
-                      className="w-full pl-10 pr-4 py-2 sm:py-3 border-2 border-emerald-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-300 bg-white/80 backdrop-blur-sm transition-all text-sm"
-                    />
-                  </div>
-                  <div className="mt-2 sm:mt-3 flex flex-wrap gap-1 sm:gap-2">
-                    {['Điện', 'Piano', 'Tiếng Anh', 'Nấu ăn'].map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        className="px-2 sm:px-3 py-1 text-xs bg-emerald-100 text-emerald-700 rounded-full hover:bg-emerald-200 transition-colors touch-target"
+              Lọc
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 h-[calc(100vh-240px)] lg:h-[calc(100vh-200px)]">
+          {/* Controls Sidebar - Hidden on mobile, sidebar on desktop */}
+          <motion.div className="hidden lg:block lg:col-span-1 lg:overflow-y-auto" variants={itemVariants}>
+            <div className="space-y-4">
+              {/* Enhanced Search Section */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-emerald-50">
+                  <CardContent className="p-3 sm:p-4">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
+                      <Search className="w-4 h-4 mr-2 text-emerald-600" />
+                      Tìm kiếm
+                    </h3>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-emerald-500" />
+                      <input
+                        type="text"
+                        placeholder="Nhập kỹ năng..."
+                        className="w-full pl-10 pr-4 py-2 sm:py-3 border-2 border-emerald-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-300 bg-white/80 backdrop-blur-sm transition-all text-sm"
+                      />
+                    </div>
+                    <div className="mt-2 sm:mt-3 flex flex-wrap gap-1 sm:gap-2">
+                      {['Điện', 'Piano', 'Tiếng Anh', 'Nấu ăn'].map((tag) => (
+                        <button
+                          key={tag}
+                          type="button"
+                          className="px-2 sm:px-3 py-1 text-xs bg-emerald-100 text-emerald-700 rounded-full hover:bg-emerald-200 transition-colors touch-target"
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Location Controls */}
+              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <LocationControls
+                  currentLocation={currentLocation}
+                  onLocationChange={handleLocationChange}
+                  onCurrentLocationClick={handleCurrentLocationClick}
+                />
+              </motion.div>
+
+              {/* Distance Slider */}
+              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <DistanceSlider
+                  initialDistance={searchDistance}
+                  onDistanceChange={setSearchDistance}
+                  helperCount={filteredHelpers.length}
+                />
+              </motion.div>
+
+              {/* Enhanced View Toggle */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card className="shadow-lg border-0 bg-white">
+                  <CardContent className="p-3 sm:p-4">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
+                      <MapIcon className="w-4 h-4 mr-2 text-emerald-600" />
+                      Chế độ xem
+                    </h3>
+                    <div className="bg-gray-100 p-1 rounded-xl">
+                      <Button
+                        variant={!showListView ? "default" : "ghost"}
+                        size="sm"
+                        className={cn(
+                          "flex-1 rounded-lg transition-all text-xs sm:text-sm h-10",
+                          !showListView 
+                            ? "bg-emerald-500 text-white shadow-md" 
+                            : "text-gray-600 hover:bg-white"
+                        )}
+                        onClick={() => setShowListView(false)}
                       >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Location Controls */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <LocationControls
-                currentLocation={currentLocation}
-                onLocationChange={handleLocationChange}
-                onCurrentLocationClick={handleCurrentLocationClick}
-              />
-            </motion.div>
-
-            {/* Distance Slider */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <DistanceSlider
-                initialDistance={searchDistance}
-                onDistanceChange={setSearchDistance}
-                helperCount={filteredHelpers.length}
-              />
-            </motion.div>
-
-            {/* Enhanced View Toggle - Mobile optimized */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card className="shadow-lg border-0 bg-white">
-                <CardContent className="p-3 sm:p-4">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
-                    <MapIcon className="w-4 h-4 mr-2 text-emerald-600" />
-                    Chế độ xem
-                  </h3>
-                  <div className="bg-gray-100 p-1 rounded-xl">
-                    <Button
-                      variant={!showListView ? "default" : "ghost"}
-                      size="sm"
-                      className={cn(
-                        "flex-1 rounded-lg transition-all text-xs sm:text-sm h-10",
-                        !showListView 
-                          ? "bg-emerald-500 text-white shadow-md" 
-                          : "text-gray-600 hover:bg-white"
-                      )}
-                      onClick={() => setShowListView(false)}
-                    >
-                      <MapIcon className="w-4 h-4 mr-1 sm:mr-2" />
-                      <span className="hidden sm:inline">Bản đồ</span>
-                      <span className="sm:hidden">Bản đồ</span>
-                    </Button>
-                    <Button
-                      variant={showListView ? "default" : "ghost"}
-                      size="sm"
-                      className={cn(
-                        "flex-1 rounded-lg transition-all ml-1 text-xs sm:text-sm h-10",
-                        showListView 
-                          ? "bg-emerald-500 text-white shadow-md" 
-                          : "text-gray-600 hover:bg-white"
-                      )}
-                      onClick={() => setShowListView(true)}
-                    >
-                      <List className="w-4 h-4 mr-1 sm:mr-2" />
-                      <span className="hidden sm:inline">Danh sách</span>
-                      <span className="sm:hidden">DS</span>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Enhanced Results Summary - Mobile optimized */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card className="shadow-lg border-0 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
-                <CardContent className="p-3 sm:p-4">
-                  <div className="text-center">
-                    <div className="text-2xl sm:text-3xl font-bold mb-1">
-                      {filteredHelpers.length}
+                        <MapIcon className="w-4 h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Bản đồ</span>
+                        <span className="sm:hidden">Bản đồ</span>
+                      </Button>
+                      <Button
+                        variant={showListView ? "default" : "ghost"}
+                        size="sm"
+                        className={cn(
+                          "flex-1 rounded-lg transition-all ml-1 text-xs sm:text-sm h-10",
+                          showListView 
+                            ? "bg-emerald-500 text-white shadow-md" 
+                            : "text-gray-600 hover:bg-white"
+                        )}
+                        onClick={() => setShowListView(true)}
+                      >
+                        <List className="w-4 h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Danh sách</span>
+                        <span className="sm:hidden">DS</span>
+                      </Button>
                     </div>
-                    <div className="text-emerald-100 text-xs sm:text-sm">
-                      chuyên gia gần bạn
-                    </div>
-                    <div className="mt-2 sm:mt-3 p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                      <div className="text-xs text-emerald-100">
-                        Bán kính: {searchDistance}km
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Enhanced Results Summary */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card className="shadow-lg border-0 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="text-center">
+                      <div className="text-2xl sm:text-3xl font-bold mb-1">
+                        {filteredHelpers.length}
+                      </div>
+                      <div className="text-emerald-100 text-xs sm:text-sm">
+                        chuyên gia gần bạn
+                      </div>
+                      <div className="mt-2 sm:mt-3 p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                        <div className="text-xs text-emerald-100">
+                          Bán kính: {searchDistance}km
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-            {/* Privacy Notice - Mobile optimized */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="hidden sm:block lg:block"
-            >
-              <Card className="shadow-sm border-0 bg-blue-50">
-                <CardContent className="p-3">
-                  <div className="flex items-start gap-2">
-                    <div className="w-4 h-4 bg-blue-500 rounded-full flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 bg-white rounded-full m-1" />
+              {/* Privacy Notice */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="hidden sm:block lg:block"
+              >
+                <Card className="shadow-sm border-0 bg-blue-50">
+                  <CardContent className="p-3">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-500 rounded-full flex-shrink-0 mt-0.5">
+                        <div className="w-2 h-2 bg-white rounded-full m-1" />
+                      </div>
+                      <div className="text-xs text-blue-700">
+                        <strong>Bảo mật:</strong> Vị trí hiển thị là khu vực tổng quát, không phải địa chỉ chính xác để bảo vệ quyền riêng tư.
+                      </div>
                     </div>
-                    <div className="text-xs text-blue-700">
-                      <strong>Bảo mật:</strong> Vị trí hiển thị là khu vực tổng quát, không phải địa chỉ chính xác để bảo vệ quyền riêng tư.
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
           </motion.div>
 
-          {/* Main Content - Enhanced Map or List - Full width on mobile */}
-          <motion.div className="lg:col-span-4" variants={itemVariants}>
+          {/* Main Content - Enhanced Map or List */}
+          <motion.div className="col-span-1 lg:col-span-4" variants={itemVariants}>
             <AnimatePresence mode="wait">
               {!showListView ? (
                 <motion.div
