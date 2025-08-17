@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { MiniChatManager } from "@/components/chat/MiniChatManager"
+import { BottomNavigation } from "@/components/shared/BottomNavigation"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ html {
       <body className="font-body antialiased">
         {children}
         <MiniChatManager currentUserId="user123" />
+        <BottomNavigation />
       </body>
     </html>
   )

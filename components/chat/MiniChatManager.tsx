@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
 import { MiniChatWindow } from "./MiniChatWindow"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface Message {
   id: string
@@ -95,11 +97,16 @@ const mockMessages: { [key: string]: Message[] } = {
 }
 
 export function MiniChatManager({ currentUserId }: MiniChatManagerProps) {
+  const pathname = usePathname()
+  const isMobile = useIsMobile()
   const [chatWindows, setChatWindows] = useState<ChatWindow[]>([])
   const [collapsedChats, setCollapsedChats] = useState<ChatWindow[]>([])
   const [globalUnreadCount, setGlobalUnreadCount] = useState(0)
   const [showCollapsedDropdown, setShowCollapsedDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Don't render mini chat on mobile or messages page
+  const shouldHideMiniChat = isMobile || pathname?.startsWith('/messages')
 
   // Load initial chat windows (simulate restored chats)
   useEffect(() => {
@@ -284,6 +291,10 @@ export function MiniChatManager({ currentUserId }: MiniChatManagerProps) {
     window.addEventListener('openMiniChat', handleOpenChat as EventListener)
     return () => window.removeEventListener('openMiniChat', handleOpenChat as EventListener)
   }, [])
+
+  if (shouldHideMiniChat) {
+    return null
+  }
 
   return (
     <>

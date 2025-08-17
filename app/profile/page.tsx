@@ -8,18 +8,15 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ProfileHeader } from "@/components/profile/ProfileHeader"
-import { AvailabilityCalendar } from "@/components/profile/AvailabilityCalendar"
-import { PricingCard } from "@/components/profile/PricingCard"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { Navigation } from "@/components/shared/Navigation"
 import { 
     Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
-    BarChart2, Eye, MessageSquare, Search, ThumbsUp, Award, Sparkles
+    Sparkles
 } from "lucide-react"
 
 // MOCK DATA
 const userData = { name: "Lê Thị Hương", title: "Giáo viên Piano & Âm nhạc cao cấp", location: "Quận 3, TP.HCM", connections: 488, isVerified: true, coverImage: "/vietnamese-workshop.png", avatarImage: "/vietnamese-user.png", isOnline: true };
-const analyticsData = { profileViews: 245, postImpressions: 1204, searchAppearances: 98 };
 const trustData = { responseTime: "5 phút", completionRate: 98, neighborEndorsements: 23, verifications: ["Số điện thoại", "CMND/CCCD", "Chứng chỉ chuyên môn"] };
 const aboutData = "Với hơn 10 năm kinh nghiệm giảng dạy piano cho mọi lứa tuổi, tôi đam mê truyền cảm hứng và giúp học viên phát triển tài năng âm nhạc. Phương pháp của tôi tập trung vào việc xây dựng nền tảng vững chắc và khơi dậy tình yêu với âm nhạc.";
 const experienceData = [{ id: 1, title: "Giáo viên Piano Tự do", company: "SkillHub", dates: "2021 - Hiện tại", description: "Cung cấp các khóa học piano cá nhân hóa."}, { id: 2, title: "Giáo viên Âm nhạc", company: "Trung tâm Âm nhạc Harmony", dates: "2018 - 2021", description: "Giảng dạy piano và lý thuyết âm nhạc." }];
@@ -53,19 +50,6 @@ const Section = ({ icon, title, onEdit, children }) => (
 );
 
 // Individual Sections rebuilt with the new style
-const AnalyticsSection = ({ data }) => (
-    <Section icon={<BarChart2 className="w-6 h-6 text-emerald-600" />} title="Private Analytics">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
-            {[ { icon: Eye, label: "Profile Views", value: data.profileViews, color: "blue" }, { icon: MessageSquare, label: "Post Impressions", value: data.postImpressions, color: "purple" }, { icon: Search, label: "Search Appearances", value: data.searchAppearances, color: "amber" } ].map(stat => (
-                <div key={stat.label} className={`bg-gradient-to-br from-${stat.color}-50 to-${stat.color}-100 p-3 sm:p-4 rounded-xl text-center shadow-inner border border-${stat.color}-200/50`}>
-                    <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-${stat.color}-600`} />
-                    <p className={`text-2xl sm:text-3xl font-bold text-${stat.color}-800`}>{stat.value}</p>
-                    <p className="text-xs sm:text-sm text-slate-600 font-medium">{stat.label}</p>
-                </div>
-            ))}
-        </div>
-    </Section>
-);
 
 const TrustAndReliabilitySection = ({ data }) => (
     <Section icon={<Sparkles className="w-6 h-6 text-emerald-600" />} title="Trust & Reliability">
@@ -149,113 +133,44 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-slate-100">
       <Navigation />
       
-      {/* Enhanced LinkedIn-style Layout */}
-      <main className="max-w-6xl mx-auto px-2 sm:px-4 py-4">
+      {/* Clean Single-Column Layout */}
+      <main className="max-w-4xl mx-auto px-2 sm:px-4 py-4">
         <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6"
+          className="space-y-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Left Column - Main Profile Content */}
-          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
-            {/* Hero Section */}
+          {/* Hero Section */}
+          <motion.div variants={containerVariants}>
+            <ProfileHeader user={userData} isOwnProfile={true} />
+          </motion.div>
+
+          {/* Trust & Quick Stats - Right after header */}
+          <motion.div variants={containerVariants}>
+            <TrustAndReliabilitySection data={trustData} />
+          </motion.div>
+
+          {/* About Section */}
+          <motion.div variants={containerVariants}>
+            <AboutSection about={aboutData} />
+          </motion.div>
+
+          {/* Skills */}
+          <motion.div variants={containerVariants}>
+            <SkillsSection skills={skillsData} />
+          </motion.div>
+
+          {/* Experience & Education Side by Side */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <motion.div variants={containerVariants}>
-              <ProfileHeader user={userData} isOwnProfile={true} />
+              <ExperienceSection experiences={experienceData} />
             </motion.div>
-
-            {/* About Section */}
             <motion.div variants={containerVariants}>
-              <AboutSection about={aboutData} />
-            </motion.div>
-
-            {/* Experience & Education */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-              <motion.div variants={containerVariants}>
-                <ExperienceSection experiences={experienceData} />
-              </motion.div>
-              <motion.div variants={containerVariants}>
-                <EducationSection educations={educationData} />
-              </motion.div>
-            </div>
-
-            {/* Skills */}
-            <motion.div variants={containerVariants}>
-              <SkillsSection skills={skillsData} />
-            </motion.div>
-
-            {/* Availability Calendar */}
-            <motion.div variants={containerVariants}>
-              <AvailabilityCalendar 
-                isOwnProfile={true}
-                onBookSlot={(date, slot) => console.log('Book slot:', date, slot)}
-                onEditSlot={(date, slot) => console.log('Edit slot:', date, slot)}
-              />
+              <EducationSection educations={educationData} />
             </motion.div>
           </div>
 
-          {/* Right Column - Sidebar */}
-          <div className="lg:col-span-4 space-y-4 sm:space-y-6">
-            {/* Analytics - Only for own profile */}
-            <motion.div variants={containerVariants} className="lg:sticky lg:top-20">
-              <AnalyticsSection data={analyticsData} />
-            </motion.div>
-
-            {/* Trust & Reliability */}
-            <motion.div variants={containerVariants}>
-              <TrustAndReliabilitySection data={trustData} />
-            </motion.div>
-
-            {/* Pricing Card */}
-            <motion.div variants={containerVariants}>
-              <PricingCard 
-                isOwnProfile={true}
-                onEditPricing={() => console.log('Edit pricing')}
-                onBookService={(tier) => console.log('Book service:', tier)}
-              />
-            </motion.div>
-
-            {/* Professional Tips Card */}
-            <motion.div variants={containerVariants}>
-              <VibrantCard className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
-                <VibrantCardHeader>
-                  <h3 className="text-lg font-semibold text-blue-900 flex items-center">
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Nâng cao hồ sơ
-                  </h3>
-                </VibrantCardHeader>
-                <VibrantCardContent className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-blue-600 text-xs font-bold">1</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-blue-900">Thêm portfolio</p>
-                      <p className="text-xs text-blue-700">Hiển thị công việc đã hoàn thành</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-blue-600 text-xs font-bold">2</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-blue-900">Xin endorsement</p>
-                      <p className="text-xs text-blue-700">Mời khách hàng đánh giá</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-blue-600 text-xs font-bold">3</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-blue-900">Cập nhật thường xuyên</p>
-                      <p className="text-xs text-blue-700">Chia sẻ tips và kiến thức</p>
-                    </div>
-                  </div>
-                </VibrantCardContent>
-              </VibrantCard>
-            </motion.div>
-          </div>
         </motion.div>
       </main>
     </div>

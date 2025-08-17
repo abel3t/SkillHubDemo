@@ -1,19 +1,20 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowLeft, Search, MessageCircle, ExternalLink } from "lucide-react"
+import { useState, useEffect } from "react"
+import { ArrowLeft, Search, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { ChatInterface } from "@/components/chat/ChatInterface"
-import { openMiniChat } from "@/components/chat/MiniChatManager"
 import { useRouter } from "next/navigation"
 import { Navigation } from "@/components/shared/Navigation"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function MessagesPage() {
   const router = useRouter()
-  const [selectedChat, setSelectedChat] = useState(1)
+  const isMobile = useIsMobile()
+  const [selectedChat, setSelectedChat] = useState(isMobile ? 0 : 1) // Start with chat selected on desktop, none on mobile
   const currentUserId = "user123"
   
   const initialMessages = [
@@ -150,30 +151,26 @@ export default function MessagesPage() {
 
   return (
     <div className="min-h-screen bg-slate-100">
+      {/* Top Header */}
       <Navigation />
       
-      {/* Mobile Header */}
-      <div className="lg:hidden bg-white border-b px-4 py-3 flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <h1 className="font-semibold text-lg">Tin nhắn</h1>
+      {/* Desktop Header - Only show on desktop */}
+      <div className="hidden lg:block bg-white border-b px-6 py-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-slate-800">Tin nhắn</h1>
+          <Button variant="ghost" size="sm" onClick={() => router.push('/')}>
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Về trang chủ
+          </Button>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="flex h-[calc(100vh-100px)] sm:h-[calc(100vh-80px)] lg:h-screen">
-          {/* Conversations List - Mobile optimized */}
+        <div className={`flex ${selectedChat && isMobile ? 'h-screen' : 'h-[calc(100vh-120px)] lg:h-[calc(100vh-140px)]'}`}>
+          {/* Conversations List */}
           <div className={`w-full lg:w-80 bg-white border-r ${selectedChat ? "hidden lg:block" : "block"}`}>
-            {/* Header - Mobile optimized */}
+            {/* Search Header */}
             <div className="p-3 sm:p-4 border-b">
-              <div className="hidden lg:flex items-center justify-between mb-4">
-                <h1 className="text-xl font-semibold">Tin nhắn</h1>
-                <Button variant="ghost" size="sm" onClick={() => router.back()}>
-                  <ArrowLeft className="h-5 w-5" />
-                </Button>
-              </div>
-
-              {/* Search - Mobile optimized */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input 
@@ -189,7 +186,13 @@ export default function MessagesPage() {
                 <button
                   key={conversation.id}
                   type="button"
-                  onClick={() => setSelectedChat(conversation.id)}
+                  onClick={() => {
+                    setSelectedChat(conversation.id)
+                    // Scroll to top when entering chat
+                    setTimeout(() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }, 100)
+                  }}
                   className={`w-full p-3 sm:p-4 border-b text-left hover:bg-gray-50 transition-colors ${
                     selectedChat === conversation.id ? "bg-blue-50 border-r-2 border-r-blue-500" : ""
                   }`}
@@ -224,29 +227,6 @@ export default function MessagesPage() {
                         {conversation.unread > 0 && (
                           <Badge className="bg-blue-500 text-white text-xs px-1.5 py-0 flex-shrink-0">{conversation.unread}</Badge>
                         )}
-                      </div>
-                      <div className="flex items-center justify-end mt-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openMiniChat(
-                              {
-                                id: conversation.id.toString(),
-                                name: conversation.name,
-                                avatar: conversation.avatar,
-                                skill: conversation.skill,
-                                online: conversation.online
-                              },
-                              [] // You can pass existing messages here
-                            );
-                          }}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
-                        >
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          Mini Chat
-                        </Button>
                       </div>
                     </div>
                   </div>
