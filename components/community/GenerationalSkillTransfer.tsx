@@ -184,6 +184,225 @@ const mockSkillLineages: SkillLineage[] = [
     currentlyLearning: 2,
     waitingList: 18,
     isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '5',
+    skillName: 'Traditional Silk Weaving',
+    skillNameVi: 'Dệt lụa truyền thống',
+    category: 'traditional_craft',
+    difficulty: 'master',
+    culturalImportance: 'essential',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Bà Hồng (78 tuổi)',
+        avatar: '/vietnamese-elderly-woman.png',
+        yearsExperience: 55,
+        studentsCount: 12,
+        isActive: true,
+        specialties: ['Dệt lụa Hà Đông', 'Nhuộm tự nhiên', 'Thêu tay cổ truyền'],
+        culturalStory: 'Gia đình dệt lụa 5 đời ở làng Vạn Phúc, giữ bí quyết nhuộm màu từ lá cây'
+      },
+      {
+        generation: 2,
+        masterName: 'Chị Linh (46 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 28,
+        studentsCount: 8,
+        isActive: true,
+        specialties: ['Lụa cao cấp', 'Thiết kế hiện đại', 'Áo dài truyền thống']
+      },
+      {
+        generation: 3,
+        masterName: 'Em Như (25 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 7,
+        studentsCount: 3,
+        isActive: true,
+        specialties: ['Lụa fusion', 'Marketing online', 'Lụa eco-friendly']
+      }
+    ],
+    currentlyLearning: 6,
+    waitingList: 22,
+    isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '6',
+    skillName: 'Traditional Water Puppet Making',
+    skillNameVi: 'Làm múa rối nước truyền thống',
+    category: 'artistic',
+    difficulty: 'advanced',
+    culturalImportance: 'essential',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Ông Thắng (71 tuổi)',
+        avatar: '/vietnamese-elderly-man.png',
+        yearsExperience: 48,
+        studentsCount: 9,
+        isActive: true,
+        specialties: ['Rối nước Hà Nội', 'Chạm khắc rối', 'Âm nhạc dân gian'],
+        culturalStory: 'Nghệ nhân Nhân dân, học từ thời còn biểu diễn ở đình làng'
+      },
+      {
+        generation: 2,
+        masterName: 'Thầy Hùng (44 tuổi)',
+        avatar: '/vietnamese-technician.png',
+        yearsExperience: 25,
+        studentsCount: 6,
+        isActive: true,
+        specialties: ['Rối nước du lịch', 'Kỹ thuật biểu diễn', 'Dạy trẻ em']
+      }
+    ],
+    currentlyLearning: 4,
+    waitingList: 16,
+    isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '7',
+    skillName: 'Traditional Pottery & Ceramics',
+    skillNameVi: 'Gốm sứ truyền thống',
+    category: 'traditional_craft',
+    difficulty: 'advanced',
+    culturalImportance: 'essential',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Thầy Đạt (69 tuổi)',
+        avatar: '/vietnamese-craftsman.png',
+        yearsExperience: 44,
+        studentsCount: 14,
+        isActive: true,
+        specialties: ['Gốm Bát Tràng', 'Men lam cổ', 'Tráng men truyền thống'],
+        culturalStory: 'Gia đình làm gốm 6 đời ở Bát Tràng, bí quyết nung gốm theo mùa'
+      },
+      {
+        generation: 2,
+        masterName: 'Anh Việt (42 tuổi)',
+        avatar: '/vietnamese-technician.png',
+        yearsExperience: 23,
+        studentsCount: 10,
+        isActive: true,
+        specialties: ['Gốm nghệ thuật', 'Gia công CNC', 'Xuất khẩu quốc tế']
+      },
+      {
+        generation: 3,
+        masterName: 'Chị Thu (28 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 9,
+        studentsCount: 5,
+        isActive: true,
+        specialties: ['Gốm handmade', 'Workshop du lịch', 'Social media marketing']
+      }
+    ],
+    currentlyLearning: 9,
+    waitingList: 25,
+    isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '8',
+    skillName: 'Traditional Fish Sauce Making',
+    skillNameVi: 'Làm nước mắm truyền thống',
+    category: 'culinary',
+    difficulty: 'master',
+    culturalImportance: 'essential',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Ông Ba (74 tuổi)',
+        avatar: '/vietnamese-elderly-man.png',
+        yearsExperience: 52,
+        studentsCount: 7,
+        isActive: true,
+        specialties: ['Nước mắm Phú Quốc', 'Ủ cá cơm 3 năm', 'Kiểm định chất lượng'],
+        culturalStory: 'Gia đình làm nước mắm từ đời ông cố ở Phú Quốc, bí quyết ủ theo thủy triều'
+      },
+      {
+        generation: 2,
+        masterName: 'Chú Tám (49 tuổi)',
+        avatar: '/vietnamese-technician.png',
+        yearsExperience: 31,
+        studentsCount: 5,
+        isActive: true,
+        specialties: ['Nước mắm công nghiệp', 'Kiểm soát chất lượng', 'Đóng chai xuất khẩu']
+      }
+    ],
+    currentlyLearning: 2,
+    waitingList: 14,
+    isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '9',
+    skillName: 'Traditional Vietnamese Massage',
+    skillNameVi: 'Massage truyền thống Việt Nam',
+    category: 'practical',
+    difficulty: 'intermediate',
+    culturalImportance: 'important',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Bà Xuân (67 tuổi)',
+        avatar: '/vietnamese-elderly-woman.png',
+        yearsExperience: 42,
+        studentsCount: 18,
+        isActive: true,
+        specialties: ['Bấm huyệt truyền thống', 'Massage bà bầu', 'Trị liệu đau lưng'],
+        culturalStory: 'Học nghề từ bà nội, chuyên trị đau nhức cho nông dân sau mùa gặt'
+      },
+      {
+        generation: 2,
+        masterName: 'Chị Lan (41 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 19,
+        studentsCount: 12,
+        isActive: true,
+        specialties: ['Massage thư giãn', 'Bấm huyệt hiện đại', 'Spa truyền thống']
+      }
+    ],
+    currentlyLearning: 11,
+    waitingList: 19,
+    isTraditionalVietnameseSkill: true
+  },
+  {
+    id: '10',
+    skillName: 'Traditional Conical Hat Making',
+    skillNameVi: 'Làm nón lá truyền thống',
+    category: 'traditional_craft',
+    difficulty: 'intermediate',
+    culturalImportance: 'important',
+    generations: [
+      {
+        generation: 1,
+        masterName: 'Bà Tám (73 tuổi)',
+        avatar: '/vietnamese-elderly-woman.png',
+        yearsExperience: 49,
+        studentsCount: 16,
+        isActive: true,
+        specialties: ['Nón lá Huế', 'Nón bài thơ', 'Khâu viền truyền thống'],
+        culturalStory: 'Gia đình làm nón lá từ thời vua Minh Mạng, giữ kỹ thuật khâu viền độc đáo'
+      },
+      {
+        generation: 2,
+        masterName: 'Cô Hường (48 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 26,
+        studentsCount: 11,
+        isActive: true,
+        specialties: ['Nón lá du lịch', 'Nón lá nghệ thuật', 'Dạy workshop']
+      },
+      {
+        generation: 3,
+        masterName: 'Chị Trang (29 tuổi)',
+        avatar: '/vietnamese-user.png',
+        yearsExperience: 8,
+        studentsCount: 6,
+        isActive: true,
+        specialties: ['Nón lá fashion', 'Thiết kế hiện đại', 'Xuất khẩu international']
+      }
+    ],
+    currentlyLearning: 13,
+    waitingList: 21,
+    isTraditionalVietnameseSkill: true
   }
 ]
 

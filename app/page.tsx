@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bookmark, Star, PlusCircle, ExternalLink, Award } from "lucide-react"
+import { Bookmark, Star, PlusCircle, Award } from "lucide-react"
 import { VibrantCard, VibrantCardHeader, VibrantCardContent } from "@/components/ui/VibrantCard"
 import { PostComposer } from "@/components/home/PostComposer"
 import { InfiniteScrollFeed } from "@/components/home/InfiniteScrollFeed"
@@ -56,8 +56,8 @@ const currentUserBadges: UserBadge[] = [
     descriptionVi: "Tích cực trong khu phố địa phương",
     icon: "🏠",
     earnedAt: new Date("2023-12-10"),
-    category: "cultural",
-    rarity: "common"
+    category: "văn_hóa",
+    rarity: "phổ_biến"
   },
   {
     id: "2",
@@ -67,8 +67,8 @@ const currentUserBadges: UserBadge[] = [
     descriptionVi: "Dạy kỹ năng cho người khác",
     icon: "📚",
     earnedAt: new Date("2024-01-15"),
-    category: "cultural",
-    rarity: "rare"
+    category: "văn_hóa",
+    rarity: "hiếm"
   }
 ];
 
@@ -117,47 +117,6 @@ const Page = () => {
                 onViewProfile={() => router.push('/profile')}
               />
 
-              {/* Badges Showcase */}
-              <VibrantCard>
-                <VibrantCardHeader>
-                  <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-emerald-600" />
-                    Huy hiệu của bạn
-                  </h3>
-                </VibrantCardHeader>
-                <VibrantCardContent className="space-y-3">
-                  <div className="grid grid-cols-2 gap-2">
-                    {currentUserBadges.map((badge) => (
-                      <div 
-                        key={badge.id}
-                        className="text-center p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                        title={badge.descriptionVi}
-                      >
-                        <div className="text-2xl mb-1">{badge.icon}</div>
-                        <div className="text-xs font-medium text-gray-700 truncate">
-                          {badge.nameVi}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {currentUserBadges.length === 0 && (
-                    <div className="text-center py-4">
-                      <div className="text-gray-400 text-sm">Chưa có huy hiệu nào</div>
-                      <div className="text-xs text-gray-500 mt-1">Đóng góp cộng đồng để nhận huy hiệu đầu tiên!</div>
-                    </div>
-                  )}
-                  
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full mt-3 text-emerald-600 hover:text-emerald-700"
-                    onClick={() => router.push('/profile')}
-                  >
-                    Xem tất cả huy hiệu
-                  </Button>
-                </VibrantCardContent>
-              </VibrantCard>
 
               <VibrantCard>
                 <VibrantCardContent className="p-4">
@@ -198,6 +157,24 @@ const Page = () => {
                   </VibrantCardContent>
                 </VibrantCard>
 
+                {/* Quick Community Features Teaser - Much smaller */}
+                <VibrantCard>
+                  <VibrantCardContent className="p-4">
+                    <div className="text-center">
+                      <h4 className="text-sm font-semibold text-slate-700 mb-2">🔥 Tính năng độc quyền</h4>
+                      <p className="text-xs text-slate-500 mb-3">Khám phá các tính năng mà BigTech không thể sao chép</p>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => router.push('/community')}
+                        className="w-full text-xs bg-gradient-to-r from-emerald-50 to-blue-50 border-emerald-300 hover:from-emerald-100 hover:to-blue-100"
+                      >
+                        Xem thêm
+                      </Button>
+                    </div>
+                  </VibrantCardContent>
+                </VibrantCard>
+
                 <VibrantCard>
                     <VibrantCardHeader className="flex-row items-center justify-between pb-2"><h3 className="font-semibold text-slate-800">Quảng cáo</h3><span className="text-xs text-slate-400">Promoted</span></VibrantCardHeader>
                     <VibrantCardContent>
@@ -206,7 +183,6 @@ const Page = () => {
                             <p className="text-sm font-semibold text-slate-700">Dụng cụ chuyên nghiệp</p>
                             <p className="text-xs text-slate-500">Giảm giá 20% cho đơn hàng đầu tiên.</p>
                         </button>
-                         <Button variant="outline" size="sm" className="w-full mt-3"><ExternalLink className="w-4 h-4 mr-2" />Tìm hiểu thêm</Button>
                     </VibrantCardContent>
                 </VibrantCard>
 

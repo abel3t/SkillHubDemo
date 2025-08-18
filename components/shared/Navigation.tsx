@@ -88,10 +88,18 @@ export const Navigation = () => {
     },
     {
       id: 'community',
-      label: 'Cộng đồng Champions',
+      label: 'Cộng đồng SkillHub',
+      icon: Users,
+      action: () => router.push('/community'),
+      className: 'text-emerald-600 hover:bg-emerald-50',
+      badge: 'Tính năng độc quyền'
+    },
+    {
+      id: 'reputation',
+      label: 'Uy tín & Huy hiệu',
       icon: Award,
       action: () => router.push('/profile#community'),
-      className: 'text-emerald-600 hover:bg-emerald-50',
+      className: 'text-purple-600 hover:bg-purple-50',
       badge: userLevel.nameVi
     },
     {

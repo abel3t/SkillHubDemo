@@ -14,9 +14,10 @@ import { ReputationCard } from "@/components/community/ReputationCard"
 import { ContributionTracker } from "@/components/community/ContributionTracker"
 import { CommunityLeaderboard } from "@/components/community/CommunityLeaderboard"
 import { ContributionPoints, UserBadge } from "@/lib/contribution-system"
+import { useRouter } from "next/navigation"
 import { 
     Pencil, Clock, CheckCircle, Users, ShieldCheck, Star, Briefcase, GraduationCap, 
-    Sparkles, Heart, MessageCircle, Share2
+    Sparkles, Heart, MessageCircle, Share2, Cloud
 } from "lucide-react"
 
 // MOCK DATA
@@ -71,7 +72,7 @@ const containerVariants = {
 };
 
 // Reusable Section Component using VibrantCard
-const Section = ({ icon, title, onEdit, children }) => (
+const Section = ({ icon, title, onEdit, children }: { icon: React.ReactNode, title: string, onEdit?: () => void, children: React.ReactNode }) => (
     <VibrantCard as={motion.div} variants={containerVariants}>
         <VibrantCardHeader>
             <div className="flex items-center gap-3">
@@ -90,7 +91,7 @@ const Section = ({ icon, title, onEdit, children }) => (
 
 // Individual Sections rebuilt with the new style
 
-const TrustAndReliabilitySection = ({ data }) => (
+const TrustAndReliabilitySection = ({ data }: { data: { responseTime: string, completionRate: number, neighborEndorsements: number, verifications: string[] } }) => (
     <Section icon={<Sparkles className="w-6 h-6 text-emerald-600" />} title="Trust & Reliability">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
              {[ { icon: Clock, label: "Response Time", value: data.responseTime, color: "emerald" }, { icon: CheckCircle, label: "Job Completion", value: `${data.completionRate}%`, color: "blue" }, { icon: Users, label: "Neighbor Endorsements", value: data.neighborEndorsements, color: "purple" } ].map(stat => (
@@ -109,13 +110,13 @@ const TrustAndReliabilitySection = ({ data }) => (
     </Section>
 );
 
-const AboutSection = ({ about }) => (
+const AboutSection = ({ about }: { about: string }) => (
     <Section icon={<Briefcase className="w-6 h-6 text-emerald-600" />} title="About" onEdit={() => {}}>
         <p className="text-slate-700 text-base leading-relaxed whitespace-pre-line">{about}</p>
     </Section>
 );
 
-const ExperienceSection = ({ experiences }) => (
+const ExperienceSection = ({ experiences }: { experiences: any[] }) => (
     <Section icon={<Briefcase className="w-6 h-6 text-emerald-600" />} title="Experience" onEdit={() => {}}>
         <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:bg-slate-200">
             {experiences.map((exp) => (
@@ -135,7 +136,7 @@ const ExperienceSection = ({ experiences }) => (
     </Section>
 );
 
-const EducationSection = ({ educations }) => (
+const EducationSection = ({ educations }: { educations: any[] }) => (
     <Section icon={<GraduationCap className="w-6 h-6 text-emerald-600" />} title="Education" onEdit={() => {}}>
         <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:bg-slate-200">
             {educations.map((edu) => (
@@ -154,7 +155,7 @@ const EducationSection = ({ educations }) => (
     </Section>
 );
 
-const SkillsSection = ({ skills }) => (
+const SkillsSection = ({ skills }: { skills: any[] }) => (
     <Section icon={<Star className="w-6 h-6 text-emerald-600" />} title="Skills" onEdit={() => {}}>
         <div className="flex flex-wrap gap-3">
             {skills.map((skill) => (
@@ -168,7 +169,7 @@ const SkillsSection = ({ skills }) => (
 );
 
 // User Posts Section
-const UserPostsSection = ({ posts }) => {
+const UserPostsSection = ({ posts }: { posts: any[] }) => {
   const [likedPosts, setLikedPosts] = useState(new Set());
 
   const handleLike = (postId) => {
@@ -271,8 +272,8 @@ const userBadges: UserBadge[] = [
     descriptionVi: "Dạy kỹ năng cho người khác",
     icon: "📚",
     earnedAt: new Date("2024-01-15"),
-    category: "cultural",
-    rarity: "rare"
+    category: "văn_hóa",
+    rarity: "hiếm"
   },
   {
     id: "2", 
@@ -282,8 +283,8 @@ const userBadges: UserBadge[] = [
     descriptionVi: "Đóng góp đáng tin cậy nhất quán",
     icon: "🌟",
     earnedAt: new Date("2024-02-20"),
-    category: "quality",
-    rarity: "legendary"
+    category: "chất_lượng",
+    rarity: "huyền_thoại"
   },
   {
     id: "3",
@@ -293,12 +294,74 @@ const userBadges: UserBadge[] = [
     descriptionVi: "Tích cực trong khu phố địa phương",
     icon: "🏠",
     earnedAt: new Date("2023-12-10"),
-    category: "cultural", 
-    rarity: "common"
+    category: "văn_hóa", 
+    rarity: "phổ_biến"
   }
 ]
 
+// Community Features Showcase Component
+const CommunityFeaturesShowcase = () => {
+  const router = useRouter();
+  
+  return (
+    <VibrantCard>
+      <VibrantCardHeader>
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+            Tính năng độc quyền SkillHub
+          </h3>
+          <Badge className="bg-purple-100 text-purple-700">Không thể sao chép</Badge>
+        </div>
+      </VibrantCardHeader>
+      <VibrantCardContent className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition-colors"
+               onClick={() => router.push('/community')}>
+            <div className="flex items-center gap-2 mb-2">
+              <Users className="w-4 h-4 text-emerald-600" />
+              <h4 className="font-medium text-emerald-800">Mạng lưới gia đình</h4>
+            </div>
+            <p className="text-xs text-emerald-700">Truyền thống nghề nghiệp qua nhiều thế hệ với câu chuyện thật</p>
+          </div>
+          
+          <div className="p-3 bg-blue-50 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors"
+               onClick={() => router.push('/community')}>
+            <div className="flex items-center gap-2 mb-2">
+              <Cloud className="w-4 h-4 text-blue-600" />
+              <h4 className="font-medium text-blue-800">Thông minh thời tiết</h4>
+            </div>
+            <p className="text-xs text-blue-700">Dự đoán nhu cầu dịch vụ theo mùa mưa và thời tiết Việt Nam</p>
+          </div>
+          
+          <div className="p-3 bg-purple-50 rounded-lg border border-purple-200 cursor-pointer hover:bg-purple-100 transition-colors"
+               onClick={() => router.push('/community')}>
+            <div className="flex items-center gap-2 mb-2">
+              <Heart className="w-4 h-4 text-purple-600" />
+              <h4 className="font-medium text-purple-800">Chứng thực từ bà</h4>
+            </div>
+            <p className="text-xs text-purple-700">Hệ thống tin cậy dựa trên lời chứng thực từ người lớn tuổi</p>
+          </div>
+        </div>
+        
+        <div className="text-center pt-3 border-t border-slate-200">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => router.push('/community')}
+            className="bg-gradient-to-r from-emerald-50 to-blue-50 border-emerald-300 hover:from-emerald-100 hover:to-blue-100"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Khám phá tất cả tính năng độc quyền
+          </Button>
+        </div>
+      </VibrantCardContent>
+    </VibrantCard>
+  );
+};
+
 export default function ProfilePage() {
+  const router = useRouter();
   const [contributionPoints, setContributionPoints] = useState<ContributionPoints>(userContributionPoints)
   const [badges, setBadges] = useState<UserBadge[]>(userBadges)
 
@@ -345,6 +408,11 @@ export default function ProfilePage() {
           {/* Skills */}
           <motion.div variants={containerVariants}>
             <SkillsSection skills={skillsData} />
+          </motion.div>
+
+          {/* Community Features Showcase */}
+          <motion.div variants={containerVariants}>
+            <CommunityFeaturesShowcase />
           </motion.div>
 
           {/* User Posts */}
